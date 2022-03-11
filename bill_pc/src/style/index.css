@@ -1,1 +1,12 @@
 @import './first-css.css';
+
+.clearbox {
+  clear: both;
+}
+.clearbox::after {
+  content: ' ';
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
