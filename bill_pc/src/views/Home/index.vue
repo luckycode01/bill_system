@@ -1,32 +1,7 @@
 <template>
   <div class="content">
     <div class="main">
-      <div class="header">
-        <div class="header-top">
-          <div class="container">欢迎使用本系统！</div>
-        </div>
-        <div class="container header_content" style="">
-          <div class="row">
-            <div class="logo">
-              <img src="../../assets/img/logo.jpg" alt="logo" title="logo">
-              logo
-            </div>
-            <div class="nav-top" id="nav_top">
-              <ul class="toolbar">
-                <li><a href="javaScript:;" class="active">首页</a></li>
-                <li><a href="javaScript:;">快捷入口</a></li>
-                <li><a href="javaScript:;">主要活动</a></li>
-                <li><a href="javaScript:;">关于我们</a></li>
-                <li><a href="javaScript:;">移动端</a></li>
-              </ul>
-            </div>
-          </div>
-          <div class="login">
-            <i>per</i>
-            登录/注册
-          </div>
-        </div>
-      </div>
+      <Header></Header>
       <div class="swiper clearbox">
         <div class="swiper-container" :ref="'refName'">
           <div class="swiper-wrapper">
@@ -66,29 +41,7 @@
           </div>
         </div>
       </div>
-      <div class="product">
-        <div class="pro_serve"><span>我的项目</span></div>
-        <div class="container product_main">
-          <div class="product_item">
-            <img src="../../assets/img/logo.jpg" alt="">
-            <span class="title">项目一</span>
-            <span class="desc">我是账单分析</span>
-            <span class="address">项目地址：<a href="">https://github.com/****</a></span>
-          </div>
-          <div class="product_item">
-            <img src="../../assets/img/logo.jpg" alt="">
-            <span class="title">项目二</span>
-            <span class="desc">我是账单分析</span>
-            <span class="address">项目地址：<a href="">https://github.com/****</a></span>
-          </div>
-          <div class="product_item">
-            <div class="more">
-              <span>查看更多</span>
-              <span class="more_icon"></span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <List :dataList="dataList"></List>
 
       <div class="fn_bg">
         <ul class="f_nav clearfix">
@@ -124,29 +77,33 @@
 </template>
 <script>
 import Swiper from 'swiper'
+import List from '../../components/List/index.vue'
 export default {
   data() {
     return {
       bannerList: [
         {
           id: 1,
-          imgUrl: require('../../assets/img/swiper_1_3.jpg')
+          imgUrl: require("../../assets/img/swiper_1_3.jpg")
         },
         {
           id: 2,
-          imgUrl: require('../../assets/img/xiaomimix.jpg')
+          imgUrl: require("../../assets/img/xiaomimix.jpg")
         },
         {
           id: 3,
-          imgUrl: require('../../assets/img/3.jpg')
+          imgUrl: require("../../assets/img/3.jpg")
         },
-      ]
-    }
+      ],
+      dataList: [],
+    };
+  },
+  created() {
+    this.dataList = 2;
   },
   mounted() {
   },
-  methods: {
-  },
+
   watch: {
     bannerList: {
       immediate: true,
@@ -154,102 +111,35 @@ export default {
         this.$nextTick(() => {
           new Swiper(this.$refs.refName, {
             // direction: 'vertical', // 垂直切换选项 
-            loop: true, // 循环模式选项
+            loop: true,
             // 如果需要分页器
             pagination: {
-              el: '.swiper-pagination',
+              el: ".swiper-pagination",
             },
             // 如果需要前进后退按钮
             navigation: {
-              nextEl: '.swiper-button-next',
-              prevEl: '.swiper-button-prev',
+              nextEl: ".swiper-button-next",
+              prevEl: ".swiper-button-prev",
             },
             // // 如果需要滚动条
             // scrollbar: {
             //   el: '.swiper-scrollbar',
             // },
-          })
+          });
         });
       }
     }
-  }
+  },
+  components: { List }
 }
 </script>
 
 <style scoped lang="less">
-.container {
-  width: 85%;
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
-}
 .content {
   width: 100%;
   .main {
     width: 100%;
     margin: auto;
-    .header {
-      width: 100%;
-      margin: auto;
-      .header-top {
-        height: 30px;
-        line-height: 30px;
-        background: #e9e9e9;
-      }
-      .header_content {
-        height: 80px;
-        line-height: 76px;
-        position: relative;
-        display: flex;
-      }
-
-      .row {
-        height: 80px;
-        display: flex;
-        flex: 1;
-        align-items: center;
-        justify-content: space-between;
-        .logo {
-          width: 100px;
-          height: 80px;
-          display: flex;
-          align-items: center;
-
-          img {
-            width: 40px;
-            height: 40px;
-          }
-        }
-        .nav-top {
-          ul {
-            list-style: none;
-            li {
-              float: left;
-              margin-right: 10px;
-              a {
-                display: inline-block;
-                width: 95px;
-                line-height: 40px;
-                text-align: center;
-                font-weight: bold;
-                font-size: 15px;
-                text-decoration: none;
-              }
-              .active {
-                background: #00aeef;
-                border-radius: 20px;
-                color: #fff;
-              }
-            }
-          }
-        }
-      }
-      .login {
-        width: 100px;
-        text-align: right;
-      }
-    }
 
     .swiper {
       box-sizing: border-box;
@@ -262,6 +152,38 @@ export default {
         width: 100%;
         height: 100%;
       }
+    }
+    /deep/.swiper-pagination-bullet {
+      width: 12px;
+      height: 12px;
+      display: inline-block;
+      background: rgba(0, 0, 0, 0.4);
+      border: 2px solid #fff;
+      border-color: hsla(0, 0%, 100%, 0.3);
+      border-radius: 10px;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.4);
+      opacity: 1;
+    }
+    /deep/ .swiper-pagination-bullet-active {
+      background: hsla(0, 0%, 100%, 0.4);
+      border-color: rgba(0, 0, 0, 0.4);
+    }
+    /deep/.swiper-button-next {
+      right: 0;
+    }
+    /deep/.swiper-button-prev {
+      left: 0;
+    }
+    /deep/.swiper-button-next::after,
+    /deep/.swiper-button-prev::after {
+      color: #767474;
+      font-size: 28px;
+    }
+    /deep/.swiper-button-next:hover,
+    /deep/ .swiper-button-prev:hover {
+      background: #bfbdbd;
+      opacity: 0.5;
     }
     .product {
       width: 100%;
@@ -311,12 +233,10 @@ export default {
           justify-content: space-around;
           cursor: pointer;
           &:hover {
-            background: #00aeef;
-            color: #ffffff !important;
-          }
-          &:hover span,
-          &:hover span a {
-            color: #fff;
+            z-index: 2;
+            box-shadow: 0 15px 30px rgb(0 0 0 / 10%);
+            transform: translate3d(0, -2px, 0);
+            transition: all 0.2s linear;
           }
           img {
             width: 80px;
