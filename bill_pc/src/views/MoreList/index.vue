@@ -2,6 +2,7 @@
   <div>
     <Header></Header>
     <List :dataList="dataList"></List>
+    <Footer></Footer>
   </div>
 </template>
 

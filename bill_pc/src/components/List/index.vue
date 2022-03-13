@@ -45,6 +45,7 @@ export default {
 .product {
   width: 100%;
   position: relative;
+  margin-bottom: 30px;
   .pro_serve {
     width: 100%;
     height: 80px;

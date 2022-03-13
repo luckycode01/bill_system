@@ -42,43 +42,19 @@
         </div>
       </div>
       <List :dataList="dataList"></List>
-
-      <div class="fn_bg">
-        <ul class="f_nav clearfix">
-          <li>
-            <a href="javascript:;">
-              <img src="" alt="" />
-              <span>联系我们</span>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:;">
-              <img src="" alt="" />
-              <span>在线客服</span>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:;">
-              <img src="" alt="" />
-              <span>关注我们</span>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:;">
-              <img src="" alt="" />
-              <span>一键分享</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div class="bq">Copyright © 2022 永不言弃</div>
+      <Back ref="backRef" v-if="isShowBack"></Back>
+      <Footer></Footer>
     </div>
   </div>
 </template>
 <script>
 import Swiper from 'swiper'
 import List from '../../components/List/index.vue'
+import Back from "./back.vue"
 export default {
+  components: {
+    Back
+  },
   data() {
     return {
       bannerList: [
@@ -96,12 +72,18 @@ export default {
         },
       ],
       dataList: [],
+      isShowBack: false
     };
   },
   created() {
     this.dataList = 2;
+
   },
   mounted() {
+    window.addEventListener('scroll', this.onscroll);
+  },
+  destroyed() {
+    window.removeEventListener('scroll', this.onscroll);
   },
 
   watch: {
@@ -130,8 +112,24 @@ export default {
       }
     }
   },
-  components: { List }
+  components: { List, Back },
+  methods: {
+    onscroll() {
+      // 滚动时当前位置距顶部的距离
+      var topScroll = document.documentElement.scrollTop;
+      console.log(this.isShowBack);
+      if (topScroll > 100) {
+        this.isShowBack = true;
+        // this.$refs.backRef.style.display = 'block'
+      } else {
+        // 小于的时候让他恢复原状
+        this.isShowBack = false;
+        // this.$refs.backRef.style.display = 'none'
+      }
+    }
+  },
 }
+
 </script>
 
 <style scoped lang="less">
@@ -292,56 +290,6 @@ export default {
           }
         }
       }
-    }
-    .fn_bg {
-      width: 100%;
-      background: #232323;
-      padding-top: 25px;
-    }
-    .fn_bg .f_nav {
-      width: 1170px;
-      margin: 0px auto;
-      text-align: center;
-    }
-    .fn_bg .f_nav li {
-      display: inline-block;
-      *display: inline;
-      zoom: 1;
-      height: 45px;
-      line-height: 45px;
-      margin: 0 28px 25px;
-    }
-    .fn_bg .f_nav li img {
-      width: 45px;
-      height: 45px;
-      vertical-align: top;
-    }
-    .fn_bg .f_nav li span {
-      display: inline-block;
-      *display: inline;
-      zoom: 1;
-      height: 45px;
-      line-height: 45px;
-      vertical-align: top;
-      font-size: 14px;
-      color: #bebebe;
-      font-weight: bold;
-      margin-left: 10px;
-    }
-    .fn_bg .f_nav li a:hover span {
-      color: #fff;
-    }
-    .bq {
-      width: 100%;
-      background: #131313;
-      height: 30px;
-      line-height: 30px;
-      text-align: center;
-      font-size: 12px;
-      color: #bebebe;
-    }
-    .bq a {
-      color: #bebebe;
     }
   }
 }
