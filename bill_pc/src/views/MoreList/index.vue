@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header></Header>
+    <Header :menuIndex="menuIndex"></Header>
     <List :dataList="dataList"></List>
     <Footer></Footer>
   </div>
@@ -12,6 +12,7 @@ export default {
   data() {
     return {
       dataList: [],
+      menuIndex: -1,
     }
   },
   created() {

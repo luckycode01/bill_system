@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div class="main">
-      <Header></Header>
+      <Header :menuIndex="menuIndex"></Header>
       <div class="swiper clearbox">
         <div class="swiper-container" :ref="'refName'">
           <div class="swiper-wrapper">
@@ -72,7 +72,8 @@ export default {
         },
       ],
       dataList: [],
-      isShowBack: false
+      isShowBack: false,
+      menuIndex: 0,//默认菜单高亮
     };
   },
   created() {
