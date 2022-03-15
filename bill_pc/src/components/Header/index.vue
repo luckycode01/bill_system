@@ -37,7 +37,7 @@
         </div>
       </div>
       <div class="login" @click="toLogin">
-        <i>per</i>
+        <span>user</span>
         登录/注册
       </div>
     </div>
@@ -166,7 +166,6 @@ export default {
               line-height: 35px;
               font-size: 14px;
               border-bottom: 1px solid rgba(216, 215, 215, 0.6);
-
               cursor: pointer;
               &:hover {
                 background: rgba(216, 215, 215, 0.6);
@@ -182,6 +181,7 @@ export default {
             left: 40%;
             top: -5px;
             transform: rotate(45deg);
+            z-index: -1;
           }
           .qr_code {
             width: 100px;
@@ -200,6 +200,8 @@ export default {
             span {
               width: 100%;
               font-size: 13px;
+              display: block;
+              margin: 0 5px;
             }
           }
         }
@@ -210,6 +212,10 @@ export default {
     width: 100px;
     line-height: 76px;
     text-align: right;
+    cursor: pointer;
+    &:hover {
+      color: #00aeef;
+    }
   }
 }
 .animation-enter-active,
