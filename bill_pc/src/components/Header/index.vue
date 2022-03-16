@@ -1,7 +1,10 @@
 <template>
   <div class="header">
     <div class="header-top">
-      <div class="container">欢迎使用本系统！</div>
+      <div class="container h-container ">
+        <div class="welcome">欢迎使用本系统！</div>
+        <div class="currentTime">{{currentTime}}</div>
+      </div>
     </div>
     <div class="container header_content" style="">
       <div class="row">
@@ -36,8 +39,16 @@
           </ul>
         </div>
       </div>
-      <div class="login" @click="toLogin">
-        <span>user</span>
+      <div v-if="userInfo" class="login avatar">
+        <img src="../../assets/img/logo.jpg" alt="">
+        <transition name="animation">
+          <div class="user_center sanjiao">
+            <div class="user_info" @click="$router.push('/usercenter')">用户中心</div>
+            <div class="logout" @click="userInfo = null">退出登录</div>
+          </div>
+        </transition>
+      </div>
+      <div v-else class="login" @click="toLogin">
         登录/注册
       </div>
     </div>
@@ -53,10 +64,15 @@ export default {
       isActive: 0,
       isShowMenuMore: false,
       isShowQrcode: false,
+      currentTime: '',
+      userInfo: {},
     }
   },
   created() {
     this.isActive = this.menuIndex;
+    setInterval(() => {
+      this.getTime();
+    }, 1000);
   },
   methods: {
     selectMenu(index) {
@@ -84,6 +100,31 @@ export default {
     },
     toLogin() {
       this.$router.push('/login')
+    },
+    getTime() {
+      let dateTime = new Date();
+      let year = dateTime.getFullYear();
+      let month = dateTime.getMonth() + 1;
+      let day = dateTime.getDate();
+      let hours = dateTime.getHours();
+      let minute = dateTime.getMinutes();
+      let seconds = dateTime.getSeconds();
+      let week = this.getWeek(dateTime.getDay());
+      this.currentTime = `${year}-${month}-${day}  ${hours > 9 ? hours : "0" + hours}:${minute > 9 ? minute : "0" + minute}:${seconds > 9 ? seconds : "0" + seconds}  ${week}`;
+    },
+    // 星期字典
+    getWeek(index) {
+      let week = ''
+      switch (index) {
+        case 1: week = "星期一"; break;
+        case 2: week = "星期二"; break;
+        case 3: week = "星期三"; break;
+        case 4: week = "星期四"; break;
+        case 5: week = "星期五"; break;
+        case 6: week = "星期六"; break;
+        case 7: week = "星期七"; break;
+      }
+      return week;
     }
   },
 }
@@ -98,6 +139,10 @@ export default {
     height: 30px;
     line-height: 30px;
     background: #e9e9e9;
+    .h-container {
+      display: flex;
+      justify-content: space-between;
+    }
   }
   .header_content {
     height: 80px;
@@ -172,17 +217,7 @@ export default {
               }
             }
           }
-          .sanjiao::before {
-            content: "";
-            width: 10px;
-            height: 10px;
-            position: absolute;
-            background: #ffffff;
-            left: 40%;
-            top: -5px;
-            transform: rotate(45deg);
-            z-index: -1;
-          }
+
           .qr_code {
             width: 100px;
             height: 150px;
@@ -208,13 +243,56 @@ export default {
       }
     }
   }
+  .sanjiao::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    background: #ffffff;
+    left: 40%;
+    top: -5px;
+    transform: rotate(45deg);
+    z-index: -1;
+  }
   .login {
     width: 100px;
     line-height: 76px;
     text-align: right;
+    margin: auto;
     cursor: pointer;
     &:hover {
       color: #00aeef;
+    }
+    img {
+      margin: auto;
+      display: block;
+      width: 45px;
+      height: 45px;
+    }
+  }
+  .avatar {
+    position: relative;
+
+    .user_center {
+      position: absolute;
+      z-index: 99;
+      line-height: 35px;
+      width: 120px;
+      background: #ffffff;
+      text-align: center;
+      display: none;
+      color: #333333;
+      box-shadow: 0 1px 5px #aaa;
+      box-sizing: border-box;
+      > div:hover {
+        background: rgba(216, 215, 215, 0.6);
+      }
+      .user_info {
+        border-bottom: 1px solid rgba(216, 215, 215, 0.6);
+      }
+    }
+    &:hover .user_center {
+      display: block;
     }
   }
 }

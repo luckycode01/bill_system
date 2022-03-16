@@ -41,4 +41,12 @@ export default [
       index: 3,
     },
   },
+  {
+    path: '/usercenter',
+    name: 'UserCenter',
+    component: () => import('../views/UserCenter'),
+    meta: {
+      index: 3,
+    },
+  },
 ];

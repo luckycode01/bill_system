@@ -3,7 +3,7 @@
     <div class="pro_serve"><span>项目列表</span></div>
     <div class="container product_main">
       <div class="product_item" v-for="(item,index) in dataList" :key="index">
-        <img src="../../assets/img/logo.jpg" alt="">
+        <img src="../../assets/img/project.png" alt="">
         <span class="title">项目一</span>
         <span class="desc">我是账单分析</span>
         <span class="address">项目地址：<a href="javascript:;">https://github.com/****</a></span>

@@ -19,25 +19,10 @@
       <div class="product">
         <div class="pro_serve"><span>账单服务</span></div>
         <div class="container product_main">
-          <div class="product_item">
-            <img src="../../assets/img/logo.jpg" alt="">
-            <span class="title">账单分析</span>
-            <span class="desc">专业的分析师和科学的分析工具<br>帮助企业量</span>
-          </div>
-          <div class="product_item">
-            <img src="../../assets/img/logo.jpg" alt="">
-            <span class="title">账单分析</span>
-            <span class="desc">我是账单分析</span>
-          </div>
-          <div class="product_item">
-            <img src="../../assets/img/logo.jpg" alt="">
-            <span class="title">账单分析</span>
-            <span class="desc">我是账单分析</span>
-          </div>
-          <div class="product_item">
-            <img src="../../assets/img/logo.jpg" alt="">
-            <span class="title">账单分析</span>
-            <span class="desc">我是账单分析</span>
+          <div class="product_item" @click="click" v-for="item in billServeList" :key="item.id">
+            <img :src="item.imgUrl" alt="">
+            <span class="title">{{item.title}}</span>
+            <span class="desc">{{item.desc}}<br>{{item.desc1}}</span>
           </div>
         </div>
       </div>
@@ -71,6 +56,43 @@ export default {
           imgUrl: require("../../assets/img/3.jpg")
         },
       ],
+      billServeList: [
+        {
+          id: 1,
+          imgUrl: require("../../assets/img/jl.png"),
+          title: '消费一笔',
+          desc: '每天记录消费情况',
+          desc1: '',
+        },
+        {
+          id: 2,
+          imgUrl: require("../../assets/img/tbfx.png"),
+          title: '消费一览',
+          desc: '数据看板，对数据分析',
+          desc1: '使用图表展示消费数据',
+        },
+        {
+          id: 3,
+          imgUrl: require("../../assets/img/mx.png"),
+          title: '账单明细',
+          desc: '查看详细账单',
+          desc1: '',
+        },
+        {
+          id: 4,
+          imgUrl: require("../../assets/img/shouru.png"),
+          title: '收入记录',
+          desc: '记录收入情况',
+          desc1: '',
+        },
+        {
+          id: 5,
+          imgUrl: require("../../assets/img/category.png"),
+          title: '消费分类',
+          desc: '消费分类管理',
+          desc1: '移出不需要的分类或添加需要的分类',
+        },
+      ],
       dataList: [],
       isShowBack: false,
       menuIndex: 0,//默认菜单高亮
@@ -78,7 +100,6 @@ export default {
   },
   created() {
     this.dataList = 2;
-
   },
   mounted() {
     window.addEventListener('scroll', this.onscroll);
@@ -127,6 +148,9 @@ export default {
         this.isShowBack = false;
         // this.$refs.backRef.style.display = 'none'
       }
+    },
+    click() {
+      this.$message.warning('功能开发中')
     }
   },
 }
@@ -219,6 +243,10 @@ export default {
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
+        &::after {
+          content: "";
+          width: 30%;
+        }
         .product_item {
           width: 30%;
           height: 227px;

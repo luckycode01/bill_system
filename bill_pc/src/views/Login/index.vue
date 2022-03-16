@@ -81,8 +81,8 @@
       </div>
     </section>
     <canvas id="theCanvas"></canvas>
-    <el-dialog title="服务条款" :visible.sync="agreementDialog" :before-close="closeDialog" width="50%">
-      <span>这是一段信息</span>
+    <el-dialog title="服务条款" :visible.sync="agreementDialog" :before-close="closeDialog" width="40%">
+      <span>服务条款<br>服务条款<br>服务条款<br>服务条款<br>服务条款<br></span>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="agreementOk" :disabled="isTime"><span>( {{time}} s ) </span>同意服务条款</el-button>
       </span>
@@ -144,10 +144,9 @@ export default {
         password_checked: [
           { validator: validatePass2, trigger: 'blur' }
         ],
-
       },
       // 登录注册企鹅换
-      loginPane: false,
+      loginPane: true,
       isAgree: false,
       disabledAgree: true, //是否禁用复选框
       agreementDialog: false, //服务条款对话框
