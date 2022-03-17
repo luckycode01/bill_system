@@ -9,8 +9,7 @@
     <div class="container header_content" style="">
       <div class="row">
         <div class="logo" @click="$router.push('/home')">
-          <img src="../../assets/img/logo.jpg" alt="logo" title="logo">
-          logo
+          <img src="../../assets/img/logo.png" alt="logo" title="logo">
         </div>
         <div class="nav-top" id="nav_top">
           <ul class="toolbar">
@@ -158,15 +157,15 @@ export default {
     align-items: center;
     justify-content: space-between;
     .logo {
-      width: 100px;
+      width: 150px;
       height: 80px;
       display: flex;
       align-items: center;
       cursor: pointer;
 
       img {
-        width: 40px;
-        height: 40px;
+        width: 150px;
+        height: 60px;
       }
     }
     .nav-top {

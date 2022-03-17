@@ -26,7 +26,7 @@
             <el-form-item prop="code">
               <el-input style="width:220px;" v-model="loginForm.code" placeholder="请输入图形验证码" prefix-icon="el-icon-lock">
               </el-input>
-              <img class="codeImg" src="../../assets/img/3.jpg" alt="">
+              <img class="codeImg" src="../../assets/img/logo.png" alt="">
             </el-form-item>
             <el-form-item style="position: relative;">
               <el-checkbox label="记住密码" name="type" checked="checked"></el-checkbox>
@@ -64,7 +64,7 @@
             <el-form-item prop="code">
               <el-input style="width:220px;" v-model="registerForm.code" placeholder="请输入图形验证码" prefix-icon="el-icon-lock">
               </el-input>
-              <img class="codeImg" src="../../assets/img/3.jpg" alt="">
+              <img class="codeImg" src="../../assets/img/logo.png" alt="">
             </el-form-item>
             <el-form-item style="position: relative;">
               <el-checkbox v-model="isAgree" label="" name="type" :disabled="disabledAgree" :checked="isAgree"></el-checkbox>

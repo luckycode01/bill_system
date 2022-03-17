@@ -45,15 +45,15 @@ export default {
       bannerList: [
         {
           id: 1,
-          imgUrl: require("../../assets/img/swiper_1_3.jpg")
+          imgUrl: require("../../assets/img/swiper1.png")
         },
         {
           id: 2,
-          imgUrl: require("../../assets/img/xiaomimix.jpg")
+          imgUrl: require("../../assets/img/swiper.png")
         },
         {
           id: 3,
-          imgUrl: require("../../assets/img/3.jpg")
+          imgUrl: require("../../assets/img/swiper2.jpg")
         },
       ],
       billServeList: [
@@ -116,6 +116,7 @@ export default {
           new Swiper(this.$refs.refName, {
             // direction: 'vertical', // 垂直切换选项 
             loop: true,
+            autoplay: true,
             // 如果需要分页器
             pagination: {
               el: ".swiper-pagination",

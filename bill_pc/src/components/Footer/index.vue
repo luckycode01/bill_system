@@ -4,25 +4,19 @@
       <ul class="f_nav clearfix">
         <li>
           <a href="javascript:;">
-            <img src="" alt="" />
+            <i class="iconfont icon-lianxi1"></i>
             <span>联系我们</span>
           </a>
         </li>
         <li>
           <a href="javascript:;">
-            <img src="" alt="" />
-            <span>在线客服</span>
-          </a>
-        </li>
-        <li>
-          <a href="javascript:;">
-            <img src="" alt="" />
+            <i class="iconfont icon-guanzhuwomen"></i>
             <span>关注我们</span>
           </a>
         </li>
         <li>
           <a href="javascript:;">
-            <img src="" alt="" />
+            <i class="iconfont icon-yijianfenxiang"></i>
             <span>一键分享</span>
           </a>
         </li>
@@ -76,6 +70,10 @@ export default {
 }
 .fn_bg .f_nav li a:hover span {
   color: #fff;
+}
+
+.fn_bg .f_nav li a:hover {
+  text-decoration: none;
 }
 .bq {
   width: 100%;
