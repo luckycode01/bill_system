@@ -54,6 +54,111 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    name: "userAcl",
+    path: "/useracl",
+    component: Layout,
+    // redirect: "/acl/user/list",
+    meta: {
+      title: "用户权限管理",
+      icon: "el-icon-lock"
+    },
+    children: [
+      {
+        path: "/useracl/user",
+        name: "user",
+        component: () => import("@/views/userAcl/user"),
+        meta: { title: "用户列表", icon: "el-icon-s-custom" }
+      },
+      {
+        path: "/useracl/acl",
+        name: "user",
+        component: () => import("@/views/userAcl/acl"),
+        meta: { title: "权限管理", icon: "el-icon-s-promotion" }
+      },
+      {
+        path: "/useracl/role",
+        name: "user",
+        component: () => import("@/views/userAcl/role"),
+        meta: { title: "角色管理", icon: "el-icon-s-grid" }
+      }
+    ]
+  },
+  {
+    name: "billManage",
+    path: "/billmanage",
+    component: Layout,
+    // redirect: "/acl/user/list",
+    meta: {
+      title: "账单管理",
+      icon: "el-icon-lock"
+    },
+    children: [
+      {
+        path: "/billmanage/paybill",
+        name: "payBill",
+        component: () => import("@/views/billManage/payBill"),
+        meta: { title: "支出账单", icon: "el-icon-s-custom" }
+      },
+      {
+        path: "/billmanage/monthbill",
+        name: "monthBill",
+        component: () => import("@/views/billManage/monthBill"),
+        meta: { title: "月度账单", icon: "el-icon-s-custom" }
+      },
+      {
+        path: "/billmanage/room",
+        name: "room",
+        component: () => import("@/views/billManage/room"),
+        meta: { title: "租房记录", icon: "el-icon-s-custom" }
+      },
+      {
+        path: "/billmanage/salary",
+        name: "salary",
+        component: () => import("@/views/billManage/salary"),
+        meta: { title: "工资收入", icon: "el-icon-s-custom" }
+      },
+      {
+        path: "/billmanage/sideline",
+        name: "sideline",
+        component: () => import("@/views/billManage/sideline"),
+        meta: { title: "副业收入", icon: "el-icon-s-custom" }
+      }
+    ]
+  },
+  {
+    name: "font",
+    path: "/font",
+    component: Layout,
+    // redirect: "/acl/user/list",
+    meta: {
+      title: "前台功能控制",
+      icon: "el-icon-lock"
+    },
+    children: []
+  },
+  {
+    name: "mobile",
+    path: "/mobile",
+    component: Layout,
+    // redirect: "/acl/user/list",
+    meta: {
+      title: "移动端功能控制",
+      icon: "el-icon-lock"
+    },
+    children: []
+  },
+  {
+    name: "setting",
+    path: "/setting",
+    component: Layout,
+    // redirect: "/acl/user/list",
+    meta: {
+      title: "系统设置",
+      icon: "el-icon-lock"
+    },
+    children: []
+  },
   // 404 page must be placed at the end !!!
   { path: "*", redirect: "/404", hidden: true }
 ];
