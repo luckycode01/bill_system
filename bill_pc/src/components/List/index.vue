@@ -92,7 +92,7 @@ export default {
       cursor: pointer;
       &:hover {
         z-index: 2;
-        box-shadow: 0 15px 30px rgb(0 0 0 / 10%);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 10%);
         transform: translate3d(0, -2px, 0);
         transition: all 0.2s linear;
       }
