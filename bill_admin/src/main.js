@@ -18,6 +18,10 @@ import "@/permission"; // permission control
 import * as echarts from "echarts";
 Vue.prototype.$echarts = echarts;
 
+import HintButton from "@/components/HintButton";
+// 全局注册组件
+Vue.component("HintButton", HintButton);
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
