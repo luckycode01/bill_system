@@ -69,8 +69,13 @@ export default {
         },
         tooltip: {
           trigger: 'axis',
+          backgroundColor: 'rgba(0,0,0,0.7)',
           axisPointer: {
             type: 'none'
+          },
+          textStyle: {
+            fontSize: '16',
+            color: '#ffffff'
           },
           formatter: function (params) {
             return params[0].name + ' : ' + params[0].value
@@ -101,43 +106,46 @@ export default {
             }
           },
           axisLabel: {
-            color: 'rgba(255,255,255,0.6)',
+            color: 'rgba(0,0,0,0.6)',
             fontSize: 13,
           },
           splitLine: {
-            show: false,
+            show: true,
             lineStyle: {
-              color: '#2d3d53'
+              type: 'dashed',
+              color: 'rgba(0,0,0,0.3)',
             }
           },
           interval: 20,
 
         },
-        series: [{
-          type: 'bar',
-          barWidth: 20,
-          itemStyle: {
-            normal: {
-              color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                offset: 0,
-                color: '#5ef3ff'
-              }, {
-                offset: 1,
-                color: '#06a4f4'
-              }], false)
-            }
-          },
-          label: {
-            normal: {
-              show: true,
-              fontSize: 15,
-              fontWeight: '400',
-              color: '#333333',
-              position: 'top',
-            }
-          },
-          data: value,
-        }]
+        series: [
+          {
+            type: 'bar',
+            barWidth: 20,
+            itemStyle: {
+              normal: {
+                color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                  offset: 0,
+                  color: '#5ef3ff'
+                }, {
+                  offset: 1,
+                  color: '#06a4f4'
+                }], false)
+              }
+            },
+            label: {
+              normal: {
+                show: true,
+                fontSize: 15,
+                fontWeight: '400',
+                color: '#333333',
+                position: 'top',
+              }
+            },
+            data: value,
+          }
+        ]
       };
       option && this.myChart.setOption(option);
       window.addEventListener("resize", () => {

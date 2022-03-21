@@ -74,9 +74,9 @@ export default {
           backgroundColor: 'rgba(0,0,0,0.7)',
           textStyle: {
             fontSize: '16',
-            color: '#333333'
+            color: '#ffffff'
           },
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
+          formatter: "{a} {b} : {c} ({d}%)"
         },
         legend: {
           type: "scroll",
@@ -141,27 +141,27 @@ export default {
       };
       option && this.myChart.setOption(option);
       var index = -1; //播放所在下标,使得tootip每隔三秒自动显示
-      this.timer = setInterval(() => {
-        this.myChart.dispatchAction({
-          type: 'downplay',
-          seriesIndex: 0,
-          dataIndex: index
-        });
-        this.myChart.dispatchAction({
-          type: 'highlight',
-          seriesIndex: 0,
-          dataIndex: index + 1
-        });
-        this.myChart.dispatchAction({
-          type: 'showTip',
-          seriesIndex: 0,
-          dataIndex: index + 1
-        });
-        index++;
-        if (index >= option.series[0].data.length) {
-          index = -1;
-        }
-      }, 1500)
+      // this.timer = setInterval(() => {
+      //   this.myChart.dispatchAction({
+      //     type: 'downplay',
+      //     seriesIndex: 0,
+      //     dataIndex: index
+      //   });
+      //   this.myChart.dispatchAction({
+      //     type: 'highlight',
+      //     seriesIndex: 0,
+      //     dataIndex: index + 1
+      //   });
+      //   this.myChart.dispatchAction({
+      //     type: 'showTip',
+      //     seriesIndex: 0,
+      //     dataIndex: index + 1
+      //   });
+      //   index++;
+      //   if (index >= option.series[0].data.length) {
+      //     index = -1;
+      //   }
+      // }, 1500)
       window.addEventListener("resize", () => {
         if (this.myChart) {
           this.myChart.resize()

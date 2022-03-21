@@ -62,7 +62,7 @@ export default {
       doubleColumnData: {
         "name": ["A", "B", "C", "D", "E", "F"],
         "value1": [121, 212, 123, 263, 125, 341],
-        "value2": [121, 212, 123, 263, 125, 341],
+        "value2": [111, 414, 234, 363, 215, 391],
         "legend": ["甲", "乙"]
       },
       doubleColumnConfig: {},

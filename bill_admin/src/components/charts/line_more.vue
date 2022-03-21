@@ -70,7 +70,12 @@ export default {
           text: 'Stacked'
         },
         tooltip: {
-          trigger: 'axis'
+          trigger: 'axis',
+          backgroundColor: 'rgba(0,0,0,0.7)',
+          textStyle: {
+            fontSize: '16',
+            color: '#ffffff'
+          },
         },
         legend: {
           data: legend,
@@ -79,9 +84,9 @@ export default {
           }
         },
         grid: {
-          left: this.config.left || '2%',
+          left: this.config.left || '5%',
           right: this.config.right || '8%',
-          bottom: this.config.bottom || '5%',
+          bottom: this.config.bottom || '8%',
           top: this.config.top || '15%',
           containLabel: true
         },
@@ -98,7 +103,7 @@ export default {
         yAxis: {
           type: 'value',
           axisLabel: {
-            show: false,
+            show: true,
             textStyle: {
               color: 'rgba(0,0,0,0.6)',
             },
@@ -107,7 +112,7 @@ export default {
             show: true,
             lineStyle: {
               type: 'dashed',
-              color: 'rgba(0,0,0,0.4)',
+              color: 'rgba(0,0,0,0.3)',
             }
           },
           axisTick: {

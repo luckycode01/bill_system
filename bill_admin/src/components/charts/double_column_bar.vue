@@ -45,7 +45,12 @@ export default {
           subtext: 'Fake Data'
         },
         tooltip: {
-          trigger: 'axis'
+          trigger: 'axis',
+          backgroundColor: 'rgba(0,0,0,0.7)',
+          textStyle: {
+            fontSize: '16',
+            color: '#ffffff'
+          },
         },
         legend: {
           data: this.initData.legend || [],
@@ -91,11 +96,15 @@ export default {
             axisLine: {
               show: true,
             },
+            axisLabel: {
+              color: 'rgba(0,0,0,0.6)',
+              fontSize: 13,
+            },
             splitLine: {
               show: true,
               lineStyle: {
                 type: 'dashed',
-                color: '#333333',
+                color: 'rgba(0,0,0,0.3)',
               },
             },
           }
@@ -105,6 +114,28 @@ export default {
             name: 'Rainfall',
             type: 'bar',
             data: value1,
+            barWidth: 20,
+            itemStyle: {
+              normal: {
+                color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                  offset: 0,
+                  color: '#5ef3ff'
+                }, {
+                  offset: 1,
+                  color: '#06a4f4'
+                }], false)
+              },
+
+            },
+            label: {
+              normal: {
+                show: true,
+                fontSize: 15,
+                fontWeight: '400',
+                color: 'rgba(0,0,0,0.6)',
+                position: 'top',
+              }
+            },
             // markPoint: {
             //   data: [
             //     { type: 'max', name: 'Max' },
@@ -115,20 +146,43 @@ export default {
             //   data: [{ type: 'average', name: 'Avg' }]
             // }
           },
+
           {
             name: 'Evaporation',
             type: 'bar',
             data: value2,
+            barWidth: 20,
+            itemStyle: {
+              normal: {
+                color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                  offset: 0,
+                  color: "#D5F2F4"
+                }, {
+                  offset: 1,
+                  color: "#97DFE6"
+                }], false)
+              },
+
+            },
+            label: {
+              normal: {
+                show: true,
+                fontSize: 15,
+                fontWeight: '400',
+                color: 'rgba(0,0,0,0.6)',
+                position: 'top',
+              }
+            },
             // markPoint: {
             //   data: [
-            //     { name: 'Max', value: 182.2, xAxis: 7, yAxis: 183 },
-            //     { name: 'Min', value: 2.3, xAxis: 11, yAxis: 3 }
+            //     { type: 'max', name: 'Max' },
+            //     { type: 'min', name: 'Min' }
             //   ]
             // },
             // markLine: {
             //   data: [{ type: 'average', name: 'Avg' }]
             // }
-          }
+          },
         ]
       };
       option && this.myChart.setOption(option);
