@@ -3,6 +3,8 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 
+import './styles/index.css'; // 全局公共样式
+
 import './plugin';
 
 Vue.config.productionTip = false;
