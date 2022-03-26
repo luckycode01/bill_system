@@ -14,6 +14,8 @@ const routes = [
     component: () => import('../views/Home'),
     meta: {
       index: '0',
+      icon: true,
+      left: true,
     },
   },
   {
@@ -40,6 +42,8 @@ const routes = [
     component: () => import('../views/Usercenter'),
     meta: {
       index: '3',
+      icon: false,
+      left: false,
     },
   },
   {

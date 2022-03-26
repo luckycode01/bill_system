@@ -3,3 +3,6 @@ import Vant from 'vant';
 import 'vant/lib/index.css';
 
 Vue.use(Vant);
+
+import Header from '@/components/Header';
+Vue.component('Header', Header);

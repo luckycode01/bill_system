@@ -1,16 +1,6 @@
 <template>
   <div class="home">
-    <div class="fixed">
-      <van-nav-bar title="首页">
-        <template #right>
-          <van-icon name="https://b.yzcdn.cn/vant/icon-demo-1126.png" size="26" />
-        </template>
-        <template #left>
-          <img src="../assets/img/logo.png" style="height: 0.92rem; width: 1.62rem" alt="" />
-        </template>
-      </van-nav-bar>
-    </div>
-
+    <Header :title="'首页'"></Header>
     <Main></Main>
   </div>
 </template>
@@ -29,13 +19,4 @@ export default {
 };
 </script>
 <style lang="less">
-.van-tabbar {
-  border-top: 1px solid #d9d9d9;
-}
-.fixed {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 999;
-}
 </style>

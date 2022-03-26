@@ -1,60 +1,33 @@
 <template>
   <div>
+    <Header :title="'我的'"></Header>
     <div class="centerBox">
       <div class="header">
-        <!-- <div class="avatar"><img :src="userInfo.headImg" /></div> -->
+        <div class="avatar"><img src="../../assets/img/logo.jpg" alt="" /></div>
         <div class="userInfo">
-          <span class="name">admin</span>
-          <span class="userType">普通用户</span>
+          <span class="name">游客</span>
+          <span class="number">账号：13411113333</span>
         </div>
       </div>
-      <div class="myMoney">我的资产</div>
-      <ul class="moneyNav">
-        <li class="moneyItem">
-          <span class="num">￥0</span>
-          <span class="text">余额</span>
-        </li>
-        <li class="moneyItem">
-          <span class="num">0</span>
-          <span class="text">红包</span>
-        </li>
-        <li class="moneyItem">
-          <span class="num">0</span>
-          <span class="text">优惠券</span>
-        </li>
-        <li class="moneyItem">
-          <span class="num">￥0</span>
-          <span class="text">津贴</span>
-        </li>
-        <li class="moneyItem">
-          <span class="num">0</span>
-          <span class="text">礼品卡</span>
-        </li>
-      </ul>
-      <div class="null"></div>
-      <van-grid class="btnList" :column-num="3">
-        <van-grid-item class="btnItem" icon="description" text="我的订单" />
-        <van-grid-item class="btnItem" icon="user-circle-o" text="账号管理" />
-        <van-grid-item class="btnItem" icon="friends-o" text="我的手机号" />
-        <van-grid-item class="btnItem" icon="calendar-o" text="周六一起拼" />
-        <van-grid-item class="btnItem" icon="refund-o" text="售后服务" />
-        <van-grid-item class="btnItem" icon="gift-card-o" text="邀请返利" />
-        <van-grid-item class="btnItem" icon="bag-o" text="优先购" />
-        <van-grid-item class="btnItem" icon="gold-coin-o" text="积分中心" />
-        <van-grid-item class="btnItem" icon="manager-o" text="会员俱乐部" />
-        <van-grid-item class="btnItem" icon="wap-home-o" text="地址管理" />
-        <van-grid-item class="btnItem" icon="certificate" text="支付安全" />
-        <van-grid-item class="btnItem" icon="user-o" text="办法组与客服" />
-        <van-grid-item class="btnItem" icon="records" text="意见反馈" />
-        <van-grid-item class="btnItem" icon="discount" text="我的竞拍" />
-      </van-grid>
-      <div class="loginOut" @click="loginOut">退出登录</div>
+      <div class="mine">
+        <div class="item">我的资料</div>
+      </div>
+      <div class="file">
+        <div class="item">资产管理</div>
+        <div class="item">预购清单</div>
+        <div class="item">项二</div>
+        <div class="item">项三</div>
+        <div class="item">关于我们</div>
+      </div>
+      <div class="loginOut" @click="loginOut">
+        <div>退出登录</div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+
 export default {
   name: "UserCenter",
   data() {
@@ -90,100 +63,119 @@ export default {
 <style lang="less" scoped>
 @grid-item-icon-size: 20px;
 .centerBox {
-  height: 840px;
+  margin-top: 46px;
   box-sizing: border-box;
   .header {
     position: relative;
     width: 100%;
-    height: 135px;
+    height: 145px;
     display: flex;
-    padding: 0 20px;
     align-items: center;
-    background-image: url("~@/assets/img/bg.png");
-    background-size: cover;
-    // .avatar {
-    //   width: 70px;
-    //   height: 70px;
-    //   margin-right: 20px;
-    //   border-radius: 50%;
-    //   // background-image: url("~@/pages/Center/images/avatar.png");
-    //   background-size: cover;
-    //   img {
-    //     width: 70px;
-    //     height: 70px;
-    //     border-radius: 50%;
-    //   }
-    // }
+    padding: 14px;
+    box-sizing: border-box;
+    background: #ffffff;
+    .avatar {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      margin-right: 15px;
+      img {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+      }
+    }
     .userInfo {
-      font-size: 18px;
+      font-size: 20px;
       display: flex;
-      color: #fff;
+      color: #333333;
       flex-direction: column;
-      .userType {
-        font-size: 14px;
-        margin-top: 10px;
+      font-weight: 500;
+      .name {
+        height: 40px;
+      }
+      .number {
+        color: #a8a8a8;
+        font-size: 13px;
+        font-weight: 400;
       }
     }
   }
   .myMoney {
-    width: 100%;
-    height: 50px;
-    margin: 0 15px;
-    font-size: 14px;
-    line-height: 50px;
-    border-bottom: 1px solid #dfdfdf;
-  }
-  .moneyNav {
-    width: 100%;
-    height: 80px;
+    width: 375px;
+    height: 75px;
+    padding: 0 20px;
+    box-sizing: border-box;
     display: flex;
-    // background: violet;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    .moneyItem {
-      display: flex;
-      flex-direction: column;
+    background: #eeeeee;
+    div {
+      width: 145px;
+      height: 56px;
       text-align: center;
-      .num {
-        font-size: 16px;
-        font-weight: bolder;
-      }
-      .text {
-        font-size: 13px;
-        margin-top: 10px;
-      }
+      line-height: 56px;
+      background: #ffffff;
     }
   }
-  .null {
-    content: "";
+  .mine {
     width: 100%;
-    height: 10px;
-    background: #f4f4f4;
-    display: block;
+    background: #eeeeee;
+    padding: 10px 0;
+    .item {
+      width: 100%;
+      height: 46px;
+      line-height: 46px;
+      padding: 0 20px;
+      background: #ffffff;
+      box-sizing: border-box;
+      position: relative;
+    }
   }
-  .btnList {
-    .btnItem {
-      border-bottom: 1px solid #e3e3e3;
-      border-right: 1px solid #e3e3e3;
+  .file {
+    width: 100%;
+    background: #eeeeee;
+    .item {
+      width: 100%;
+      height: 46px;
+      line-height: 46px;
+      padding: 0 20px;
+      background: #ffffff;
+      box-sizing: border-box;
+      position: relative;
+      border: 1px solid #eeeeee;
+      &:last-child {
+        border: none;
+      }
+      &::after {
+        content: "";
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        border-top: 1px solid #7a7a7a;
+        border-right: 1px solid #7a7a7a;
+        top: 50%;
+        right: 20px;
+        transform: translateY(-50%) rotate(45deg);
+      }
     }
   }
   .loginOut {
-    height: 50px;
     width: 100%;
     text-align: center;
     line-height: 50px;
     font-size: 15px;
-    &::before {
-      content: "";
-      display: block;
-      background: #eeeeee;
-      height: 20px;
-    }
-    &::after {
-      content: "";
-      display: block;
-      background: #eeeeee;
-      height: 10px;
+    position: relative;
+    background: #eeeeee;
+    padding: 10px 0;
+    > div {
+      width: 100%;
+      height: 46px;
+      line-height: 46px;
+      padding: 0 20px;
+      background: #ffffff;
+      box-sizing: border-box;
+      position: relative;
     }
   }
 }
