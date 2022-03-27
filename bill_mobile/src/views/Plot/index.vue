@@ -1,5 +1,7 @@
 <template>
-  <div>Plot</div>
+  <div>
+    <Header :title="'统计'"></Header>
+  </div>
 </template>
 
 <script>
