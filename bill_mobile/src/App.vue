@@ -46,4 +46,8 @@ export default {
 .van-tabbar {
   border-top: 1px solid #d9d9d9;
 }
+.layout {
+  margin-top: 46px;
+  box-sizing: border-box;
+}
 </style>
