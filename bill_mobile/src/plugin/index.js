@@ -6,3 +6,5 @@ Vue.use(Vant);
 
 import Header from '@/components/Header';
 Vue.component('Header', Header);
+import SelectDateList from '@/components/SelectDateList';
+Vue.component('SelectDateList', SelectDateList);

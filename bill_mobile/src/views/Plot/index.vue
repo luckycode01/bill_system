@@ -39,29 +39,8 @@ export default {
       isDisMonth: false,//是否禁用月份选择
       selYear: 0,
       selMonth: '0',
-      optionYear: [
-        { text: '2019年', value: 0 },
-        { text: '2020年', value: 1 },
-        { text: '2021年', value: 2 },
-        { text: '2022年', value: 3 },
-        { text: '2023年', value: 4 },
-        { text: '2024年', value: 5 },
-        { text: '2025年', value: 6 },
-      ],
-      optionMonth: [
-        { text: '1月', value: 0 },
-        { text: '2月', value: 1 },
-        { text: '3月', value: 2 },
-        { text: '4月', value: 3 },
-        { text: '5月', value: 4 },
-        { text: '6月', value: 5 },
-        { text: '7月', value: 6 },
-        { text: '8月', value: 7 },
-        { text: '9月', value: 8 },
-        { text: '10月', value: 9 },
-        { text: '11月', value: 10 },
-        { text: '12月', value: 11 },
-      ],
+      optionYear: '',
+      optionMonth: '',
     };
   },
   created() {
@@ -126,8 +105,5 @@ export default {
 }
 .van-cell-group::after {
   border: none;
-}
-/deep/.van-dropdown-item__content {
-  max-height: 50%;
 }
 </style>
