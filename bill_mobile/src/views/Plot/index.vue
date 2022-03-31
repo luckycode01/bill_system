@@ -12,12 +12,24 @@
 
       <van-panel :title="isDisMonth?'本年资产情况': '本月资产状况'">
         <van-grid :gutter="20" square :column-num="3">
-          <van-grid-item v-for="value in 3" :key="value" icon="photo-o" text="文字">
-
+          <van-grid-item>
+            <div class="money"><span>￥</span>1000</div>
+            <div class="desc">总支出</div>
+          </van-grid-item>
+          <van-grid-item>
+            <div class="money"><span>￥</span>1000</div>
+            <div class="desc">总收入</div>
+          </van-grid-item>
+          <van-grid-item>
+            <div class="money"><span>￥</span>1000</div>
+            <div class="desc">结余</div>
           </van-grid-item>
         </van-grid>
       </van-panel>
       <van-panel :title="isDisMonth?'本年消费': '本月消费'">
+
+      </van-panel>
+      <van-panel :title="isDisMonth?'本年房租相关': '本月房租相关'">
 
       </van-panel>
       <van-panel :title="isDisMonth?'本年收入': '本月收入'">
@@ -28,8 +40,17 @@
 </template>
 
 <script>
-
+import Bing from '@/components/charts/bing.vue'
+import ColumnBar from '@/components/charts/column_bar.vue'
+import DoubleColumnBar from '@/components/charts/double_column_bar.vue'
+import LineMore from '@/components/charts/line_more.vue'
 export default {
+  components: {
+    Bing,
+    ColumnBar,
+    DoubleColumnBar,
+    LineMore
+  },
   data() {
     return {
       yearOrMonth: 'month',
@@ -85,5 +106,23 @@ export default {
 }
 .van-cell-group::after {
   border: none;
+}
+.van-grid-item {
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: space-between;
+  .money,
+  .desc {
+    font-size: 16px;
+    line-height: 25px;
+    > span {
+      color: #ff0000;
+    }
+  }
+  .desc {
+    color: #424141;
+    font-size: 18px;
+    font-weight: 400;
+  }
 }
 </style>
