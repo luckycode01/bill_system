@@ -3,10 +3,7 @@
     <Header :title="'统计图表'"></Header>
     <div class="layout pad">
       <div class="top">
-        <van-dropdown-menu active-color="#1989fa">
-          <van-dropdown-item v-model="selYear" :options="optionYear" />
-          <van-dropdown-item :disabled="isDisMonth" v-model="selMonth" :options="optionMonth" />
-        </van-dropdown-menu>
+        <SelectDateList :startYear="2019" :endYear="2025" :isDisMonth="isDisMonth" :isShowDay="false"></SelectDateList>
         <van-radio-group v-model="yearOrMonth" @change="changeYearOrMonth" direction="horizontal">
           <van-radio name="year">年</van-radio>
           <van-radio name="month">月</van-radio>
@@ -44,7 +41,6 @@ export default {
     };
   },
   created() {
-    this.getDate();
   },
   methods: {
     formatter(type, val) {
@@ -54,22 +50,6 @@ export default {
         return `${val}月`;
       }
       return val;
-    },
-    // 获取日期
-    getDate(dateData) {
-      let date = '';
-      if (dateData)
-        date = new Date(dateData);
-      else
-        date = new Date();
-      let year = date.getFullYear();
-      let month = date.getMonth();
-      this.selYear = this.optionYear.find(item => parseInt(item.text) == year).value;
-      this.selMonth = month;
-    },
-    selectDateConfirm(dateData) {
-      this.getDate(dateData)
-      this.showSelectDate = false;
     },
     // 改变年月时
     changeYearOrMonth(val) {

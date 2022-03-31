@@ -1,22 +1,20 @@
 <template>
   <van-dropdown-menu active-color="#1989fa">
-    <van-dropdown-item v-model="selYear" :options="optionYear" />
-    <van-dropdown-item :disabled="isDisMonth" v-model="selMonth" :options="optionMonth" />
-    <van-dropdown-item :disabled="isDisDay" v-model="selDay" :options="optionDay" />
+    <van-dropdown-item v-model="selYear" @change="handleChangeYear" :options="optionYear" />
+    <van-dropdown-item :disabled="isDisMonth" @change="handleMonthYear" v-model="selMonth" :options="optionMonth" />
+    <van-dropdown-item v-if="isShowDay" :disabled="isDisDay" @change="handleDayYear" v-model="selDay" :options="optionDay" />
   </van-dropdown-menu>
 </template>
 
 <script>
 export default {
   name: 'SelectDateList',
-  props: ['startYear', 'endYear'],
+  props: ['startYear', 'endYear', 'isShowDay', "isDisMonth", 'isDisDay'],
   data() {
     return {
       selYear: '',
       selMonth: '',
       selDay: '',
-      isDisMonth: false,
-      isDisDay: false,
       optionDay: [],
       optionYear: [],
       optionMonth: [],
@@ -40,7 +38,10 @@ export default {
       this.selYear = this.optionYear.find(item => parseInt(item.text) == year).value;
       this.selMonth = month;
       this.selDay = day;
+      this.createdDay(day);
     },
+    // 查找年份表中对应的年
+    // 查找月份表中对应的月
     // 生成年份
     createdYear() {
       let { startYear, endYear } = this;
@@ -58,7 +59,7 @@ export default {
     // 生成月份
     createdMonth() {
       let monthArr = [];
-      for (let i = 0; i <= 12; i++) {
+      for (let i = 0; i < 12; i++) {
         monthArr.push({
           text: i + 1 + '月',
           value: i,
@@ -67,7 +68,56 @@ export default {
       this.optionMonth = monthArr;
     },
     // 生成日期
-    createdDay() {
+    createdDay(params = 1) {
+      let { selYear, selMonth, selDay } = this;
+      // 获取年份,月份
+      let yearText = this.optionYear.find(item => item.value == selYear).text;
+      let monthText = this.optionMonth.find(item => item.value == selMonth).text;
+      let days = '';
+      let dayArr = [];
+      // 生成日期字典
+      if (parseInt(yearText) % 4 == 0 || parseInt(yearText) % 400 == 0) {
+        // 润年二月份29天
+        days = this.dayList(parseInt(monthText), true)
+      } else {
+        days = this.dayList(parseInt(monthText), false)
+      }
+      for (let i = 1; i <= days; i++) {
+        dayArr.push({
+          text: i + '日',
+          value: i,
+        })
+      }
+      this.optionDay = dayArr;
+      this.selDay = params;
+    },
+    // 日期字典
+    dayList(month, isLeap) {
+      let days = 0;
+      switch (month) {
+        case 1:
+        case 3:
+        case 5:
+        case 7:
+        case 8:
+        case 10:
+        case 12: days = 31; break;
+        case 2: {
+          if (isLeap) { days = 29; break }
+          else { days = 28; break; }
+        }
+        default: days = 30; break;
+      }
+      return days;
+    },
+    // 下拉选择，改变选项时
+    handleChangeYear(val) {
+      this.createdDay();
+    },
+    handleMonthYear(val) {
+      this.createdDay();
+    },
+    handleDayYear(val) {
 
     }
   },
