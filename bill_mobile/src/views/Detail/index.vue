@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header :title="'账单明细'"></Header>
+    <Header :title="'支出明细'"></Header>
     <div class="layout">
       <van-tabs type="card" v-model="selectView" @change="changeView" animated color="#1989fa">
         <van-tab title="年视图"></van-tab>

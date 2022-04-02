@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view />
-    <van-tabbar v-model="active" @change="tabChange">
+    <van-tabbar v-if="!$route.meta.tabbar" v-model="active" @change="tabChange">
       <van-tabbar-item name="0" icon="wap-home-o">首页</van-tabbar-item>
       <van-tabbar-item name="1" icon="more-o">详细</van-tabbar-item>
       <van-tabbar-item name="2" icon="chart-trending-o">图表</van-tabbar-item>
@@ -47,7 +47,7 @@ export default {
   border-top: 1px solid #d9d9d9;
 }
 .layout {
-  margin-top: 46px;
+  margin-top: 50px;
   box-sizing: border-box;
 }
 </style>
