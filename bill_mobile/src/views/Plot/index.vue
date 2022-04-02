@@ -27,13 +27,19 @@
         </van-grid>
       </van-panel>
       <van-panel :title="isDisMonth?'本年消费': '本月消费'">
-
+        <div style="width:100%;height: 200px;">
+          <Bing :initData="initData" :config="payConfig"></Bing>
+        </div>
       </van-panel>
       <van-panel :title="isDisMonth?'本年房租相关': '本月房租相关'">
-
+        <div style="width:100%;height: 200px;">
+          <ColumnBar :initData="initData" :config="payConfig"></ColumnBar>
+        </div>
       </van-panel>
       <van-panel :title="isDisMonth?'本年收入': '本月收入'">
-
+        <div style="width:100%;height: 200px;">
+          <ColumnBar :initData="initData" :config="payConfig"></ColumnBar>
+        </div>
       </van-panel>
     </div>
   </div>
@@ -59,6 +65,18 @@ export default {
       selMonth: '0',
       optionYear: '',
       optionMonth: '',
+      initData: [
+        { "value": 10, "name": "甲" },
+        { "value": 90, "name": "乙" },
+        { "value": 35, "name": "丙" },
+        { "value": 25, "name": "丁" },
+        { "value": 50, "name": "戊" },
+        { "value": 35, "name": "已" },
+        { "value": 35, "name": "庚" }
+      ],
+      payConfig: {
+
+      }
     };
   },
   created() {
@@ -86,7 +104,7 @@ export default {
 
 <style lang="less" scoped>
 .pad {
-  padding: 6px 0;
+  padding: 6px 0 50px;
 }
 .top {
   display: flex;
@@ -100,6 +118,11 @@ export default {
 }
 .van-panel {
   margin-top: 10px;
+}
+/deep/.van-cell__title {
+  color: #3a3a3a;
+  font-size: 16px;
+  font-weight: 600;
 }
 .van-grid {
   margin-top: 8px;

@@ -79,6 +79,7 @@ export default {
           formatter: "{a} {b} : {c} ({d}%)"
         },
         legend: {
+          show: false,
           type: "scroll",
           orient: 'vertical',
           // orient: 'horizontal',
@@ -97,7 +98,7 @@ export default {
           {
             name: '',
             type: 'pie',
-            center: this.config.center || ["45%", "50%"],
+            center: this.config.center || ["50%", "50%"],
             radius: this.config.radius || [0, "60%"],
             itemStyle: {
               color: params => {

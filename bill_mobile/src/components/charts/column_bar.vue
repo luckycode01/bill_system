@@ -62,9 +62,9 @@ export default {
         backgroundColor: "rgba(255,255,255,0.05)",
         grid: {
           left: this.config.left || '5%',
-          right: this.config.right || '5%',
+          right: this.config.right || '10%',
           bottom: this.config.bottom || '5%',
-          top: this.config.top || '15%',
+          top: this.config.top || '20%',
           containLabel: true
         },
         tooltip: {
@@ -85,28 +85,28 @@ export default {
           data: name,
           axisLine: {
             lineStyle: {
-              color: '#3d5269'
+              color: 'rgba(0,0,0,0.5)',
             }
           },
           axisLabel: {
-            color: '#333333',
+            color: 'rgba(0,0,0,0.5)',
             fontSize: 14
           }
         },
         yAxis: {
-          name: "单位:次",
+          name: "单位:元",
           nameTextStyle: {
-            color: '#333333',
+            color: 'rgba(0,0,0,0.5)',
             fontSize: 16
           },
           axisLine: {
             show: true,
             lineStyle: {
-              color: '#3d5269'
+              color: 'rgba(0,0,0,0.5)',
             }
           },
           axisLabel: {
-            color: 'rgba(0,0,0,0.6)',
+            color: 'rgba(0,0,0,0.3)',
             fontSize: 13,
           },
           splitLine: {
