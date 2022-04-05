@@ -11,7 +11,7 @@
             </van-popup>
             <van-cell is-link title="选择分类" @click="showType = true" />
             <van-action-sheet v-model="showType" :actions="actions" style='height:40%' @select="onSelect" />
-            <van-field v-model="phone" label="金额" placeholder="请输入金额" />
+            <van-field v-model="phone" label="金额" required placeholder="请输入金额" />
             <div style="margin: 16px;">
               <van-button round block type="info" native-type="submit">提交</van-button>
             </div>
@@ -33,6 +33,26 @@
             <van-field v-model="phone" label="水果零食" placeholder="请输入金额" />
             <van-field v-model="phone" label="医药健康" placeholder="请输入金额" />
             <van-field v-model="phone" label="其他" placeholder="请输入金额" />
+            <div style="margin: 16px;">
+              <van-button round block type="info" native-type="submit">提交</van-button>
+            </div>
+          </van-form>
+        </van-tab>
+        <van-tab title="租房记录">
+          <van-form validate-first @failed="onFailed">
+            <van-field v-model="phone" required label="日期" @click="showPopup" placeholder="请选择日期" />
+            <van-popup v-model="show" position="bottom" :style="{ height: '40%' }">
+              <van-datetime-picker v-model="currentDate" type="date" title="选择年月日" :min-date="minDate" :max-date="maxDate" />
+            </van-popup>
+            <van-field v-model="phone" required label="房租" placeholder="请输入金额" />
+            <van-field v-model="phone" required label="水表起码" placeholder="请输入金额" />
+            <van-field v-model="phone" required label="水表止码" placeholder="请输入金额" />
+            <van-field v-model="phone" required label="水费" placeholder="请输入金额" />
+            <van-field v-model="phone" required label="电表起码" placeholder="请输入金额" />
+            <van-field v-model="phone" required label="电表止码" placeholder="请输入金额" />
+            <van-field v-model="phone" required label="电费" placeholder="请输入金额" />
+            <van-field v-model="phone" required label="网费" placeholder="请输入金额" />
+            <van-field v-model="phone" required label="合计" disabled placeholder="请输入金额" />
             <div style="margin: 16px;">
               <van-button round block type="info" native-type="submit">提交</van-button>
             </div>

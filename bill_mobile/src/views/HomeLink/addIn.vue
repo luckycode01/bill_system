@@ -9,11 +9,11 @@
             <van-popup v-model="show" position="bottom" :style="{ height: '40%' }">
               <van-datetime-picker v-model="currentDate" type="year-month" title="选择年月" :min-date="minDate" :max-date="maxDate" :formatter="formatter" />
             </van-popup>
-            <van-field v-model="phone" label="工资收入" placeholder="请输入金额" />
-            <van-field v-model="phone" label="社保扣除" placeholder="请输入金额" />
-            <van-field v-model="phone" label="公积金" placeholder="请输入金额" />
-            <van-field v-model="phone" label="其他扣除" placeholder="请输入金额" />
-            <van-field v-model="phone" label="扣除后工资" placeholder="请输入金额" />
+            <van-field v-model="phone" required label="工资收入" placeholder="请输入金额" />
+            <van-field v-model="phone" required label="社保扣除" placeholder="请输入金额" />
+            <van-field v-model="phone" required label="公积金" placeholder="请输入金额" />
+            <van-field v-model="phone" required label="其他扣除" placeholder="请输入金额" />
+            <van-field v-model="phone" required label="扣除后工资" placeholder="请输入金额" />
             <div style="margin: 16px;">
               <van-button round block type="info" native-type="submit">提交</van-button>
             </div>
@@ -27,22 +27,22 @@
             </van-popup>
             <van-cell is-link title="选择分类" @click="showType = true" />
             <van-action-sheet v-model="showType" :actions="actions" style='height:40%' @select="onSelect" />
-            <van-field v-model="phone" label="姓名" placeholder="请输入姓名" />
-            <van-field v-model="phone" label="重量" placeholder="请输入重量" />
-            <van-field v-model="phone" label="价格" placeholder="请输入价格" />
-            <van-field v-model="phone" label="邮费" placeholder="请输入邮费" />
-            <van-row>
+            <van-field v-model="phone" label="姓名" required placeholder="请输入姓名" />
+            <van-field v-model="phone" label="重量" required placeholder="请输入重量" />
+            <van-field v-model="phone" label="价格" required placeholder="请输入价格" />
+            <van-field v-model="phone" label="邮费" required placeholder="请输入邮费" />
+            <van-row style="padding:12px 16px">
               <van-col span="8">是否包邮</van-col>
               <van-col span="16">
                 <van-radio-group v-model="radio" direction="horizontal">
-                  <van-radio name="1">单选框 1</van-radio>
-                  <van-radio name="2">单选框 2</van-radio>
+                  <van-radio name="1">是</van-radio>
+                  <van-radio name="2">否</van-radio>
                 </van-radio-group>
               </van-col>
             </van-row>
 
-            <van-field v-model="phone" label="合计" placeholder="请输入合计" />
-            <van-field v-model="phone" label="收款" placeholder="请输入收款" />
+            <van-field v-model="phone" label="合计" required placeholder="请输入合计" />
+            <van-field v-model="phone" label="收款" required placeholder="请输入收款" />
             <div style="margin: 16px;">
               <van-button round block type="info" native-type="submit">提交</van-button>
             </div>
