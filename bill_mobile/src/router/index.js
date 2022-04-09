@@ -101,6 +101,17 @@ const routes = [
       left: true,
     },
   },
+  {
+    path: '/lottery',
+    name: 'Lottery',
+    component: () => import('../views/Lottery'),
+    meta: {
+      tabbar: true,
+      index: '3',
+      icon: false,
+      left: true,
+    },
+  },
 ];
 
 const router = new VueRouter({

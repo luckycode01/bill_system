@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
     <div class="top">
-      <div @click="handleClick">主要活动一</div>
+      <div @click="handleClick('lottery')">彩票模拟</div>
       <div @click="handleClick">主要活动二</div>
       <div @click="handleClick">主要活动三</div>
     </div>
@@ -91,11 +91,15 @@ export default {
         this.$set(item, "currentTime", `${month}-${day}`)
       });
     },
-    handleClick() {
-      this.$toast.loading({
-        message: '开发中...',
-        forbidClick: true,
-      });
+    handleClick(val) {
+      if (typeof (val) == 'string') {
+        this.$router.push('/lottery')
+      } else {
+        this.$toast.success({
+          message: '开发中',
+          forbidClick: true,
+        });
+      }
     },
     clickFn(event, { value }) {
       if (value.id == 1) {
