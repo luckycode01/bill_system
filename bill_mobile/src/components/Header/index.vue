@@ -35,8 +35,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.van-tabbar {
-  border-top: 1px solid #d9d9d9;
+.van-nav-bar {
+  border-bottom: 1px solid #d9d9d9;
 }
 .fixed {
   position: fixed;

@@ -50,6 +50,17 @@ const routes = [
     },
   },
   {
+    path: '/usercenter/me',
+    name: 'me',
+    component: () => import('../views/Usercenter/me'),
+    meta: {
+      tabbar: true,
+      index: '3',
+      icon: false,
+      left: true,
+    },
+  },
+  {
     path: '/plot',
     name: 'plot',
     component: () => import('../views/Plot'),
