@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
     <div class="top">
-      <div @click="handleClick">主要活动一</div>
+      <div @click="handleClick('lottery')">彩票模拟</div>
       <div @click="handleClick">主要活动二</div>
       <div @click="handleClick">主要活动三</div>
     </div>
@@ -37,6 +37,7 @@ export default {
     return {
       imgsArr: [
         {
+          id: 1,
           title: "消费一笔",
           detail: "每天记录消费情况",
           name: "user",
@@ -44,6 +45,7 @@ export default {
           src: require("../../assets/img/jl.png"),
         },
         {
+          id: 2,
           title: "消费一览",
           detail: "数据分析管理，对数据分析使用图表展示消费数据",
           name: "user",
@@ -51,13 +53,15 @@ export default {
           src: require("../../assets/img/tubiao.png"),
         },
         {
+          id: 3,
           title: "账单明细",
-          detail: "查看支出详细账单",
+          detail: "查看支出以及收入详细信息",
           name: "user",
           avator: require("../../assets/img/logo.jpg"),
           src: require("../../assets/img/mingxi.png"),
         },
         {
+          id: 4,
           title: "收入记录",
           detail: "记录收入情况,工资收入、副业收入",
           name: "user",
@@ -65,7 +69,8 @@ export default {
           src: require("../../assets/img/shouru.png"),
         },
         {
-          title: "消费分类",
+          id: 5,
+          title: "分类管理",
           detail: "消费分类管理移出或添加分类",
           name: "user",
           avator: require("../../assets/img/logo.jpg"),
@@ -80,28 +85,39 @@ export default {
   methods: {
     getTime() {
       let dateTime = new Date();
-      let year = dateTime.getFullYear();
       let month = dateTime.getMonth() + 1;
       let day = dateTime.getDate();
-      let hours = dateTime.getHours();
-      let minute = dateTime.getMinutes();
-      let seconds = dateTime.getSeconds();
       this.imgsArr.forEach(item => {
         this.$set(item, "currentTime", `${month}-${day}`)
       });
     },
-    handleClick() {
-      this.$toast.loading({
-        message: '开发中...',
-        forbidClick: true,
-      });
+    handleClick(val) {
+      if (typeof (val) == 'string') {
+        this.$router.push('/lottery')
+      } else {
+        this.$toast.success({
+          message: '开发中',
+          forbidClick: true,
+        });
+      }
     },
-    clickFn(event, { index, value }) {
-      // console.log(event, index, value);
-      this.$toast.loading({
-        message: '开发中...',
-        forbidClick: true,
-      });
+    clickFn(event, { value }) {
+      if (value.id == 1) {
+        this.$router.push('/homelink/addpay')
+      }
+      if (value.id == 2) {
+        this.$router.push('/plot')
+      }
+      if (value.id == 3) {
+        this.$router.push('/homelink/outandindetail')
+      }
+      if (value.id == 4) {
+        this.$router.push('/homelink/addin')
+      }
+      if (value.id == 5) {
+        this.$router.push('/homelink/category')
+      }
+
     }
   }
 };
@@ -142,7 +158,7 @@ export default {
   box-sizing: border-box;
   .vue-waterfall-easy-container {
     background-color: #eeeeee;
-    height: 700px;
+    height: 740px;
     overflow: hidden;
     margin: 0 auto;
     .vue-waterfall-easy-scroll {

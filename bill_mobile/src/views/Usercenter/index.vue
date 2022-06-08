@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header :title="'我的'"></Header>
+    <Header :title="'个人中心'"></Header>
     <div class="centerBox">
       <div class="header">
         <div class="avatar"><img src="../../assets/img/logo.jpg" alt="" /></div>
@@ -10,13 +10,13 @@
         </div>
       </div>
       <div class="mine">
-        <div class="item">我的资料</div>
+        <div class="item" @click="$router.push('/usercenter/me')">我的资料</div>
       </div>
       <div class="file">
         <div class="item">资产管理</div>
         <div class="item">预购清单</div>
         <div class="item">项二</div>
-        <div class="item">项三</div>
+        <div class="item">修改密码</div>
         <div class="item">关于我们</div>
       </div>
       <div class="loginOut" @click="loginOut">

@@ -30,6 +30,9 @@ const routes = [
     path: '/login',
     name: 'login',
     component: () => import('../views/Login'),
+    meta: {
+      tabbar: true,
+    },
   },
   {
     path: '/register',
@@ -47,11 +50,77 @@ const routes = [
     },
   },
   {
+    path: '/usercenter/me',
+    name: 'me',
+    component: () => import('../views/Usercenter/me'),
+    meta: {
+      tabbar: true,
+      index: '3',
+      icon: false,
+      left: true,
+    },
+  },
+  {
     path: '/plot',
     name: 'plot',
     component: () => import('../views/Plot'),
     meta: {
       index: '2',
+    },
+  },
+  {
+    path: '/homelink/addpay',
+    name: 'Addpay',
+    component: () => import('../views/HomeLink/addpay'),
+    meta: {
+      tabbar: true,
+      index: '3',
+      icon: false,
+      left: true,
+    },
+  },
+  {
+    path: '/homelink/addin',
+    name: 'Addin',
+    component: () => import('../views/HomeLink/addIn'),
+    meta: {
+      tabbar: true,
+      index: '3',
+      icon: false,
+      left: true,
+    },
+  },
+  {
+    path: '/homelink/outandindetail',
+    name: 'outandindetail',
+    component: () => import('../views/HomeLink/outAndInDetail'),
+    meta: {
+      tabbar: true,
+      index: '3',
+      icon: false,
+      left: true,
+    },
+  },
+  {
+    path: '/homelink/category',
+    name: 'Category',
+    component: () => import('../views/HomeLink/category'),
+    meta: {
+      tabbar: true,
+      index: '3',
+      icon: false,
+      left: true,
+    },
+  },
+  {
+    path: '/lottery',
+    name: 'Lottery',
+    component: () => import('../views/Lottery'),
+    meta: {
+      tabbar: true,
+      index: '3',
+      icon: false,
+      left: true,
     },
   },
 ];
