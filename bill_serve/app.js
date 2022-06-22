@@ -9,6 +9,14 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+// 初始化数据库模块
+var database = require('./db/index')
+database.initialize(app, function(err) {
+  if (err) {
+    console.error('连接数据库失败失败 %s', err)
+  }
+})
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -37,5 +45,20 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+// 
+let port = 3000;
+app.listen(port, (err) => {
+  if (err) {
+    console.log(err);
+    return;
+  }
+  console.log(`The server is started successfully`);
+  console.log("    **       **    **     **");
+  console.log(" ***  ***    **   **      **");
+  console.log("**      **   ** **        **");
+  console.log(" ***  ***    **   **         ");
+  console.log("    **       **    **     **");
+});
+
 
 module.exports = app;
