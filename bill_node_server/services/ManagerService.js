@@ -215,26 +215,26 @@ module.exports.updateMgrState = function(id,state,cb) {
 module.exports.login = function(username,password,cb) {
 	logger.debug('login => username:%s,password:%s',username,password);
 	logger.debug(username);
-	managersDAO.findOne({"mg_name":username},function(err,manager) {
+	managersDAO.findOne({"user_name":username},function(err,manager) {
 		logger.debug(err);	
 		if(err || !manager) return cb("用户名不存在");
-		if(manager.role_id < 0) {
+		if(manager.user_role_id < 0) {
 			return cb("该用户没有权限登录");
 		}
 
-		if(manager.role_id != 0 && manager.mg_state != 1) {
+		if(manager.user_role_id != 0 && manager.user_status != 1) {
 			return cb("该用户已经被禁用");
 		}
 
-		if(Password.verify(password, manager.mg_pwd)){
+		if(Password.verify(password, manager.password)){
 			cb(
 				null,
 				{
-					"id":manager.mg_id,
-					"rid":manager.role_id,
-					"username":manager.mg_name,
-					"mobile":manager.mg_mobile,
-					"email":manager.mg_email,
+					"id":manager.id,
+					"rid":manager.user_role_id,
+					"username":manager.user_name,
+					"mobile":manager.mobile,
+					"email":manager.email,
 				}
 			);
 		} else {

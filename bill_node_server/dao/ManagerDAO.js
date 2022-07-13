@@ -9,7 +9,7 @@ databaseModule = require(path.join(process.cwd(),"modules/database"));
  * @param  {Function} cb  回调函数
  */
 module.exports.create = function(obj,cb) {
-	daoModule.create("ManagerModel",obj,cb);
+	daoModule.create("UserCenter",obj,cb);
 }
 
 /**
@@ -19,7 +19,7 @@ module.exports.create = function(obj,cb) {
  * @param  {Function} cb         回调函数
  */
 module.exports.list = function(conditions,cb) {
-	daoModule.list("ManagerModel",conditions,function(err,models) {
+	daoModule.list("UserCenter",conditions,function(err,models) {
 		if(err) return cb(err,null);
 		cb(null,models);
 	});
@@ -32,7 +32,7 @@ module.exports.list = function(conditions,cb) {
  * @param  {Function} cb         回调函数
  */
 module.exports.findOne = function(conditions,cb) {
-	daoModule.findOne("ManagerModel",conditions,cb);
+	daoModule.findOne("UserCenter",conditions,cb);
 }
 
 /**
@@ -73,7 +73,7 @@ module.exports.findByKey = function(key,offset,limit,cb) {
  */
 module.exports.exists = function(username,cb) {
 	var db = databaseModule.getDatabase();
-	var Model = db.models.ManagerModel;
+	var Model = db.models.UserCenter;
 	Model.exists({"mg_name":username},function(err,isExists){
 		if(err) return cb("查询失败");
 		 cb(null,isExists);
@@ -113,7 +113,7 @@ module.exports.countByKey = function(key,cb) {
  * @param  {Function} cb 回调函数
  */
 module.exports.show = function(id,cb) {
-	daoModule.show("ManagerModel",id,cb);
+	daoModule.show("UserCenter",id,cb);
 }
 
 /**
@@ -123,7 +123,7 @@ module.exports.show = function(id,cb) {
  * @param  {Function} cb  回调函数
  */
 module.exports.update = function(obj,cb) {
-	daoModule.update("ManagerModel",obj.mg_id,obj,cb);
+	daoModule.update("UserCenter",obj.mg_id,obj,cb);
 }
 
 /**
@@ -133,7 +133,7 @@ module.exports.update = function(obj,cb) {
  * @param  {Function} cb 回调函数
  */
 module.exports.destroy = function(id,cb) {
-	daoModule.destroy("ManagerModel",id,function(err){
+	daoModule.destroy("UserCenter",id,function(err){
 		if(err) return cb(err);
 		return cb(null);
 	});
@@ -148,9 +148,9 @@ module.exports.destroy = function(id,cb) {
 module.exports.save = function(obj,cb) {
 	daoModule.show(obj.mg_id,function(err,oldObj){
 		if(err) {
-			daoModule.create("ManagerModel",obj,cb);
+			daoModule.create("UserCenter",obj,cb);
 		} else {
-			daoModule.update("ManagerModel",obj.mg_id,obj,cb);
+			daoModule.update("UserCenter",obj.mg_id,obj,cb);
 		}
 	})
 }
@@ -161,5 +161,5 @@ module.exports.save = function(obj,cb) {
  * @param  {Function} cb 回调函数
  */
 module.exports.count = function(cb) {
-	daoModule("ManagerModel",cb);
+	daoModule("UserCenter",cb);
 }

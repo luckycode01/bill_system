@@ -55,7 +55,6 @@ module.exports.setup = function(app,loginFunc,callback) {
 module.exports.login = function(req,res,next) {
 
 	passport.authenticate('local', function(err, user, info) {
-		
 		if(err) return res.sendResult(null,400,err);
 		if(!user) return res.sendResult(null,400,"参数错误");
 
