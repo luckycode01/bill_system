@@ -3,6 +3,9 @@ import { MessageBox, Message } from "element-ui";
 import store from "@/store";
 import { getToken } from "@/utils/auth";
 
+import Nprogress from "nprogress";
+import "nprogress/nprogress.css";
+
 // create an axios instance
 const service = axios.create({
   // baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
@@ -20,8 +23,10 @@ service.interceptors.request.use(
       // let each request carry token
       // ['X-Token'] is a custom headers key
       // please modify it according to the actual situation
-      config.headers["X-Token"] = getToken();
+      // config.headers["X-Token"] = getToken();
+      config.headers.Authorization = getToken();
     }
+    Nprogress.start();
     return config;
   },
   error => {
@@ -45,6 +50,8 @@ service.interceptors.response.use(
    */
   response => {
     const res = response.data;
+    Nprogress.done();
+    return response.data;
 
     // if the custom code is not 20000, it is judged as an error.
     if (res.code !== 20000) {
@@ -77,7 +84,7 @@ service.interceptors.response.use(
     }
   },
   error => {
-    console.log("err" + error); // for debug
+    // console.log("err" + error); // for debug
     Message({
       message: error.message,
       type: "error",
