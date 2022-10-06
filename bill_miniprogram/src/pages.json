@@ -1,0 +1,42 @@
+{
+	"pages": [
+		{
+			"pagePath": "pages/new/new",
+			"iconPath": "static/index-0.png",
+			"selectedIconPath": "static/index-1.png",
+			"text": "最新"
+		},
+		{
+			"path": "pages/tag/tag",
+			"style": {
+				"navigationBarTitleText": "分类",
+				"enablePullDownRefresh": false
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "看图",
+		"navigationBarBackgroundColor": "#FF80AB",
+		"backgroundColor": "#EFEFEF"
+	},
+	"tabBar": {
+		"color": "#444444",
+		"selectedColor": "#FF80AB",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+				"pagePath": "pages/new/new",
+				"iconPath": "static/index-0.png",
+				"selectedIconPath": "static/index-1.png",
+				"text": "最新"
+			},
+			{
+				"pagePath": "pages/userCenter/userCenter",
+				"iconPath": "static/center-0.png",
+				"selectedIconPath": "static/center-1.png",
+				"text": "我的"
+			}
+		]
+	}
+}
