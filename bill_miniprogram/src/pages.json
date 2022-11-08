@@ -1,13 +1,14 @@
 {
 	"pages": [
 		{
-			"pagePath": "pages/new/new",
-			"iconPath": "static/index-0.png",
-			"selectedIconPath": "static/index-1.png",
-			"text": "最新"
+			"path": "pages/new/new",
+			"style": {
+				"navigationBarTitleText": "分类",
+				"enablePullDownRefresh": false
+			}
 		},
 		{
-			"path": "pages/tag/tag",
+			"path": "pages/userCenter/userCenter",
 			"style": {
 				"navigationBarTitleText": "分类",
 				"enablePullDownRefresh": false
