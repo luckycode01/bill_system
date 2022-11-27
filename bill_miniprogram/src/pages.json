@@ -1,43 +1,70 @@
 {
-	"pages": [
-		{
-			"path": "pages/new/new",
-			"style": {
-				"navigationBarTitleText": "分类",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/userCenter/userCenter",
-			"style": {
-				"navigationBarTitleText": "分类",
-				"enablePullDownRefresh": false
-			}
-		}
-	],
-	"globalStyle": {
-		"navigationBarTextStyle": "white",
-		"navigationBarTitleText": "看图",
-		"navigationBarBackgroundColor": "#FF80AB",
-		"backgroundColor": "#EFEFEF"
-	},
-	"tabBar": {
-		"color": "#444444",
-		"selectedColor": "#FF80AB",
-		"borderStyle": "black",
-		"backgroundColor": "#ffffff",
-		"list": [{
-				"pagePath": "pages/new/new",
-				"iconPath": "static/index-0.png",
-				"selectedIconPath": "static/index-1.png",
-				"text": "最新"
-			},
-			{
-				"pagePath": "pages/userCenter/userCenter",
-				"iconPath": "static/center-0.png",
-				"selectedIconPath": "static/center-1.png",
-				"text": "我的"
-			}
-		]
-	}
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "首页",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/category/category",
+      "style": {
+        "navigationBarTitleText": "分类",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/billManage/billManage",
+      "style": {
+        "navigationBarTitleText": "账单",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/userCenter/userCenter",
+      "style": {
+        "navigationBarTitleText": "个人中心",
+        "enablePullDownRefresh": false
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "看图",
+    "navigationBarBackgroundColor": "#FF80AB",
+    "backgroundColor": "#EFEFEF"
+  },
+  "tabBar": {
+    "color": "#444444",
+    "selectedColor": "#FF80AB",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "",
+        "selectedIconPath": "",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/category/category",
+        "iconPath": "",
+        "selectedIconPath": "",
+        "text": "分类"
+      },
+      {
+        "pagePath": "pages/billManage/billManage",
+        "iconPath": "",
+        "selectedIconPath": "",
+        "text": "账单"
+      },
+      {
+        "pagePath": "pages/userCenter/userCenter",
+        "iconPath": "",
+        "selectedIconPath": "",
+        "text": "我的"
+      }
+    ]
+  }
 }
