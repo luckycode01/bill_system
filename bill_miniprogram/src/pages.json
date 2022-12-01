@@ -31,11 +31,13 @@
   ],
   "globalStyle": {
     "navigationBarTextStyle": "white",
-    "navigationBarTitleText": "看图",
+    "navigationBarTitleText": "lucky",
     "navigationBarBackgroundColor": "#FF80AB",
-    "backgroundColor": "#EFEFEF"
+    "backgroundColor": "#EFEFEF",
+    "navigationStyle": "custom"
   },
   "tabBar": {
+    "custom": true,
     "color": "#444444",
     "selectedColor": "#FF80AB",
     "borderStyle": "black",
@@ -43,26 +45,18 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "iconPath": "",
-        "selectedIconPath": "",
         "text": "首页"
       },
       {
         "pagePath": "pages/category/category",
-        "iconPath": "",
-        "selectedIconPath": "",
         "text": "分类"
       },
       {
         "pagePath": "pages/billManage/billManage",
-        "iconPath": "",
-        "selectedIconPath": "",
         "text": "账单"
       },
       {
         "pagePath": "pages/userCenter/userCenter",
-        "iconPath": "",
-        "selectedIconPath": "",
         "text": "我的"
       }
     ]
