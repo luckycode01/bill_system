@@ -1,22 +1,20 @@
 <template>
-	<view>
-
-	</view>
+  <view>
+    <Header></Header>
+  </view>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				
-			}
-		},
-		methods: {
-			
-		}
-	}
+import Header from "../../components/Header";
+export default {
+  components: {
+    Header,
+  },
+  data() {
+    return {};
+  },
+  methods: {},
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
