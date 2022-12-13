@@ -30,34 +30,41 @@
     }
   ],
   "globalStyle": {
-    "navigationBarTextStyle": "white",
+    "navigationBarTextStyle": "black",
     "navigationBarTitleText": "lucky",
     "navigationBarBackgroundColor": "#FF80AB",
     "backgroundColor": "#EFEFEF",
     "navigationStyle": "custom"
   },
   "tabBar": {
-    "custom": true,
-    "color": "#444444",
-    "selectedColor": "#FF80AB",
+    "color": "#333333",
+    "selectedColor": "#56aaff",
     "borderStyle": "black",
     "backgroundColor": "#ffffff",
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "首页"
+        "text": "首页",
+        "iconPath": "./static/tabbar/home.png",
+        "selectedIconPath": "./static/tabbar/home_select.png"
       },
       {
         "pagePath": "pages/category/category",
-        "text": "分类"
+        "text": "分类",
+        "iconPath": "./static/tabbar/category.png",
+        "selectedIconPath": "./static/tabbar/category_select.png"
       },
       {
         "pagePath": "pages/billManage/billManage",
-        "text": "账单"
+        "text": "账单",
+        "iconPath": "./static/tabbar/bill.png",
+        "selectedIconPath": "./static/tabbar/bill_select.png"
       },
       {
         "pagePath": "pages/userCenter/userCenter",
-        "text": "我的"
+        "text": "我的",
+        "iconPath": "./static/tabbar/user_center.png",
+        "selectedIconPath": "./static/tabbar/user_center_select.png"
       }
     ]
   }
