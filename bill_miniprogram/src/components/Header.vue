@@ -1,7 +1,7 @@
 <template>
   <view
     class="top_header"
-    :style="{ height: menuBtnHeight + menuBtnTop + 'px' }"
+    :style="{ height: menuBtnHeight + menuBtnTop + 8 + 'px' }"
   >
     <view
       class="header_content"

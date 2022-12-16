@@ -1,7 +1,6 @@
 <template>
   <view>
     <Header :title="'首页'"></Header>
-    <u-button text="月落"></u-button>
     <view class="container">
       <view class="swiper">
         <u-swiper
@@ -9,9 +8,12 @@
           previousMargin="30"
           nextMargin="30"
           circular
-          :autoplay="false"
+          :autoplay="true"
+          :indicator="true"
+          :indicatorMode="'dot'"
           radius="5"
           bgColor="#ffffff"
+          height="108"
         ></u-swiper>
       </view>
       <view class="layout"> </view>
@@ -38,4 +40,14 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+v-deep .u-swiper-indicator__wrapper__dot--active {
+  width: 5px;
+}
+.container {
+  margin-top: 8px;
+  .swiper {
+    // height: 80px;
+  }
+}
+</style>
