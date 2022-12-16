@@ -10,7 +10,10 @@
         'padding-top': menuBtnTop + 'px',
       }"
     >
-      <view class="back" :style="{ width: menuBtnWidth + 10 + 'px' }">
+      <view
+        :class="isBack ? 'back' : ''"
+        :style="{ width: menuBtnWidth + 10 + 'px' }"
+      >
         <text class=""></text>
       </view>
       <view class="title">{{ title }}</view>
@@ -22,10 +25,13 @@
 <script>
 export default {
   props: {
+    isBack: {
+      type: Boolean,
+      default: false,
+    },
     title: {
       type: String,
-      default:
-        "标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题",
+      default: "标题",
     },
   },
   data() {
@@ -46,7 +52,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .top_header {
   width: 100%;
   margin: auto;
@@ -75,8 +81,8 @@ export default {
       width: 24rpx;
       height: 24rpx;
       top: 50%;
-      border-left: 4rpx solid #b9b9b9;
-      border-top: 4rpx solid #b9b9b9;
+      border-left: 4rpx solid #fff;
+      border-top: 4rpx solid #fff;
       transform: translateY(-50%) rotate(-45deg);
     }
   }
