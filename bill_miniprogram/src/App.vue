@@ -38,4 +38,7 @@ export default {
 
 <style lang="scss">
 @import "uview-ui/index.scss";
+view {
+  box-sizing: border-box;
+}
 </style>

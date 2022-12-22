@@ -6,7 +6,7 @@
     <view
       class="header_content"
       :style="{
-        height: menuBtnHeight + 'px',
+        height: menuBtnHeight + menuBtnTop + 8 + 'px',
         'padding-top': menuBtnTop + 'px',
       }"
     >
