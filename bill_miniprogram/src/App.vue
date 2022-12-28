@@ -1,18 +1,44 @@
 <script>
 export default {
-  onLaunch: function () {
-    console.log("App Launch");
+  globalData: {
+    systemInfo: {},
+    // 获取状态栏高度
+    statusBarHeight: 0,
+    menuBtn: {},
   },
-  onShow: function () {
-    console.log("App Show");
+  onLaunch: function () {},
+  onShow: function () {},
+  onHide: function () {},
+  created() {
+    this.getSystemInfoSync();
+    this.getMenuButtonRect();
   },
-  onHide: function () {
-    console.log("App Hide");
+  methods: {
+    // 获取系统信息
+    getSystemInfoSync() {
+      uni.getSystemInfoAsync({
+        success: (res) => {
+          this.globalData.statusBarHeight = res.statusBarHeight;
+          this.globalData.systemInfo = res;
+        },
+        fail: (err) => {
+          console.log(err);
+        },
+      });
+    },
+    // 获取右上角胶囊信息
+    async getMenuButtonRect() {
+      let res = await uni.getMenuButtonBoundingClientRect();
+      this.globalData.menuBtn = res;
+      console.log(this.globalData.menuBtn);
+    },
   },
 };
 </script>
 
 <style lang="scss">
-/*每个页面公共css */
 @import "uview-ui/index.scss";
+view {
+  box-sizing: border-box;
+}
 </style>

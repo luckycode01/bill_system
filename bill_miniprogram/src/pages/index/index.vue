@@ -26,21 +26,52 @@
         <view class="menu">
           <text class="title">前端专区</text>
           <view class="menu_list">
-            <view>
-              <u-image src="../../static/images/1.jpg"></u-image>
+            <view class="menu_item" v-for="(item, index) in 4" :key="index">
+              <u-image
+                src="https://cdn.uviewui.com/uview/album/1.jpg"
+                :lazyLoad="true"
+                width="140rpx"
+                height="140rpx"
+                :radius="'18rpx'"
+              ></u-image>
+              <text>web前端</text>
             </view>
-            <view></view>
-            <view></view>
-            <view></view>
           </view>
         </view>
         <view class="menu">
           <text class="title">好书推荐</text>
-          <view class="menu_list"> </view>
+          <view class="menu_swiper">
+            <view class="swiper_item" v-for="(item, index) in 3" :key="index">
+              <u-image
+                src="https://cdn.uviewui.com/uview/album/1.jpg"
+                :lazyLoad="true"
+                width="208rpx"
+                height="280rpx"
+                :radius="'18rpx'"
+              ></u-image>
+            </view>
+            <view class="swiper_btn pre_btn">
+              <text>a</text>
+            </view>
+            <view class="swiper_btn next_btn">
+              <text>b</text>
+            </view>
+          </view>
         </view>
         <view class="menu">
           <text class="title">后端专区</text>
-          <view class="menu_list"> </view>
+          <view class="menu_list">
+            <view class="menu_item" v-for="(item, index) in 4" :key="index">
+              <u-image
+                src="https://cdn.uviewui.com/uview/album/1.jpg"
+                :lazyLoad="true"
+                width="140rpx"
+                height="140rpx"
+                :radius="'18rpx'"
+              ></u-image>
+              <text>Java后端</text>
+            </view>
+          </view>
         </view>
       </view>
     </view>
@@ -115,20 +146,40 @@ v-deep .u-swiper-indicator__wrapper__dot--active {
           border-radius: 4rpx;
         }
       }
-
       .menu_list {
-        height: 100px;
+        margin-top: 24rpx;
         display: flex;
         justify-content: space-between;
-        > view {
-          width: 140rpx;
-          height: 140rpx;
+        .menu_item {
           border-radius: 18rpx;
-          border: 1px solid #333;
-          .u-image {
-            width: 100%;
-            height: 100%;
+          text {
+            margin: 24rpx auto 0;
+            display: block;
           }
+        }
+      }
+      .menu_swiper {
+        position: relative;
+        margin-top: 24rpx;
+        display: flex;
+        justify-content: space-between;
+        .swiper_item {
+          border-radius: 18rpx;
+        }
+        .swiper_btn {
+          position: absolute;
+          width: 80rpx;
+          height: 80rpx;
+          top: 50%;
+          transform: translateY(-50%);
+          background: #333;
+          border-radius: 50%;
+        }
+        .pre_btn {
+          left: -12rpx;
+        }
+        .next_btn {
+          right: -12rpx;
         }
       }
     }

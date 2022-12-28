@@ -6,14 +6,69 @@
     {
       "path": "pages/index/index",
       "style": {
-        "navigationBarTitleText": "uni-app"
+        "navigationBarTitleText": "首页",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/category/category",
+      "style": {
+        "navigationBarTitleText": "分类",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/billManage/billManage",
+      "style": {
+        "navigationBarTitleText": "账单",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/userCenter/userCenter",
+      "style": {
+        "navigationBarTitleText": "个人中心",
+        "enablePullDownRefresh": false
       }
     }
   ],
   "globalStyle": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "uni-app",
-    "navigationBarBackgroundColor": "#F8F8F8",
-    "backgroundColor": "#F8F8F8"
+    "navigationBarTitleText": "lucky",
+    "navigationBarBackgroundColor": "#FF80AB",
+    "backgroundColor": "#EFEFEF",
+    "navigationStyle": "custom"
+  },
+  "tabBar": {
+    "color": "#333333",
+    "selectedColor": "#56aaff",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "./static/tabbar/home.png",
+        "selectedIconPath": "./static/tabbar/home_select.png"
+      },
+      {
+        "pagePath": "pages/category/category",
+        "text": "分类",
+        "iconPath": "./static/tabbar/category.png",
+        "selectedIconPath": "./static/tabbar/category_select.png"
+      },
+      {
+        "pagePath": "pages/billManage/billManage",
+        "text": "账单",
+        "iconPath": "./static/tabbar/bill.png",
+        "selectedIconPath": "./static/tabbar/bill_select.png"
+      },
+      {
+        "pagePath": "pages/userCenter/userCenter",
+        "text": "我的",
+        "iconPath": "./static/tabbar/user_center.png",
+        "selectedIconPath": "./static/tabbar/user_center_select.png"
+      }
+    ]
   }
 }
