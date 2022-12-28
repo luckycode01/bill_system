@@ -1,3 +1,4 @@
+const webpack = require('webpack')
 const plugins = []
 
 if (process.env.UNI_OPT_TREESHAKINGNG) {
@@ -34,7 +35,7 @@ if (
         }
       }
     ])
-  } catch (e) {}
+  } catch (e) { }
 }
 
 process.UNI_LIBRARIES = process.UNI_LIBRARIES || ['@dcloudio/uni-ui']
@@ -50,12 +51,16 @@ process.UNI_LIBRARIES.forEach(libraryName => {
   ])
 })
 
+if (process.env.UNI_PLATFORM !== 'h5') {
+  plugins.push('@babel/plugin-transform-runtime')
+}
+
 const config = {
   presets: [
     [
       '@vue/app',
       {
-        modules: 'commonjs',
+        modules: webpack.version[0] > 4 ? 'auto' : 'commonjs',
         useBuiltIns: process.env.UNI_PLATFORM === 'h5' ? 'usage' : 'entry'
       }
     ]
