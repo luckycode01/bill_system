@@ -30,7 +30,6 @@ export default {
     async getMenuButtonRect() {
       let res = await uni.getMenuButtonBoundingClientRect();
       this.globalData.menuBtn = res;
-      console.log(this.globalData.menuBtn);
     },
   },
 };

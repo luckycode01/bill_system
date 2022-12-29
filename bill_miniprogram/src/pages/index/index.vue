@@ -41,20 +41,27 @@
         <view class="menu">
           <text class="title">好书推荐</text>
           <view class="menu_swiper">
-            <view class="swiper_item" v-for="(item, index) in 3" :key="index">
-              <u-image
-                src="https://cdn.uviewui.com/uview/album/1.jpg"
-                :lazyLoad="true"
-                width="208rpx"
-                height="280rpx"
-                :radius="'18rpx'"
-              ></u-image>
+            <view class="my_swiper">
+              <view
+                ref="swiperRef"
+                class="swiper_item"
+                v-for="(item, index) in 9"
+                :key="index"
+              >
+                <u-image
+                  src="https://cdn.uviewui.com/uview/album/1.jpg"
+                  :lazyLoad="true"
+                  width="210rpx"
+                  height="280rpx"
+                  :radius="'18rpx'"
+                ></u-image>
+              </view>
             </view>
-            <view class="swiper_btn pre_btn">
-              <text>a</text>
+            <view class="swiper_btn pre_btn" @click="handelPre">
+              <text></text>
             </view>
-            <view class="swiper_btn next_btn">
-              <text>b</text>
+            <view class="swiper_btn next_btn" @click="handleNext">
+              <text></text>
             </view>
           </view>
         </view>
@@ -93,7 +100,23 @@ export default {
       ],
     };
   },
-  methods: {},
+  methods: {
+    handelPre() {
+      console.log(this);
+      // let swiperDom = document.getElementsByClassName(".swiper_item");
+      // let swiperSize = {
+      //   w: swiperDom,
+      // };
+
+      // console.log(swiperDom);
+      console.log(111);
+    },
+    handleNext() {
+      console.log(222);
+    },
+    // 轮播
+    initSwiper() {},
+  },
 };
 </script>
 
@@ -108,7 +131,7 @@ v-deep .u-swiper-indicator__wrapper__dot--active {
   }
   .layout {
     width: 100%;
-    padding: 8rpx 32rpx;
+    padding: 8rpx 32rpx 24rpx;
     margin: 32rpx 0 0;
     box-sizing: border-box;
     border-radius: 32rpx 32rpx 0 0;
@@ -119,7 +142,7 @@ v-deep .u-swiper-indicator__wrapper__dot--active {
       justify-content: space-between;
       > view {
         width: 30%;
-        height: 100rpx;
+        height: 120rpx;
         border: 1px solid #333;
         text-align: center;
         border-radius: 16rpx;
@@ -147,7 +170,7 @@ v-deep .u-swiper-indicator__wrapper__dot--active {
         }
       }
       .menu_list {
-        margin-top: 24rpx;
+        margin-top: 32rpx;
         display: flex;
         justify-content: space-between;
         .menu_item {
@@ -161,8 +184,6 @@ v-deep .u-swiper-indicator__wrapper__dot--active {
       .menu_swiper {
         position: relative;
         margin-top: 24rpx;
-        display: flex;
-        justify-content: space-between;
         .swiper_item {
           border-radius: 18rpx;
         }
@@ -172,17 +193,47 @@ v-deep .u-swiper-indicator__wrapper__dot--active {
           height: 80rpx;
           top: 50%;
           transform: translateY(-50%);
-          background: #333;
+          background: rgba(0, 0, 0, 0.4);
           border-radius: 50%;
         }
         .pre_btn {
-          left: -12rpx;
+          left: -24rpx;
         }
         .next_btn {
-          right: -12rpx;
+          right: -24rpx;
+        }
+        .pre_btn text,
+        .next_btn text {
+          position: relative;
+        }
+        .pre_btn::after,
+        .next_btn::after {
+          content: "";
+          width: 30rpx;
+          height: 30rpx;
+          position: absolute;
+          border-top: 4rpx solid rgb(255, 255, 255, 0.9);
+          border-left: 4rpx solid rgb(255, 255, 255, 0.9);
+        }
+        .pre_btn::after {
+          left: 36%;
+          top: 30%;
+          transform: rotate(-45deg);
+        }
+        .next_btn::after {
+          right: 36%;
+          top: 30%;
+          transform: rotate(135deg);
         }
       }
     }
+  }
+}
+.my_swiper {
+  display: flex;
+  overflow: hidden;
+  .swiper_item {
+    margin-right: 24rpx;
   }
 }
 </style>

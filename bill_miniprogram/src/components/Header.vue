@@ -1,12 +1,9 @@
 <template>
-  <view
-    class="top_header"
-    :style="{ height: menuBtnHeight + menuBtnTop + 8 + 'px' }"
-  >
+  <view class="top_header" :style="{ height: headerHeight }">
     <view
       class="header_content"
       :style="{
-        height: menuBtnHeight + menuBtnTop + 8 + 'px',
+        height: headerHeight,
         'padding-top': menuBtnTop + 'px',
       }"
     >
@@ -42,6 +39,11 @@ export default {
       menuBtnHeight: 0,
     };
   },
+  computed: {
+    headerHeight() {
+      return this.menuBtnHeight + this.menuBtnTop + 8 + "px";
+    },
+  },
   created() {
     this.statusBarHeight = getApp().globalData.statusBarHeight;
     this.menuBtnWidth = getApp().globalData.menuBtn.width || 0;
@@ -57,10 +59,15 @@ export default {
   width: 100%;
   margin: auto;
   .header_content {
+    width: 100%;
+    position: fixed;
+    top: 0;
     display: flex;
     align-items: center;
     background: #56aaff;
     padding-bottom: 8px;
+    z-index: 999999999;
+    color: #fff;
   }
 
   .title {
