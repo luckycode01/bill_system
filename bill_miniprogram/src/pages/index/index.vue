@@ -24,7 +24,7 @@
         </view>
         <!--  -->
         <view class="menu">
-          <text class="title">前端专区</text>
+          <text class="title">前端必看</text>
           <view class="menu_list">
             <view class="menu_item" v-for="(item, index) in 4" :key="index">
               <u-image
@@ -39,7 +39,7 @@
           </view>
         </view>
         <view class="menu">
-          <text class="title">好书推荐</text>
+          <text class="title">每日精选</text>
           <view class="menu_swiper">
             <view class="my_swiper">
               <view
