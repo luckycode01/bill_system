@@ -13,7 +13,7 @@
           :indicatorMode="'dot'"
           radius="5"
           bgColor="#ffffff"
-          height="108"
+          height="140"
         ></u-swiper>
       </view>
       <view class="layout">
@@ -24,7 +24,10 @@
         </view>
         <!--  -->
         <view class="menu">
-          <text class="title">前端必看</text>
+          <view class="title">
+            <text class="left">前端必看</text>
+            <text class="right">查看更多 >></text>
+          </view>
           <view class="menu_list">
             <view class="menu_item" v-for="(item, index) in 4" :key="index">
               <u-image
@@ -39,9 +42,12 @@
           </view>
         </view>
         <view class="menu">
-          <text class="title">每日精选</text>
+          <view class="title">
+            <text class="left">每日精选</text>
+            <!-- <text class="right">查看更多 >></text> -->
+          </view>
           <view class="menu_swiper">
-            <view class="my_swiper">
+            <u-scroll-list>
               <view
                 ref="swiperRef"
                 class="swiper_item"
@@ -55,18 +61,18 @@
                   height="280rpx"
                   :radius="'18rpx'"
                 ></u-image>
+                <view class="info">
+                  <text>javascript</text>
+                </view>
               </view>
-            </view>
-            <view class="swiper_btn pre_btn" @click="handelPre">
-              <text></text>
-            </view>
-            <view class="swiper_btn next_btn" @click="handleNext">
-              <text></text>
-            </view>
+            </u-scroll-list>
           </view>
         </view>
         <view class="menu">
-          <text class="title">后端专区</text>
+          <view class="title">
+            <text class="left">后端专区</text>
+            <text class="right">查看更多 >></text>
+          </view>
           <view class="menu_list">
             <view class="menu_item" v-for="(item, index) in 4" :key="index">
               <u-image
@@ -100,23 +106,7 @@ export default {
       ],
     };
   },
-  methods: {
-    handelPre() {
-      console.log(this);
-      // let swiperDom = document.getElementsByClassName(".swiper_item");
-      // let swiperSize = {
-      //   w: swiperDom,
-      // };
-
-      // console.log(swiperDom);
-      console.log(111);
-    },
-    handleNext() {
-      console.log(222);
-    },
-    // 轮播
-    initSwiper() {},
-  },
+  methods: {},
 };
 </script>
 
@@ -138,25 +128,33 @@ v-deep .u-swiper-indicator__wrapper__dot--active {
     background: #ffffff;
     .nav {
       width: 100%;
-      display: flex;
-      justify-content: space-between;
+      height: 420rpx;
+      // display: flex;
+      // justify-content: space-between;
       > view {
-        width: 30%;
-        height: 120rpx;
+        width: 330rpx;
+        height: 200rpx;
         border: 1px solid #333;
         text-align: center;
         border-radius: 16rpx;
+        margin-bottom: 24rpx;
+        float: right;
+      }
+      .nav_note {
+        width: 330rpx;
+        height: 420rpx;
+        float: left;
       }
     }
     .menu {
-      margin-top: 48rpx;
+      margin-top: 64rpx;
       .title {
         font-size: 36rpx;
         font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif,
           "Ping Fang";
-        font-weight: 600;
+        font-weight: 400;
         position: relative;
-        padding: 0 32rpx;
+        padding: 0 0 0 32rpx;
         &::after {
           content: "";
           height: 36rpx;
@@ -167,6 +165,11 @@ v-deep .u-swiper-indicator__wrapper__dot--active {
           transform: translateY(-50%);
           background: #56aaff;
           border-radius: 4rpx;
+        }
+        .right {
+          float: right;
+          font-size: 14px;
+          color: #6e6c6c;
         }
       }
       .menu_list {
@@ -182,48 +185,15 @@ v-deep .u-swiper-indicator__wrapper__dot--active {
         }
       }
       .menu_swiper {
-        position: relative;
-        margin-top: 24rpx;
+        margin-top: 32rpx;
         .swiper_item {
-          border-radius: 18rpx;
-        }
-        .swiper_btn {
-          position: absolute;
-          width: 80rpx;
-          height: 80rpx;
-          top: 50%;
-          transform: translateY(-50%);
-          background: rgba(0, 0, 0, 0.4);
-          border-radius: 50%;
-        }
-        .pre_btn {
-          left: -24rpx;
-        }
-        .next_btn {
-          right: -24rpx;
-        }
-        .pre_btn text,
-        .next_btn text {
-          position: relative;
-        }
-        .pre_btn::after,
-        .next_btn::after {
-          content: "";
-          width: 30rpx;
-          height: 30rpx;
-          position: absolute;
-          border-top: 4rpx solid rgb(255, 255, 255, 0.9);
-          border-left: 4rpx solid rgb(255, 255, 255, 0.9);
-        }
-        .pre_btn::after {
-          left: 36%;
-          top: 30%;
-          transform: rotate(-45deg);
-        }
-        .next_btn::after {
-          right: 36%;
-          top: 30%;
-          transform: rotate(135deg);
+          margin-right: 24rpx;
+          display: flex;
+          text-align: center;
+          flex-direction: column;
+          .info {
+            margin-top: 12px;
+          }
         }
       }
     }
@@ -232,8 +202,5 @@ v-deep .u-swiper-indicator__wrapper__dot--active {
 .my_swiper {
   display: flex;
   overflow: hidden;
-  .swiper_item {
-    margin-right: 24rpx;
-  }
 }
 </style>
