@@ -19,7 +19,9 @@
       <view class="layout">
         <view class="nav">
           <view class="nav_note">我的笔记</view>
-          <view class="nav_bill">账单</view>
+          <view class="nav_bill">
+            <image src="../../static/images/yule.png" mode="scaleToFill" />
+          </view>
           <view class="nav_cards">打牌</view>
         </view>
         <!--  -->
