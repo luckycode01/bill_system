@@ -30,6 +30,13 @@
         "navigationBarTitleText": "个人中心",
         "enablePullDownRefresh": false
       }
+    },
+    {
+      "path": "pages/score/score",
+      "style": {
+        "navigationBarTitleText": "计数器",
+        "enablePullDownRefresh": false
+      }
     }
   ],
   "globalStyle": {

@@ -6,7 +6,12 @@
       <div @click="handleClick">主要活动三</div>
     </div>
     <div class="content">
-      <vue-waterfall-easy ref="waterfall" @click="clickFn" :mobileGap="13" :imgsArr="imgsArr">
+      <vue-waterfall-easy
+        ref="waterfall"
+        @click="clickFn"
+        :mobileGap="13"
+        :imgsArr="imgsArr"
+      >
         <template v-slot="props">
           <div class="water-title">{{ props.value.title }}</div>
           <div class="water-title-info">{{ props.value.detail }}</div>
@@ -17,7 +22,7 @@
             </div>
             <div class="area">
               <van-icon name="eye-o" size="18" />
-              <div class="textNum">{{props.value.currentTime}}</div>
+              <div class="textNum">{{ props.value.currentTime }}</div>
             </div>
           </div>
         </template>
@@ -87,39 +92,38 @@ export default {
       let dateTime = new Date();
       let month = dateTime.getMonth() + 1;
       let day = dateTime.getDate();
-      this.imgsArr.forEach(item => {
-        this.$set(item, "currentTime", `${month}-${day}`)
+      this.imgsArr.forEach((item) => {
+        this.$set(item, "currentTime", `${month}-${day}`);
       });
     },
     handleClick(val) {
-      if (typeof (val) == 'string') {
-        this.$router.push('/lottery')
+      if (typeof val == "string") {
+        this.$router.push("/lottery");
       } else {
         this.$toast.success({
-          message: '开发中',
+          message: "开发中",
           forbidClick: true,
         });
       }
     },
     clickFn(event, { value }) {
       if (value.id == 1) {
-        this.$router.push('/homelink/addpay')
+        this.$router.push("/homelink/addpay");
       }
       if (value.id == 2) {
-        this.$router.push('/plot')
+        this.$router.push("/plot");
       }
       if (value.id == 3) {
-        this.$router.push('/homelink/outandindetail')
+        this.$router.push("/homelink/outandindetail");
       }
       if (value.id == 4) {
-        this.$router.push('/homelink/addin')
+        this.$router.push("/homelink/addin");
       }
       if (value.id == 5) {
-        this.$router.push('/homelink/category')
+        this.$router.push("/homelink/category");
       }
-
-    }
-  }
+    },
+  },
 };
 </script>
 

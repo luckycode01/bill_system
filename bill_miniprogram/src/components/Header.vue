@@ -10,6 +10,7 @@
       <view
         :class="isBack ? 'back' : ''"
         :style="{ width: menuBtnWidth + 10 + 'px' }"
+        @click="handelBack"
       >
         <text class=""></text>
       </view>
@@ -50,7 +51,11 @@ export default {
     this.menuBtnHeight = getApp().globalData.menuBtn.height || 0;
     this.menuBtnTop = getApp().globalData.menuBtn.top || 0;
   },
-  methods: {},
+  methods: {
+    handelBack() {
+      uni.navigateBack();
+    },
+  },
 };
 </script>
 

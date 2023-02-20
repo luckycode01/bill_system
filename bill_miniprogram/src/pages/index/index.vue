@@ -18,11 +18,27 @@
       </view>
       <view class="layout">
         <view class="nav">
-          <view class="nav_note">我的笔记</view>
+          <view class="nav_note">
+            <image
+              src="../../static/images/note2.gif"
+              style="width: 100%; height: 100%"
+              mode="scaleToFill"
+          /></view>
           <view class="nav_bill">
-            <image src="../../static/images/yule.png" mode="scaleToFill" />
+            <image
+              src="../../static/images/bill.gif"
+              style="width: 100%; height: 100%"
+              mode="scaleToFill"
+            />
           </view>
-          <view class="nav_cards">打牌</view>
+          <view class="nav_cards">
+            <image
+              @click="handleToscore"
+              src="../../static/images/yule.png"
+              style="width: 100%; height: 100%"
+              mode="scaleToFill"
+            />
+          </view>
         </view>
         <!--  -->
         <view class="menu">
@@ -94,11 +110,8 @@
 </template>
 
 <script>
-import Header from "../../components/Header";
 export default {
-  components: {
-    Header,
-  },
+  components: {},
   data() {
     return {
       list3: [
@@ -108,7 +121,11 @@ export default {
       ],
     };
   },
-  methods: {},
+  methods: {
+    handleToscore() {
+      uni.navigateTo({ url: "/pages/score/score" });
+    },
+  },
 };
 </script>
 
@@ -136,11 +153,14 @@ v-deep .u-swiper-indicator__wrapper__dot--active {
       > view {
         width: 330rpx;
         height: 200rpx;
-        border: 1px solid #333;
+        box-shadow: 4px 4px #f7f7f7;
         text-align: center;
         border-radius: 16rpx;
         margin-bottom: 24rpx;
         float: right;
+        image {
+          border-radius: 16rpx;
+        }
       }
       .nav_note {
         width: 330rpx;
@@ -171,7 +191,7 @@ v-deep .u-swiper-indicator__wrapper__dot--active {
         .right {
           float: right;
           font-size: 14px;
-          color: #6e6c6c;
+          color: #b3afaf;
         }
       }
       .menu_list {
