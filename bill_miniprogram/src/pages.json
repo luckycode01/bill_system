@@ -2,6 +2,10 @@
   "easycom": {
     "^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
   },
+  "usingComponents": {
+    "me-waterfall": "/path/to/me-waterfall/waterfall/index",
+    "me-waterfall-item": "/path/to/me-waterfall/waterfall-item/index"
+  },
   "pages": [
     {
       "path": "pages/index/index",
