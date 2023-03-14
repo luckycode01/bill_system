@@ -1,7 +1,8 @@
 <template>
   <view class="content">
+    <Header :title="'账单管理'"></Header>
     <!--需要子元素撑大父元素高度的情况，才需要设置height-->
-    <view class="bill_list flex flex-wrap relative">
+    <view class="bill_list" :style="{ width: screenWidth + 'px' }">
       <view
         v-for="item in dataList"
         class="bill_item"
@@ -66,17 +67,16 @@ export default {
           src: require("../../static/images/bill/category.png"),
         },
       ],
-      data: {
-        list: [],
-        screenWidth: 10,
-      },
+      screenWidth: 0,
     };
   },
   // 需要在节点加载到页面后调用
   onReady() {
-    const { screenWidth, list } = this.data;
+    console.log(wx.getSystemInfoSync());
+    this.screenWidth = wx.getSystemInfoSync().windowWidth - 16 || 0;
+    console.log(this.screenWidth);
     this.waterFall(this, ".bill_item", {
-      width: 375,
+      width: this.screenWidth,
       gap: "auto",
     }).then((arr) => {
       if (!arr.length) return;
@@ -187,7 +187,7 @@ export default {
 .content {
   width: 100%;
   position: absolute;
-  top: 188rpx;
+  top: 0rpx;
   bottom: 0px;
   padding-top: 4px;
   background-color: #eee;
