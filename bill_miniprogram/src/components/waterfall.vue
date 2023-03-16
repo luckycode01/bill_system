@@ -1,11 +1,12 @@
 <template>
   <view
-    class="bill_list"
+    class="waterfall"
     :style="{ width: screenWidth + 'px', height: screenHeight + 'px' }"
   >
     <view
       v-for="item in dataList"
-      class="bill_item"
+      class="waterfall_item"
+      @click="bindClickEvent($event, item)"
       :style="{
         width: itemWidth,
         position: 'absolute',
@@ -42,10 +43,10 @@ export default {
     this.screenWidth = wx.getSystemInfoSync().windowWidth;
     this.itemWidth = (this.screenWidth - 32) / 2 + "px";
   },
+  mounted() {},
   // 需要在节点加载到页面后调用
   onReady() {
-    console.log(wx.getSystemInfoSync());
-    this.waterFall(this, ".bill_item", {
+    this.waterFall(this, ".waterfall_item", {
       width: this.screenWidth,
       gap: 16,
       padding: 8,
@@ -62,11 +63,13 @@ export default {
           ...arr[index],
         };
       });
-      console.log(this.dataList);
     });
   },
 
   methods: {
+    bindClickEvent(e, item) {
+      this.$emit("click", e, item);
+    },
     getAllRect(context, selector) {
       return new Promise(function (resolve) {
         wx.createSelectorQuery()
@@ -74,7 +77,6 @@ export default {
           .selectAll(selector)
           .boundingClientRect()
           .exec(function (rect) {
-            console.log("rect", rect);
             if (rect === void 0) {
               rect = [];
             }
@@ -107,7 +109,6 @@ export default {
       } = options;
       // 1- 确定列数  = 页面的宽度 / 图片的宽度，单例的宽度
       let itemWidth = items[0].width;
-      console.log(itemWidth);
       // 定义每一列之间的间隙 px
       if (gap === "auto") {
         gap = (width - itemWidth * column) / (column - 1);
@@ -158,11 +159,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.bill_list {
+.waterfall {
   width: 100%;
   margin: auto;
   position: relative;
-  .bill_item {
+  .waterfall_item {
     box-shadow: 0 1px 3px rgb(0 0 0 / 30%);
     border-radius: 4px;
     image {

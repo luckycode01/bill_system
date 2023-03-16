@@ -36,6 +36,13 @@
       }
     },
     {
+      "path": "pages/billManage/addpay",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
       "path": "pages/score/score",
       "style": {
         "navigationBarTitleText": "计数器",

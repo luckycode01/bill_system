@@ -1,7 +1,7 @@
 <template>
   <view class="content">
     <Header :title="'账单管理'"></Header>
-    <waterFall :initDataList="dataList">
+    <waterFall :initDataList="dataList" @click="handleClick">
       <template slot-scope="{ props }">
         <view class="water-title">{{ props.title }}</view>
         <view class="water-title-info">{{ props.detail }}</view>
@@ -32,6 +32,7 @@ export default {
           name: "useruseruseruseruseruser",
           avator: require("../../static/images/bill/logo.jpg"),
           src: require("../../static/images/bill/jl.png"),
+          path: "/pages/billManage/addpay",
         },
         {
           id: 2,
@@ -71,7 +72,13 @@ export default {
   // 需要在节点加载到页面后调用
   onReady() {},
 
-  methods: {},
+  methods: {
+    handleClick(e, row) {
+      uni.navigateTo({
+        url: row.path,
+      });
+    },
+  },
 };
 </script>
 
