@@ -1,5 +1,8 @@
 <template>
-  <view class="bill_list" :style="{ width: screenWidth + 'px' }">
+  <view
+    class="bill_list"
+    :style="{ width: screenWidth + 'px', height: screenHeight + 'px' }"
+  >
     <view
       v-for="item in dataList"
       class="bill_item"
@@ -13,10 +16,7 @@
       :data-item="item"
     >
       <image :src="item.src" mode="widthFix" :lazy-load="true"> </image>
-      <view class="bill_info">
-        <view class="title g-t-over2">{{ item.title }}</view>
-        <view class="">{{ item.name }}</view>
-      </view>
+      <slot :props="item"></slot>
     </view>
   </view>
 </template>
@@ -32,6 +32,7 @@ export default {
   data() {
     return {
       dataList: [],
+      screenHeight: 0,
       screenWidth: 0,
       itemWidth: 0,
     };
@@ -48,8 +49,10 @@ export default {
       width: this.screenWidth,
       gap: 16,
       padding: 8,
-    }).then((arr) => {
+    }).then((res) => {
+      let arr = res.result;
       if (!arr.length) return;
+      this.screenHeight = Math.max(...res._columnHeightArr) + 10;
       this.dataList = this.initDataList.map((item, index) => {
         arr[index].top = arr[index].top * 1 + "px";
         arr[index].left = arr[index].left * 1 + "px";
@@ -145,50 +148,25 @@ export default {
           // 5- 修改最小列的高度
           // 最小列的高度 = 当前自己的高度 + 拼接过来的高度 + 间隙的高度
           _columnHeightArr[minIndex] =
-            _columnHeightArr[minIndex] + items[i].height;
+            _columnHeightArr[minIndex] + gap + items[i].height;
         }
       }
-      return result;
+      return { result, _columnHeightArr };
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.content {
-  width: 100%;
-  position: absolute;
-  top: 0rpx;
-  bottom: 0px;
-  padding-top: 4px;
-  background-color: #eee;
-  box-sizing: border-box;
-}
-
 .bill_list {
   width: 100%;
   margin: auto;
   position: relative;
   .bill_item {
-    // width: 348rpx;
     box-shadow: 0 1px 3px rgb(0 0 0 / 30%);
     border-radius: 4px;
     image {
       width: 100%;
-    }
-    .bill_info {
-      width: 100%;
-      .title {
-        text-align: center;
-        font-family: PingFangSC-Regular;
-        text-align: center;
-        box-sizing: border-box;
-        padding: 18rpx 40rpx 0;
-        font-size: 36rpx;
-        line-height: 36rpx;
-        font-weight: bold;
-        color: #2b4167;
-      }
     }
   }
 }
