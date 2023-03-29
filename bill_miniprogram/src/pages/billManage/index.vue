@@ -41,6 +41,7 @@ export default {
           name: "user",
           avator: require("../../static/images/bill/logo.jpg"),
           src: require("../../static/images/bill/tubiao.png"),
+           path: "/pages/billManage/plot",
         },
         {
           id: 3,
@@ -57,6 +58,7 @@ export default {
           name: "user",
           avator: require("../../static/images/bill/logo.jpg"),
           src: require("../../static/images/bill/shouru.png"),
+          path: "/pages/billManage/addIn",
         },
         {
           id: 5,

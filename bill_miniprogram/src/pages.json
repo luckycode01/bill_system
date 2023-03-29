@@ -22,7 +22,7 @@
       }
     },
     {
-      "path": "pages/billManage/billManage",
+      "path": "pages/billManage/index",
       "style": {
         "navigationBarTitleText": "账单",
         "enablePullDownRefresh": false
@@ -44,6 +44,20 @@
     },
     {
       "path": "pages/score/score",
+      "style": {
+        "navigationBarTitleText": "计数器",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/billManage/addIn",
+      "style": {
+        "navigationBarTitleText": "计数器",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/billManage/plot",
       "style": {
         "navigationBarTitleText": "计数器",
         "enablePullDownRefresh": false
@@ -76,7 +90,7 @@
         "selectedIconPath": "./static/tabbar/category_select.png"
       },
       {
-        "pagePath": "pages/billManage/billManage",
+        "pagePath": "pages/billManage/index",
         "text": "账单",
         "iconPath": "./static/tabbar/bill.png",
         "selectedIconPath": "./static/tabbar/bill_select.png"
