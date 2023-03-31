@@ -46,7 +46,14 @@ export default {
   methods: {
     // 数据处理
     handleData() {
-      let data = this.initData;
+      let data = [];
+      this.initData.name &&
+        this.initData.name.forEach((item, index) => {
+          data.push({
+            name: item,
+            value: this.initData.value[index],
+          });
+        });
       // 降序
       data.sort((a, b) => {
         return b.value - a.value;
@@ -82,7 +89,7 @@ export default {
         tooltip: {
           show: true,
           trigger: "item",
-          position: "top",
+          position: "bottom",
           backgroundColor: "rgba(0,0,0,0.7)",
           textStyle: {
             fontSize: "16",
@@ -90,16 +97,16 @@ export default {
           },
           formatter: "{a} {b} : {c} ({d}%)",
         },
-        color:this.config.graphic? colorArr:this.colorList,
+        color: this.config.graphic ? colorArr : this.colorList,
         legend: {
-          show: true,
+          show: false,
           type: "scroll",
-          orient: "vertical",
-          orient: 'horizontal',
+          orient: "horizontal" || "vertical",
           icon: this.config.icon || "circle",
           itemWidth: this.config.itemWidth || 14, //小圆点宽度
           itemHeight: 14, // 小圆点高度
-          right: this.config.legendRight || "15%",
+          left: "2%",
+          right: this.config.legendRight || "5%",
           top: "bottom",
           textStyle: {
             color: "#333333",
@@ -110,8 +117,8 @@ export default {
           {
             name: "",
             type: "pie",
-            center: this.config.center || ["50%", "50%"],
-            radius: this.config.radius || [0, "60%"],
+            center: this.config.center || ["50%", "48%"],
+            radius: this.config.radius || [0, "50%"],
             itemStyle: {
               color: (params) => {
                 console.log(params);
@@ -121,17 +128,8 @@ export default {
             label: {
               show: true, //false不显示饼图上的标签
               position: "outside", //inside（在饼图上显示）,outside(默认就会出现引导线) center
-              color: "#333333",
-              rich: {
-                text1: {
-                  fontSize: "13",
-                  lineHeight: "20",
-                  color: "#41A7DC",
-                },
-              },
-              formatter: (params) => {
-                return `{text1|${params.name} : }${params.value}\n${params.percent}%`;
-              },
+              color: "#909399",
+              fontSize: 12,
             },
             emphasis: {
               //启用鼠标放上去放大效果
