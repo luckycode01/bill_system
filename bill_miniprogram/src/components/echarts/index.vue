@@ -3,24 +3,9 @@
     <view class="header">
       <text class="title">XXXX-XX-XXXXXX-XX-XX标题</text>
       <view class="tab_change" v-if="config.isChange">
-        <view
-          class="tab_item"
-          @click="handelClickTab('pie')"
-          :class="tabActive == 'pie' ? 'active' : ''"
-          >标签1</view
-        >
-        <view
-          class="tab_item"
-          @click="handelClickTab('line')"
-          :class="tabActive == 'line' ? 'active' : ''"
-          >标签2</view
-        >
-        <view
-          class="tab_item"
-          @click="handelClickTab('bar')"
-          :class="tabActive == 'bar' ? 'active' : ''"
-          >标签3</view
-        >
+        <view class="tab_item" @click="handelClickTab('pie')" :class="tabActive == 'pie' ? 'active' : ''">标签1</view>
+        <view class="tab_item" @click="handelClickTab('line')" :class="tabActive == 'line' ? 'active' : ''">标签2</view>
+        <view class="tab_item" @click="handelClickTab('bar')" :class="tabActive == 'bar' ? 'active' : ''">标签3</view>
       </view>
     </view>
     <u-line></u-line>
@@ -59,9 +44,11 @@ export default {
       return this.config.type.toLocaleLowerCase() == "bar";
     },
   },
-  watch:{
-    config:{
-      handler(newVal,oldVal){
+  watch: {
+    config: {
+      immediate: true,
+      handler(newVal, oldVal) {
+        console.log(newVal, oldVal);
         this.tabActive = newVal.type.toLocaleLowerCase();
       }
     }
@@ -69,7 +56,7 @@ export default {
   methods: {
     handelClickTab(tabIndex) {
       this.tabActive = tabIndex;
-
+      this.$emit('handleChangeEchart', this.config.configName, tabIndex);
     },
   },
 };

@@ -1,12 +1,6 @@
 <template>
   <view class="echart">
-    <uni-ec-canvas
-      v-if="ec.option"
-      class="uni-ec-canvas"
-      id="line-chart"
-      canvas-id="multi-charts-line"
-      :ec="ec"
-    ></uni-ec-canvas>
+    <uni-ec-canvas v-if="ec.option" class="uni-ec-canvas" id="line-chart" canvas-id="multi-charts-line" :ec="ec"></uni-ec-canvas>
   </view>
 </template>
 <script>
@@ -18,10 +12,11 @@ export default {
     return {
       colorList: [],
       ec: {},
+      oIndex: 0,
     };
   },
   components: { uniEcCanvas },
-  onLoad() {},
+  onLoad() { },
   created() {
     this.colorList = (this.config && this.config.colorList) || [
       "#3C9CFF",
@@ -45,24 +40,40 @@ export default {
   },
   methods: {
     // 滚动数据（重新setOptions）
-    scrollData() {
+    scrollData(option) {
       if (!this.initData) return;
-      let option = this.option,
-        initXData = this.initData.name,
-        initYData = this.initData.value;
-      let len = initXData.length,
-        xData,
-        yData;
+      let initName = this.initData.name
+      let initVal = this.initData.value;
+      let xData, yData;
+      // this.oIndex = this.config.limitNumber;
       this.timer = setInterval(() => {
-        this.oIndex = (this.oIndex + 1) % len;
-        xData = this.splitData(initXData);
-        yData = this.splitData(initYData);
+        this.oIndex = (this.oIndex + 1) % initName.length;
+        xData = this.splitData(initName);
+        yData = this.splitData(initVal);
         option.yAxis.data = xData;
         option.series[0].data = yData;
-        this.myChart.setOption(option);
+        this.$set(this.ec, "option", option);
       }, 3000);
     },
+    splitData(data) {
+      if (this.oIndex < this.config.limitNumber) {
+        return data.slice(this.oIndex, this.config.limitNumber + this.oIndex);
+      }
+      if (this.oIndex > (data.length - this.config.limitNumber)) {
+        this.oIndex = 0;
+      }
+      return data.slice(this.oIndex, this.config.limitNumber + this.oIndex);
 
+      // // 每次向后滚动一个，最后一个从头开始。
+      // if (this.oIndex) {
+      //   option1.dataZoom[0].endValue = 4;
+      //   option1.dataZoom[0].startValue = 0;
+      // }
+      // else {
+      //   option1.dataZoom[0].endValue = option1.dataZoom[0].endValue + 1;
+      //   option1.dataZoom[0].startValue = option1.dataZoom[0].startValue + 1;
+      // }
+    },
     getdata(res) {
       let data = this.initData;
       var name = data.name;
@@ -186,13 +197,13 @@ export default {
         ],
       };
 
+      //是否开启滚动
       if (this.config.limitNumber) {
-        xData = this.splitData(xData);
-        yData = this.splitData(yData);
-      }
-      // 如果有限制显示条数 ---  滚动
-      if (this.config.limitNumber) {
-        this.scrollData();
+        name = this.splitData(name);
+        value = this.splitData(value);
+        option.yAxis.data = name;
+        option.series[0].data = value;
+        this.scrollData(option);
       }
       this.$set(this.ec, "option", option);
     },

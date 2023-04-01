@@ -20,9 +20,9 @@
       </u-grid>
     </view>
     <view class="echart_box">
-      <EchartBox :initData="payData" :config="payConfig"></EchartBox>
-      <EchartBox :initData="payData" :config="houseConfig"></EchartBox>
-      <EchartBox :initData="payData" :config="livingConfig"></EchartBox>
+      <EchartBox :initData="payData" :config="payConfig" @handleChangeEchart="handleChangeEchart"></EchartBox>
+      <EchartBox :initData="payData" :config="houseConfig" @handleChangeEchart="handleChangeEchart"></EchartBox>
+      <EchartBox :initData="payData" :config="livingConfig" @handleChangeEchart="handleChangeEchart"></EchartBox>
     </view>
   </view>
 </template>
@@ -36,44 +36,54 @@ export default {
     return {
       payData: {
         name: [
-          "甲甲甲甲",
-          "乙乙乙",
-          "丙丙丙丙",
-          "丁丁丁丁",
-          "戊戊戊",
-          "已已",
-          "庚庚庚庚",
-          "戊戊戊",
-          "戊戊戊",
-          "戊戊戊",
-          "戊戊戊",
-          "戊戊戊",
+          "甲11",
+          "乙22",
+          "丙33",
+          "丁44",
+          "戊55",
+          "已66",
+          "庚77",
+          "戊88",
+          "戊99",
+          "戊10",
+          "戊1111",
         ],
-        value: [10, 90, 23, 34, 38, 23, 50, 36,8, 23, 50, 36],
+        value: [10, 90, 23, 34, 38, 23, 50, 36, 8, 23, 50, 6],
       },
       payConfig: {
         type: "Pie",
         title: "日期标题",
+        configName: 'payConfig',
         isChange: true,
+        limitNumber: 5,
         graphic: true,
       },
       houseConfig: {
         type: "Line",
         title: "日期标题",
+        configName: 'houseConfig',
         isChange: true,
+        limitNumber: 5,
         graphic: true,
       },
       livingConfig: {
         type: "Bar",
+        limitNumber: 5,
         isChange: true,
+        configName: 'livingConfig',
         title: "日期标题",
         graphic: true,
       },
     };
   },
   components: {},
-  onLoad() {},
-  methods: {},
+  onLoad() { },
+  methods: {
+    handleChangeEchart(target, val) {
+      // console.log(target,val);
+      this.$set(this[target], 'type', val)
+    }
+  },
 };
 </script>
 <style lang="scss" scoped>
