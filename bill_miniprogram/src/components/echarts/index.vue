@@ -48,7 +48,6 @@ export default {
     config: {
       immediate: true,
       handler(newVal, oldVal) {
-        console.log(newVal, oldVal);
         this.tabActive = newVal.type.toLocaleLowerCase();
       }
     }

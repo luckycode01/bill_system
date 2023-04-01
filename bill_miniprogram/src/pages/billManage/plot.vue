@@ -80,7 +80,6 @@ export default {
   onLoad() { },
   methods: {
     handleChangeEchart(target, val) {
-      // console.log(target,val);
       this.$set(this[target], 'type', val)
     }
   },

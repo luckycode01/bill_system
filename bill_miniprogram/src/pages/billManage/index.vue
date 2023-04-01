@@ -41,7 +41,7 @@ export default {
           name: "user",
           avator: require("../../static/images/bill/logo.jpg"),
           src: require("../../static/images/bill/tubiao.png"),
-           path: "/pages/billManage/plot",
+          path: "/pages/billManage/plot",
         },
         {
           id: 3,
@@ -72,7 +72,7 @@ export default {
     };
   },
   // 需要在节点加载到页面后调用
-  onReady() {},
+  onReady() { },
 
   methods: {
     handleClick(e, row) {
