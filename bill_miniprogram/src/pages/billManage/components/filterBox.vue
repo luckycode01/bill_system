@@ -4,6 +4,8 @@
       <el-form>
         <u-form-item label="日期" prop="dateTime" borderBottom @click="hideOpenPicker('time')" ref="item1">
           <u-input v-model="addOneForm.dateTime" placeholder="请选择时间" border="none" disabled disabledColor="#fff"></u-input>
+          <u-tag text="标签" plain shape="circle"></u-tag>
+          <u-tag text="标签" plain shape="circle"></u-tag>
         </u-form-item>
       </el-form>
     </view>
@@ -18,7 +20,9 @@
       </u-row>
     </view>
     <u-datetime-picker mode="date" :show="showDateTime" v-model="selectTime" :closeOnClickOverlay="true" @close="showDateTime = false"
-      @cancel="showDateTime = false" @confirm="handleConfirmTime($event, item)"></u-datetime-picker>
+      @cancel="showDateTime = false" @confirm="handleConfirmTime($event, item)">
+      aa
+    </u-datetime-picker>
   </view>
 </template>
 <script>
