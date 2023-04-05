@@ -83,7 +83,7 @@ export default {
         title: "日期标题",
         graphic: true,
       },
-      showPopup: false,
+      showPopup: true,
       clientHeight: 0,
       moveObj: {
         positionY: 300,
