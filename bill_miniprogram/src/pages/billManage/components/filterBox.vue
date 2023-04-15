@@ -1,15 +1,15 @@
 <template>
   <view class="popup_main" :style="{paddingTop:headerHeight + 'px'}">
     <view>
-      <el-form>
+      <u-form :model="filterForm" :rules="filterFormRules" ref="filterFormRef">
         <u-form-item label="日期" prop="dateTime" borderBottom ref="item1">
           <view class="form_item">
-            <u-input v-model="addOneForm.dateTime" @click="hideOpenPicker('time')" placeholder="请选择时间" border="none" disabled disabledColor="#fff"></u-input>
+            <u-input v-model="filterForm.dateTime" @focus="hideOpenPicker('time')" placeholder="请选择时间" border="none" ></u-input>
             <view class="time_tag">本月</view>
             <view class="time_tag ml">本周</view>
           </view>
         </u-form-item>
-      </el-form>
+      </u-form>
     </view>
     <view class="footer">
       <u-row>
@@ -32,7 +32,10 @@ export default {
     return {
       showPopup: false,
       showDateTime: false,
-
+      filterForm: {
+        dateTime: '',
+      },
+      filterFormRules:{},
     }
   },
   computed: {
@@ -50,6 +53,7 @@ export default {
       this.showDateTime = false;
     },
     hideOpenPicker(tag) {
+      console.log(tag);
       if (tag == "time") {
         this.showDateTime = true;
       } else if (tag == "cate") {
