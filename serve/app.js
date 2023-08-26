@@ -18,13 +18,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-// 初始化数据库模块
-var database = require("./db/database");
-database.initialize(app, function (err) {
-  if (err) {
-    console.error("连接数据库失败失败 %s", err);
-  }
-});
 
 /**
  * 初始化路由
@@ -54,7 +47,7 @@ app.use(function (req, res, next) {
   next(err);
 });
 
-const port = 9999;
+const port = 6666;
 app.listen(port, (err) => {
   if (err) {
     console.log(err);
