@@ -1,18 +1,35 @@
 <template>
-  <el-tooltip class="item" effect="dark" :content="title" placement="bottom">
-    <el-button v-bind="$attrs" v-on="$listeners"></el-button>
-  </el-tooltip>
+  <Tooltip placement="top">
+    <template #title>
+      <span>{{ title }}</span>
+    </template>
+    <Button v-bind="$attrs.opt"
+      >{{ btnText }}
+      <slot name="icon"> </slot>
+    </Button>
+  </Tooltip>
 </template>
 
-<script>
-export default {
-  name: 'HintButton',
-  props: ['title']
-}
+<script lang="ts">
+  import { defineComponent } from 'vue';
+  export default defineComponent({
+    name: 'HintButton',
+  });
 </script>
-
-<style lang="scss" scoped>
-a {
-  margin-right: 10px;
-}
+<script lang="ts" setup>
+  const props = defineProps({
+    title: {
+      type: String,
+      required: true,
+    },
+    btnText: {
+      type: String,
+      required: true,
+    },
+  });
+</script>
+<style lang="less" scoped>
+  .ant-btn {
+    margin-right: 10px;
+  }
 </style>
