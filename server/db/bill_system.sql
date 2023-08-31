@@ -1,9 +1,12 @@
 -- --创建名称为bill_system的数据库，并设定编码集为utf8mb4
-CREATE DATABASE IF NOT EXISTS bill_system  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS bill_system DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+
 -- 创建了一个名为：hive 密码为：hive1234 的用户,设置为任意ip都可以访问（%）
-create user 'lucky'@'%' identified by 'lucky123456';
+create user 'lucky' @'%' identified by 'Aa123456@123';
+
 --  授予 lucky 用户在 bill_system 库的所有权限，on后面接的 bill_system 是db名字
-grant all privileges on bill_system.* to lucky@'%' identified by 'lucky123456';
+grant all privileges on bill_system.* to lucky @'%' identified by 'Aa123456@123';
+
 -- --刷新
 flush privileges;
 
@@ -11,157 +14,130 @@ use bill_system;
 
 drop table if exists user_center;
 
-drop table if exists user_priority_relationship;
+/*==============================================================*/
+/* Table: user_manager                                          */
+/*==============================================================*/
+create table user_manager (
+   `mg_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+   `avator` varchar(100) NULL DEFAULT NULL comment '用户头像',
+   `mg_name` varchar(32) NOT NULL COMMENT '名称',
+   `mg_pwd` char(64) NOT NULL COMMENT '密码',
+   `role_id` tinyint(11) NOT NULL DEFAULT '0' COMMENT '角色id',
+   `mg_mobile` varchar(32) DEFAULT NULL,
+   `mg_email` varchar(64) DEFAULT NULL,
+   `mg_state` tinyint(2) DEFAULT '1' COMMENT '1：表示启用 0:表示禁用',
+   `mg_time` int(10) unsigned NOT NULL COMMENT '创建时间',
+   `gmt_mod` ified DATETIME NOT NULL COMMENT '更新时间',
+   `deleted` tinyint NOT NULL COMMENT '逻辑删除(0未删除；1删除)',
+   PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=510 DEFAULT CHARSET=utf8 COMMENT='管理员表';
 
-drop table if exists user_role_relationship;
+-- ----------------------------
+-- Table structure for sp_role
+-- ----------------------------
+DROP TABLE IF EXISTS `sp_role`;
+CREATE TABLE `sp_role` (
+  `role_id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,
+  `role_name` varchar(20) NOT NULL COMMENT '角色名称',
+  `ps_ids` varchar(512) NOT NULL DEFAULT '' COMMENT '权限ids,1,2,5',
+  `ps_ca` text COMMENT '控制器-操作,控制器-操作,控制器-操作',
+  `role_desc` text,
+  PRIMARY KEY (`role_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
 
-drop table if exists user_priority;
+-- ----------------------------
+-- Table structure for sp_permission
+-- ----------------------------
+DROP TABLE IF EXISTS `sp_permission`;
+CREATE TABLE `sp_permission` (
+  `ps_id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,
+  `ps_name` varchar(20) NOT NULL COMMENT '权限名称',
+  `ps_pid` smallint(6) unsigned NOT NULL COMMENT '父id',
+  `ps_c` varchar(32) NOT NULL DEFAULT '' COMMENT '控制器',
+  `ps_a` varchar(32) NOT NULL DEFAULT '' COMMENT '操作方法',
+  `ps_level` enum('0','2','1') NOT NULL DEFAULT '0' COMMENT '权限等级',
+  PRIMARY KEY (`ps_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=160 DEFAULT CHARSET=utf8 COMMENT='权限表';
 
-drop table if exists user_role;
+-- ----------------------------
+-- Table structure for sp_permission_api
+-- ----------------------------
+DROP TABLE IF EXISTS `sp_permission_api`;
+CREATE TABLE `sp_permission_api` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ps_id` int(11) NOT NULL,
+  `ps_api_service` varchar(255) DEFAULT NULL,
+  `ps_api_action` varchar(255) DEFAULT NULL,
+  `ps_api_path` varchar(255) DEFAULT NULL,
+  `ps_api_order` int(4) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ps_id` (`ps_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
 
-drop table if exists user_role_priority_relationship;
+
+-- ----------------------------
+-- Table structure for sp_user
+-- ----------------------------
+CREATE TABLE `sp_user` (
+   `user_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+   `username` varchar(128) NOT NULL DEFAULT '' COMMENT '登录名',
+   `password` char(64) NOT NULL DEFAULT '' COMMENT '登录密码',
+   `avator` varchar(100) NULL DEFAULT NULL COMMENT '用户头像',
+   `user_email` varchar(64) NOT NULL DEFAULT '' COMMENT '邮箱',
+   `user_sex` enum('2', '0', '1') NOT NULL DEFAULT '2' COMMENT '性别（0：男，1：女）',
+   `user_qq` varchar(32) NOT NULL DEFAULT '' COMMENT 'qq',
+   `user_mobile` varchar(32) NOT NULL DEFAULT '' COMMENT '手机',
+   `user_edu` enum('10', '20', '30', '40', '50', '60', '70') NOT NULL DEFAULT '本科' COMMENT '学历(70:博士, 60:硕士, 50:本科, 40:专科, 30:高中, 20:初中, 10:小学)',
+   `user_introduce` text COMMENT '简介',
+   `create_time` int(11) NOT NULL COMMENT '创建时间',
+   `update_time` int(11) NOT NULL COMMENT '修改时间',
+   PRIMARY KEY (`user_id`)
+) ENGINE = InnoDB AUTO_INCREMENT = 12 DEFAULT CHARSET = utf8 COMMENT = '用户表';
+
 
 /*==============================================================*/
-/* Table: user_center                                          */
+/* Table bill_system for bill_daily_life  */ 
 /*==============================================================*/
-create table user_center
-(
-   id            bigint not null auto_increment comment '主键，自增长',
-   user_name     varchar(10) not null  comment '用户名',
-   password      varchar(20) not null  comment '密码',
-   avator        varchar(100) null default null comment '用户头像',
-   email         varchar(50) null default null comment '邮箱',
-   mobile        varchar(20) null default null comment '手机',
-   user_role     varchar(50) null default null comment '用户角色',
-   user_status   tinyint null default null comment '用户状态(1：启用；2：未启用；',
-   gmt_create           datetime not null comment '创建时间',
-   gmt_modified         datetime not null comment '更新时间',
-   deleted       tinyint not null comment '逻辑删除(0未删除；1删除)',
-   primary key (id)
-);
 
-alter table user_center comment '用户表，一个用户就对应着一个账号，每个账号给分配多个角色，同时这个账号也可以给分配多个权限';
-
-/*==============================================================*/
-/* Table: user_priority_relationship                    */
-/*==============================================================*/
-create table user_priority_relationship
-(
-   id                   bigint not null auto_increment comment '账号 主键，自增长',
-   priority_id          bigint not null comment '权限的主键id',
-   gmt_create           datetime not null comment '创建时间',
-   gmt_modified         datetime not null comment '更新时间',
-   primary key (id)
-);
-
-alter table user_priority_relationship comment '账号与权限的关系表，一个账号可以对应多个权限，一个权限也可以属于多个账号';
-
-/*==============================================================*/
-/* Table: user_role_relationship                        */
-/*==============================================================*/
-create table user_role_relationship
-(
-   id                   bigint not null auto_increment comment '主键，自增长',
-   user_id           bigint not null comment '账号的主键',
-   role_id              bigint not null comment '角色的主键',
-   gmt_create           datetime not null comment '创建时间',
-   gmt_modified         datetime not null comment '更新时间',
-   primary key (id)
-);
-
-alter table user_role_relationship comment '账号和角色的关系表，一个账号可以对应多个角色，一个角色也可以对应多个账号';
-
-/*==============================================================*/
-/* Table: user_priority                                         */
-/*==============================================================*/
-create table user_priority
-(
-   id                   bigint not null auto_increment comment '主键，自增长',
-   code                 varchar(1024) not null comment '权限编号',
-   url                  varchar(1024) not null comment '权限对应的请求URL',
-   priority_comment     varchar(1024) comment '权限的说明备注',
-   priority_type        tinyint not null default 1 comment '权限类型，1：菜单，2：按钮，其他',
-   parent_id            bigint comment '父权限的主键',
-   gmt_create           datetime not null comment '权限的创建时间',
-   gmt_modified         datetime not null comment '权限的修改时间',
-   primary key (id)
-);
-
-alter table user_priority comment '权限表，每个权限代表了系统中的一个菜单、按钮、URL请求';
-
-/*==============================================================*/
-/* Table: user_role                                             */
-/*==============================================================*/
-create table user_role
-(
-   id                   bigint not null auto_increment comment '主键，自增长',
-   code                 varchar(1024) not null comment '角色编号',
-   role_name            varchar(1024) not null comment '角色名称',
-   role_comment         varchar(1024) comment '角色的说明备注',
-   is_enabled           tinyint not null default 1 comment '角色是否启用，1：启用，0：未启用',
-   gmt_create           datetime not null comment '角色的创建时间',
-   gmt_modified         datetime not null comment '角色的修改时间',
-   primary key (id)
-);
-
-alter table user_role comment '角色表，在系统中有多个角色，每个角色可以分配一些权限';
-
-/*==============================================================*/
-/* Table: user_role_priority_relationship                       */
-/*==============================================================*/
-create table user_role_priority_relationship
-(
-   id                   bigint not null auto_increment comment '主键，自增长',
-   priority_id          bigint not null comment '权限的主键',
-   role_id              bigint not null comment '角色的主键',
-   gmt_create           datetime not null comment '创建时间',
-   gmt_modified         datetime not null comment '更新时间',
-   primary key (id)
-);
-
-alter table user_role_priority_relationship comment '角色和权限的关系表，角色和权限是多对多的关系，一个角色可以对应多个权限，一个权限可以属于多个角色';
-
-
-
--- Table bill_system for bill_daily_life
 DROP TABLE IF EXISTS bill_daily_life;
-CREATE TABLE bill_daily_life
-(
-    id bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-    user_id bigint(20) NULL DEFAULT NULL COMMENT '用户ID', 
-    food_amount decimal(8, 2) NOT NULL COMMENT '快餐饮食',
-    life_amount decimal(8, 2) NOT NULL COMMENT '生活买菜',
-    traffic_amount decimal(8, 2) NOT NULL COMMENT '交通出行',
-    merchandise_amount decimal(8, 2) NOT NULL COMMENT '日用百货',
-    phone_bill decimal(8, 2) NOT NULL COMMENT '话费充值',
-    vehicle_maintenance decimal(8, 2) NOT NULL COMMENT '车辆保养',
-    Clothing_amount decimal(8, 2) NOT NULL COMMENT '服装服饰',
-    fruit_snacks decimal(8, 2) NOT NULL COMMENT '水果零食',
-    medical_health decimal(8, 2) NOT NULL COMMENT '医药健康',
-    medical_remarks varchar(1024) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT  '医药备注',
-    other_amount decimal(8, 2) NOT NULL COMMENT '其他消费',
-    other_remarks varchar(1024) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT  '其他备注',
-    dissipate_time datetime(0) NULL DEFAULT NULL COMMENT '消费时间',
-    gmt_create datetime(0) NOT NULL COMMENT '创建时间',
-    gmt_modified datetime(0) NOT NULL COMMENT '更新时间',
-    PRIMARY KEY (id)
+
+CREATE TABLE bill_daily_life (
+   id bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+   user_id bigint(20) NULL DEFAULT NULL COMMENT '用户ID',
+   food_amount decimal(8, 2) NOT NULL COMMENT '快餐饮食',
+   life_amount decimal(8, 2) NOT NULL COMMENT '生活买菜',
+   traffic_amount decimal(8, 2) NOT NULL COMMENT '交通出行',
+   merchandise_amount decimal(8, 2) NOT NULL COMMENT '日用百货',
+   phone_bill decimal(8, 2) NOT NULL COMMENT '话费充值',
+   vehicle_maintenance decimal(8, 2) NOT NULL COMMENT '车辆保养',
+   Clothing_amount decimal(8, 2) NOT NULL COMMENT '服装服饰',
+   fruit_snacks decimal(8, 2) NOT NULL COMMENT '水果零食',
+   medical_health decimal(8, 2) NOT NULL COMMENT '医药健康',
+   medical_remarks varchar(1024) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '医药备注',
+   other_amount decimal(8, 2) NOT NULL COMMENT '其他消费',
+   other_remarks varchar(1024) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '其他备注',
+   dissipate_time datetime(0) NULL DEFAULT NULL COMMENT '消费时间',
+   gmt_create datetime(0) NOT NULL COMMENT '创建时间',
+   gmt_modified datetime(0) NOT NULL COMMENT '更新时间',
+   PRIMARY KEY (id)
 );
 
 DROP TABLE IF EXISTS bill_house_renting;
+
 CREATE TABLE bill_house_renting(
-    id bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-    user_id bigint(20) NULL DEFAULT NULL COMMENT '用户ID', 
-    room_rent decimal(8, 2) NOT NULL COMMENT '房租',
-    water_start  decimal(8, 2) NOT NULL COMMENT '水表起码',
-    water_end decimal(8, 2) NOT NULL COMMENT '水表止码',
-    water_amount decimal(8, 2) NOT NULL COMMENT '水费',
-    electricity_start decimal(8, 2) NOT NULL COMMENT '电表起码',
-    electricity_end decimal(8, 2) NOT NULL COMMENT '电表止码',
-    electricity_amount decimal(8, 2) NOT NULL COMMENT '电费',
-    network_amount decimal(8, 2) NOT NULL COMMENT '宽带网费',
-    deposit decimal(8, 2) NOT NULL COMMENT '押金',
-    pay_time datetime(0) NULL DEFAULT NULL COMMENT '交租时间',
-    gmt_create datetime(0) NOT NULL COMMENT '创建时间',
-    gmt_modified datetime(0) NOT NULL COMMENT '更新时间',
-    PRIMARY KEY (id)
+   id bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+   user_id bigint(20) NULL DEFAULT NULL COMMENT '用户ID',
+   room_rent decimal(8, 2) NOT NULL COMMENT '房租',
+   water_start decimal(8, 2) NOT NULL COMMENT '水表起码',
+   water_end decimal(8, 2) NOT NULL COMMENT '水表止码',
+   water_amount decimal(8, 2) NOT NULL COMMENT '水费',
+   electricity_start decimal(8, 2) NOT NULL COMMENT '电表起码',
+   electricity_end decimal(8, 2) NOT NULL COMMENT '电表止码',
+   electricity_amount decimal(8, 2) NOT NULL COMMENT '电费',
+   network_amount decimal(8, 2) NOT NULL COMMENT '宽带网费',
+   deposit decimal(8, 2) NOT NULL COMMENT '押金',
+   pay_time datetime(0) NULL DEFAULT NULL COMMENT '交租时间',
+   gmt_create datetime(0) NOT NULL COMMENT '创建时间',
+   gmt_modified datetime(0) NOT NULL COMMENT '更新时间',
+   PRIMARY KEY (id)
 )
