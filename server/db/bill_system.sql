@@ -5,7 +5,8 @@ CREATE DATABASE IF NOT EXISTS bill_system DEFAULT CHARSET = utf8mb4 COLLATE = ut
 create user 'lucky' @'%' identified by 'Aa123456@123';
 
 --  授予 lucky 用户在 bill_system 库的所有权限，on后面接的 bill_system 是db名字
-grant all privileges on bill_system.* to lucky @'%' identified by 'Aa123456@123';
+-- grant all privileges on bill_system.* to lucky @'%' identified by 'Aa123456@123';
+grant all privileges on bill_system.* to lucky@'%' with grant option;
 
 -- --刷新
 flush privileges;
