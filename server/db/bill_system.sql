@@ -2,7 +2,7 @@
 CREATE DATABASE IF NOT EXISTS bill_system DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- 创建了一个名为：hive 密码为：hive1234 的用户,设置为任意ip都可以访问（%）
-create user 'lucky' @'%' identified by 'Aa123456@123';
+-- create user 'lucky' @'%' identified by 'Aa123456@123';
 
 --  授予 lucky 用户在 bill_system 库的所有权限，on后面接的 bill_system 是db名字
 -- grant all privileges on bill_system.* to lucky @'%' identified by 'Aa123456@123';
@@ -22,7 +22,7 @@ create table user_manager (
    `mg_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
    `mg_name` varchar(32) NOT NULL COMMENT '名称',
    `mg_pwd` char(64) NOT NULL COMMENT '密码',
-   `role_id` tinyint(11) NOT NULL DEFAULT '0' COMMENT '角色id',
+   `role_ids` varchar(512) NOT NULL DEFAULT '' COMMENT '角色id',
    `mg_mobile` varchar(32) DEFAULT NULL,
    `mg_email` varchar(64) DEFAULT NULL,
    `avator` varchar(100) NULL DEFAULT NULL comment '用户头像',
@@ -33,7 +33,7 @@ create table user_manager (
    PRIMARY KEY (mg_id)
 ) ENGINE=InnoDB AUTO_INCREMENT=510 DEFAULT CHARSET=utf8 COMMENT='管理员表';
 
-INSERT INTO `user_manager` VALUES ('1', 'admin', '$2y$10$sZlpZNoLAnoD1DtYO9REAODCPkpMb5bwl4oMzrMvJa83k9BY3KRwq', '0', '12345678', 'adsfad@qq.com', null, '1', '1486720211',  '1486720211',  '0');
+INSERT INTO `user_manager` VALUES ('1', 'admin', '$2y$10$sZlpZNoLAnoD1DtYO9REAODCPkpMb5bwl4oMzrMvJa83k9BY3KRwq', '0,1,2', '12345678', 'adsfad@qq.com', null, '1', '1486720211',  '1486720211',  '0');
 
 -- ----------------------------
 -- Table structure for sp_role
@@ -148,12 +148,12 @@ CREATE TABLE `sp_user` (
    `user_email` varchar(64) NOT NULL DEFAULT '' COMMENT '邮箱',
    `user_sex` enum('2', '0', '1') NOT NULL DEFAULT '2' COMMENT '性别（0：男，1：女）',
    `user_mobile` varchar(32) NOT NULL DEFAULT '' COMMENT '手机',
-   `user_edu` enum('10', '20', '30', '40', '50', '60', '70') NOT NULL DEFAULT '本科' COMMENT '学历(70:博士, 60:硕士, 50:本科, 40:专科, 30:高中, 20:初中, 10:小学)',
-   `user_edustr` enum('博士', '硕士', '本科', '专科', '高中', '初中', '小学') NOT NULL DEFAULT '本科' COMMENT '学历(70:博士, 60:硕士, 50:本科, 40:专科, 30:高中, 20:初中, 10:小学)',
+   `user_edu` enum('10', '20', '30', '40', '50', '60', '70')  NULL DEFAULT null COMMENT '学历(70:博士, 60:硕士, 50:本科, 40:专科, 30:高中, 20:初中, 10:小学)',
+   `user_edustr` enum('博士', '硕士', '本科', '专科', '高中', '初中', '小学') NULL DEFAULT null COMMENT '学历(70:博士, 60:硕士, 50:本科, 40:专科, 30:高中, 20:初中, 10:小学)',
    `user_introduce` text COMMENT '简介',
    `mg_state` tinyint(2) DEFAULT '1' COMMENT '1：表示启用 0:表示禁用',
    `deleted` tinyint NOT NULL COMMENT '逻辑删除(0未删除；1删除)',
-   `role_id` tinyint(11) NOT NULL DEFAULT '0' COMMENT '角色id',
+   `role_id` VARCHAR(512) NOT NULL DEFAULT '' COMMENT '角色id',
    `avator` varchar(100) NULL DEFAULT NULL COMMENT '用户头像',
    `create_time` int(11) NOT NULL COMMENT '创建时间',
    `update_time` int(11) NOT NULL COMMENT '修改时间',
@@ -161,8 +161,8 @@ CREATE TABLE `sp_user` (
    PRIMARY KEY (`user_id`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 12 DEFAULT CHARSET = utf8 COMMENT = '用户表';
 
-INSERT INTO `sp_user` VALUES ('1', 'zce', '$2a$08$lV0Gr4AKx7xH7cCU4KCGCOikNzGPaWIpw9W7A9BONIxoJ2.hGC9qi', 'w@zce.me', '男', '13412344321', '60', '硕士', '简介简介简介', '1', '0', '0', null, '1512033129');
-INSERT INTO `sp_user` VALUES ('11', 'ww', '$2a$08$09nUxs.9czzXc4JZJTOdteeXSd/mxZVg96AhqciGbTMB6cfbGUWC2', 'i@zce.me', '女', '13467899876', '50', '本科', '简介1231233', '1', '0', '0', null,'1512122098');
+INSERT INTO `sp_user` VALUES ('1', 'zce', '$2a$08$lV0Gr4AKx7xH7cCU4KCGCOikNzGPaWIpw9W7A9BONIxoJ2.hGC9qi', 'w@zce.me', '2', '13412344321', '60', '硕士', '简介简介简介', '1', '0', '0,1', null, '1512033129', '1512033129');
+INSERT INTO `sp_user` VALUES ('11', 'ww', '$2a$08$09nUxs.9czzXc4JZJTOdteeXSd/mxZVg96AhqciGbTMB6cfbGUWC2', 'i@zce.me', '2', '13467899876', '50', '本科', '简介1231233', '1', '0', '0,1', null,'1512122098', '1512033129');
 
 
 /*==============================================================*/
