@@ -4,3 +4,4 @@ package-lock.json
 tmp_uploads/
 uploads/
 cheese.log
+config/default.json

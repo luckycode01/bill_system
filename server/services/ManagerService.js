@@ -215,7 +215,8 @@ module.exports.updateMgrState = function(id,state,cb) {
 module.exports.login = function(username,password,cb) {
 	logger.debug('login => username:%s,password:%s',username,password);
 	logger.debug(username);
-	managersDAO.findOne({"mg_name":username},function(err,manager) {
+	console.log('login => username:%s,password:%s',username,password);
+	managersDAO.findOne({"username":username},function(err,manager) {
 		logger.debug(err);	
 		if(err || !manager) return cb("用户名不存在");
 		if(manager.role_id < 0) {
@@ -226,17 +227,22 @@ module.exports.login = function(username,password,cb) {
 			return cb("该用户已经被禁用");
 		}
 
-		if(Password.verify(password, manager.mg_pwd)){
-			cb(
-				null,
-				{
-					"id":manager.mg_id,
-					"rid":manager.role_id,
-					"username":manager.mg_name,
-					"mobile":manager.mg_mobile,
-					"email":manager.mg_email,
-				}
-			);
+		if(Password.verify(password, manager.password)){
+			cb(null, {
+        id: manager.id,
+        // "rid":manager.role_ids,
+        username: manager.username,
+        mobile: manager.user_mobile,
+        email: manager.user_email,
+        sex: manager.user_sex,
+        edu: manager.user_edu,
+        edustr: manager.user_edustr,
+        introduce: manager.user_introduce,
+				avator : manager.avator,
+				createTime : manager.create_time,
+				updateTime : manager.update_time,
+				userType : manager.user_type,
+      });
 		} else {
 			return cb("密码错误");
 		}
