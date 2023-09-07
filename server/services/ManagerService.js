@@ -5,7 +5,7 @@ var logger = require('../modules/logger').logger();
 
 
 /**
- * 获取所有管理员
+ * 获取所有账户
  * @param  {[type]}   conditions 查询条件
  * 查询条件统一规范
  * conditions
@@ -230,7 +230,6 @@ module.exports.login = function(username,password,cb) {
 		if(Password.verify(password, manager.password)){
 			cb(null, {
         id: manager.id,
-        // "rid":manager.role_ids,
         username: manager.username,
         mobile: manager.user_mobile,
         email: manager.user_email,

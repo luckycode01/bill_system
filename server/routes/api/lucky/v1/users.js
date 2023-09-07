@@ -1,3 +1,4 @@
+const { log } = require('console');
 var express = require('express');
 var router = express.Router();
 var path = require("path");
@@ -10,7 +11,7 @@ var mgrServ = authorization.getService("ManagerService");
 
 
 // 查询用户列表
-router.get("/",
+router.get("/list",
 	// 验证参数
 	function(req,res,next) {
 		// 参数验证

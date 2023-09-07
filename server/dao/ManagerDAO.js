@@ -45,19 +45,22 @@ module.exports.findOne = function(conditions,cb) {
  */
 module.exports.findByKey = function(key,offset,limit,cb) {
 	db = databaseModule.getDatabase();
-	sql = "SELECT * FROM sp_manager as mgr LEFT JOIN sp_role as role ON mgr.role_id = role.role_id";
+	// sql = "SELECT * FROM user_center as user LEFT JOIN sp_role as role ON user.role_ids = role.role_id";
+	sql = "SELECT * FROM user_center as user LEFT JOIN sp_role as role ON FIND_IN_SET(role.role_id, user.role_ids) > 0";
 
 	if(key) {
-		sql += " WHERE mg_name LIKE ? LIMIT ?,?";
+		sql += " WHERE username LIKE ? LIMIT ?,?";
 		database.driver.execQuery(
 			sql
 		,["%" + key + "%",offset,limit],function(err,managers){
+			console.log(111,managers);
 			if(err) return cb("查询执行出错");
 			cb(null,managers);
 		});
 	} else {
 		sql += " LIMIT ?,? ";
 		database.driver.execQuery(sql,[offset,limit],function(err,managers){
+			console.log(222,managers);
 			if(err) return cb("查询执行出错");
 			cb(null,managers);
 		});

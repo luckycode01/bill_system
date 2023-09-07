@@ -65,6 +65,7 @@ var authorization = require(path.join(process.cwd(), '/modules/authorization'))
 
 // 设置全局权限
 authorization.setAuthFn(function(req, res, next, serviceName, actionName, passFn) {
+  console.log(1111,req.userInfo);
   if (!req.userInfo || isNaN(parseInt(req.userInfo.rid))) return res.sendResult('无角色ID分配')
   // 验证权限
   roleService.authRight(req.userInfo.rid, serviceName, actionName, function(err, pass) {
@@ -122,6 +123,6 @@ app.use(function(req, res, next) {
   res.sendResult(null, 404, 'Not Found')
 })
 
-app.listen(9527)
+app.listen(9999)
 
 module.exports = app
