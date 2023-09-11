@@ -241,6 +241,7 @@ module.exports.login = function(username,password,cb) {
 				createTime : manager.create_time,
 				updateTime : manager.update_time,
 				userType : manager.user_type,
+				rids:manager.role_ids
       });
 		} else {
 			return cb("密码错误");

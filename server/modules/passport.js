@@ -60,7 +60,7 @@ module.exports.login = function(req,res,next) {
 		if(!user) return res.sendResult(null,400,"参数错误");
 
 		// 获取角色信息
-		var token = jwt.sign({"uid":user.id,"rid":user.rid}, jwt_config.get("secretKey"), {"expiresIn": jwt_config.get("expiresIn")});
+		var token = jwt.sign({"uid":user.id,"rids":user.rids}, jwt_config.get("secretKey"), {"expiresIn": jwt_config.get("expiresIn")});
 		user.token = "Bearer " + token;
 		return res.sendResult(user,200,'登录成功');
 	})(req, res, next);
@@ -80,7 +80,7 @@ module.exports.tokenAuth = function(req,res,next) {
 		if(!tokenData) return res.sendResult(null,400,'无效token');
 		req.userInfo = {};
 		req.userInfo.uid = tokenData["uid"];
-		req.userInfo.rid = tokenData["rid"];
+		req.userInfo.rids = tokenData["rids"];
 		next();
 	})(req, res, next);
 }
