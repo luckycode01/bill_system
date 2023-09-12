@@ -23,13 +23,13 @@ router.get("/list",
 	function(req,res,next) {
 		mgrServ.getAllManagers(
 			{
-				"query":req.query.keyWord,
+				"query":req.query.userName,
 				"pagenum":req.query.pageNum,
 				"pagesize":req.query.pageSize
 			},
 			function(err,result){
 				if(err) return res.sendResult(null,400,err);
-				res.sendResult(result,200,"获取管理员列表成功");
+				res.sendResult(result,200,"获取用户成功");
 			}
 		)(req,res,next);
 		

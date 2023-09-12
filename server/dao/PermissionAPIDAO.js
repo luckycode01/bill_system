@@ -35,7 +35,6 @@ module.exports.authRight = function(rid,serviceName,actionName,cb) {
 		if(err || !permissionAPI) return cb("无权限访问",false);
 		
 		daoModule.findOne("RoleModel",{"role_id":rid},function(err,role){
-			console.log(role);
 			if(err || !role) return cb("获取角色信息失败",false);
 			ps_ids = role.ps_ids.split(",");
 			for(idx in ps_ids) {
