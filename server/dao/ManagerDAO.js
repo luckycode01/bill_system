@@ -90,9 +90,9 @@ module.exports.exists = function(username,cb) {
  */
 module.exports.countByKey = function(key,cb) {
 	db = databaseModule.getDatabase();
-	sql = "SELECT count(*) as count FROM sp_manager";
+	sql = "SELECT count(*) as count FROM user_center";
 	if(key) {
-		sql += " WHERE mg_name LIKE ?";
+		sql += " WHERE username LIKE ?";
 		database.driver.execQuery(
 			sql
 		,["%" + key + "%"],function(err,result){
