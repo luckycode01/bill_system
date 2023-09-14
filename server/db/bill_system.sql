@@ -20,7 +20,7 @@ use bill_system;
 DROP TABLE IF EXISTS `user_center`;
 create table user_center (
    `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-   `username` varchar(32) NOT NULL COMMENT '名称',
+   `username` varchar(32) NOT NULL COMMENT '用户名',
    `password` char(64) NOT NULL COMMENT '密码',
    `role_ids` varchar(512) NOT NULL DEFAULT '' COMMENT '角色id(逗号分割的字符串)',
    `user_mobile` varchar(32) DEFAULT NULL COMMENT '手机号',
@@ -35,7 +35,8 @@ create table user_center (
    `user_edu` enum('10', '20', '30', '40', '50', '60', '70')  NULL DEFAULT null COMMENT '学历(70:博士, 60:硕士, 50:本科, 40:专科, 30:高中, 20:初中, 10:小学)',
    `user_edustr` enum('博士', '硕士', '本科', '专科', '高中', '初中', '小学') NULL DEFAULT null COMMENT '学历(70:博士, 60:硕士, 50:本科, 40:专科, 30:高中, 20:初中, 10:小学)',
    `user_introduce` text COMMENT '简介',
-   PRIMARY KEY (id)
+   PRIMARY KEY (id),
+   UNIQUE (username,user_mobile,user_email),
 ) ENGINE=InnoDB AUTO_INCREMENT=510 DEFAULT CHARSET=utf8 COMMENT='管理员表';
 
 INSERT INTO `user_center` VALUES ('1', 'admin', '$2y$10$sZlpZNoLAnoD1DtYO9REAODCPkpMb5bwl4oMzrMvJa83k9BY3KRwq', '0,1,2', '13412344321', 'adsfad@qq.com', '1', '1486720211',  '1486720211', '1', '0',null,null,null,null,null);

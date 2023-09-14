@@ -86,12 +86,22 @@ module.exports.createManager = function (params, cb) {
 
     managersDAO.create(
       {
-        mg_name: params.username,
-        mg_pwd: Password.hash(params.password),
-        mg_mobile: params.mobile,
-        mg_email: params.email,
-        mg_time: Date.parse(new Date()) / 1000,
-        role_id: params.rid,
+        username: params.username,
+        password: Password.hash(params.password),
+        role_ids: params.rids,
+        user_mobile: params.mobile,
+        user_email: params.email,
+        mg_state:'1',
+        create_time: Date.parse(new Date()) / 1000,
+        update_time: Date.parse(new Date()) / 1000,
+        user_type: params.userType,
+        deleted: '0',
+        avator: params.avator,
+        user_sex: params.sex,
+        user_edu: params.edu,
+        user_edustr:'',
+        user_introduce: params.introduce,
+
       },
       function (err, manager) {
         if (err) return cb("创建失败");
