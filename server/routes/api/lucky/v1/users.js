@@ -41,6 +41,7 @@ router.get(
 router.post(
   "/addOrUpdateUser",
   function (req, res, next) {
+    console.log(22222,req.body);
     if (!req.body.username) {
       return res.sendResult(null, 400, "用户名不能为空");
     }
@@ -72,15 +73,24 @@ router.post(
       email: req.body.email,
       rids: req.body.rids,
       userType: req.body.userType,
-      avator: req.body.avator || '',
-      sex: req.body.sex || '',
-      edu: req.body.edu || '',
-      introduce: req.body.introduce || '',
+      avator: req.body.avator || "",
+      sex: req.body.sex || "",
+      edu: req.body.edu || "",
+      introduce: req.body.introduce || "",
     };
-    mgrServ.createManager(params, function (err, manager) {
-      if (err) return res.sendResult(null, 400, err);
-      res.sendResult(manager, 201, "创建成功");
-    })(req, res, next);
+    if (req.body.id) {
+      // id存在，修改用户否则为创建用户
+      params.id = req.body.id;
+      mgrServ.updateManager(params, function (err, manager) {
+        if (err) return res.sendResult(null, 400, err);
+        res.sendResult(manager, 200, "更新成功");
+      })(req, res, next);
+    } else {
+      mgrServ.createManager(params, function (err, manager) {
+        if (err) return res.sendResult(null, 400, err);
+        res.sendResult(manager, 201, "创建成功");
+      })(req, res, next);
+    }
   }
 );
 
