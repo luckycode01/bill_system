@@ -22,13 +22,16 @@ function Invocation(serviceName,actionName,serviceModule,origFunc) {
 		return function(req,res,next) {
 			if(global.service_auth_fn) {
 				global.service_auth_fn(req,res,next,serviceName,actionName,function(pass) {
+					console.log(12121212,pass);
 					if(pass) {
 						origFunc.apply(serviceModule,origArguments);
 					} else {
+						console.log(111);
 						res.sendResult(null,401,"权限验证失败");
 					}
 				});
 			} else {
+				console.log(222);
 				res.sendResult(null,401,"权限验证失败");
 			}
 		}
