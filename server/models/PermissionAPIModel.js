@@ -5,6 +5,7 @@ module.exports = function(db,callback) {
 		ps_id : Number,
 		ps_api_service : String,
 		ps_api_action : String,
+		ps_api_path : String,
 		ps_api_order : Number
 
 	},{

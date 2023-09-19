@@ -77,7 +77,7 @@ module.exports.getAllManagers = function (conditions, cb) {
  * @param  {Function} cb   回调函数
  */
 module.exports.createManager = function (params, cb) {
-  managersDAO.exists(params.username, function (err, isExists) {
+  managersDAO.exists(params, function (err, isExists) {
     if (err) return cb(err);
 
     if (isExists) {

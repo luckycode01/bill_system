@@ -16,6 +16,7 @@ module.exports = function(db,callback){
 		user_edu : String,
 		user_edustr : String,
 		user_introduce : String,
+		deleted:Number
 	},{
 		table : "user_center"
 	});

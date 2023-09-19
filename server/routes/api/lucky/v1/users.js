@@ -41,7 +41,6 @@ router.get(
 router.post(
   "/addOrUpdateUser",
   function (req, res, next) {
-    console.log(22222,req.body);
     if (!req.body.username) {
       return res.sendResult(null, 400, "用户名不能为空");
     }

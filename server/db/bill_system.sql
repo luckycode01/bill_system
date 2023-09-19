@@ -33,11 +33,11 @@ create table user_center (
    `avator` varchar(100) NULL DEFAULT NULL comment '用户头像',
    `user_sex` enum( '0', '1') NULL DEFAULT null COMMENT '性别（0：男，1：女）',
    `user_edu` enum('10', '20', '30', '40', '50', '60', '70')  NULL DEFAULT null COMMENT '学历(70:博士, 60:硕士, 50:本科, 40:专科, 30:高中, 20:初中, 10:小学)',
-   `user_edustr` enum('博士', '硕士', '本科', '专科', '高中', '初中', '小学') NULL DEFAULT null COMMENT '学历(70:博士, 60:硕士, 50:本科, 40:专科, 30:高中, 20:初中, 10:小学)',
+   `user_edustr` varchar(8) NULL DEFAULT COMMENT '学历',
    `user_introduce` text COMMENT '简介',
    PRIMARY KEY (id),
    UNIQUE (username,user_mobile,user_email),
-) ENGINE=InnoDB AUTO_INCREMENT=510 DEFAULT CHARSET=utf8 COMMENT='管理员表';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='管理员表';
 
 INSERT INTO `user_center` VALUES ('1', 'admin', '$2y$10$sZlpZNoLAnoD1DtYO9REAODCPkpMb5bwl4oMzrMvJa83k9BY3KRwq', '0,1,2', '13412344321', 'adsfad@qq.com', '1', '1486720211',  '1486720211', '1', '0',null,null,null,null,null);
 
@@ -52,7 +52,7 @@ CREATE TABLE `sp_role` (
   `ps_ca` text COMMENT '控制器-操作,控制器-操作,控制器-操作',
   `role_desc` text,
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 INSERT INTO `sp_role` VALUES ('30', '主管', '101,0,104,116,115,142,143,144,121,122,123,149,102,107,109,103,111,129,130,134,135,138,139,140,141,112,147,125,110,131,132,133,136,137,145,146,148', 'Goods-index,Goods-tianjia,Category-index,Order-showlist,Brand-index', '技术负责人');
 INSERT INTO `sp_role` VALUES ('31', '测试角色', '101,0,104,105,116,117,115,142,143,144,121,122,123,149,103,111,129,134,138,112,147', 'Goods-showlist,Goods-tianjia,Category-showlist,Order-showlist,Order-dayin,Order-tianjia', '测试角色描述');
@@ -70,7 +70,7 @@ CREATE TABLE `sp_permission` (
   `ps_a` varchar(32) NOT NULL DEFAULT '' COMMENT '操作方法',
   `ps_level` enum('0','2','1') NOT NULL DEFAULT '0' COMMENT '权限等级',
   PRIMARY KEY (`ps_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=160 DEFAULT CHARSET=utf8 COMMENT='权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='权限表';
 INSERT INTO `sp_permission` VALUES ('101', '商品管理', '0', '', '', '0');
 INSERT INTO `sp_permission` VALUES ('102', '订单管理', '0', '', 'order', '0');
 INSERT INTO `sp_permission` VALUES ('103', '权限管理', '0', '', '', '0');
@@ -127,13 +127,13 @@ DROP TABLE IF EXISTS `sp_permission_api`;
 CREATE TABLE `sp_permission_api` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ps_id` int(11) NOT NULL,
-  `ps_api_service` varchar(255) DEFAULT NULL,
-  `ps_api_action` varchar(255) DEFAULT NULL,
-  `ps_api_path` varchar(255) DEFAULT NULL,
-  `ps_api_order` int(4) DEFAULT NULL,
+  `ps_api_service` varchar(255) DEFAULT NULL COMMENT '权限服务名称',
+  `ps_api_action` varchar(255) DEFAULT NULL COMMENT '权限方法',
+  `ps_api_path` varchar(255) DEFAULT NULL COMMENT '权限地址',
+  `ps_api_order` int(4) DEFAULT NULL COMMENT '序号',
   PRIMARY KEY (`id`),
   KEY `ps_id` (`ps_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 INSERT INTO `sp_permission_api` VALUES ('1', '101', null, null, 'goods', '3');
 INSERT INTO `sp_permission_api` VALUES ('2', '102', null, null, 'orders', '4');
@@ -170,7 +170,7 @@ CREATE TABLE bill_daily_life (
    gmt_create datetime(0) NOT NULL COMMENT '创建时间',
    gmt_modified datetime(0) NOT NULL COMMENT '更新时间',
    PRIMARY KEY (id)
-);
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='支出表';
 
 DROP TABLE IF EXISTS bill_house_renting;
 
@@ -190,4 +190,4 @@ CREATE TABLE bill_house_renting(
    gmt_create datetime(0) NOT NULL COMMENT '创建时间',
    gmt_modified datetime(0) NOT NULL COMMENT '更新时间',
    PRIMARY KEY (id)
-)
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='房租表';
