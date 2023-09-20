@@ -100,71 +100,38 @@ router.post(
   "/deleteUser",
   // 验证参数
   function (req, res, next) {
-    if (!req.query.id) return res.sendResult(null, 400, "用户ID不能为空");
-    if (isNaN(parseInt(req.query.id)))
+    if (!req.body.id) return res.sendResult(null, 400, "用户ID不能为空");
+    if (isNaN(parseInt(req.body.id)))
       return res.sendResult(null, 400, "ID必须是数字");
-    if (req.query.id == 1)
+    if (req.body.id == 1)
       return res.sendResult(null, 400, "不允许删除admin账户");
     next();
   },
   // 处理业务逻辑
   function (req, res, next) {
-    mgrServ.deleteManager(req.query.id, function (err) {
+    mgrServ.deleteManager(req.body.id, function (err) {
       if (err) return res.sendResult(null, 400, err);
       return res.sendResult(null, 200, "删除成功");
     })(req, res, next);
   }
 );
 
-// 分配用户角色
-router.put(
-  "/:id/role",
+router.post(
+  "/updateUserState",
   // 参数验证
   function (req, res, next) {
-    if (!req.params.id) {
+    if (!req.body.id) {
       return res.sendResult(null, 400, "用户ID不能为空");
     }
-    if (isNaN(parseInt(req.params.id)))
+    if (isNaN(parseInt(req.body.id)))
       return res.sendResult(null, 400, "用户ID必须是数字");
-
-    if (req.params.id == 500)
-      return res.sendResult(null, 400, "不允许修改admin账户");
-
-    if (!req.body.rid) res.sendResult(null, 400, "权限ID不能为空");
-    next();
-  },
-  // 处理业务逻辑
-  function (req, res, next) {
-    mgrServ.setRole(req.params.id, req.body.rid, function (err, manager) {
-      if (err) return res.sendResult(null, 400, err);
-      res.sendResult(manager, 200, "设置角色成功");
-    })(req, res, next);
-  }
-);
-
-router.put(
-  "/:id/state/:state",
-  // 参数验证
-  function (req, res, next) {
-    if (!req.params.id) {
-      return res.sendResult(null, 400, "用户ID不能为空");
-    }
-    if (isNaN(parseInt(req.params.id)))
-      return res.sendResult(null, 400, "用户ID必须是数字");
-
-    // // // if(!req.params.state) {
-    // // // 	return res.sendResult(null,400,"状态不能为空");
-    // // // }
-    // // if(isNaN(parseInt(req.params.state))) return res.sendResult(null,400,"状态必须是数字");
-    // if(parseInt(req.params.state) != 0 && parseInt(req.params.state) != 1) return res.sendResult(null,400,"管理状态只能为0或1");
-
     next();
   },
   // 处理业务逻辑
   function (req, res, next) {
     state = 0;
-    if (req.params.state && req.params.state == "true") state = 1;
-    mgrServ.updateMgrState(req.params.id, state, function (err, manager) {
+    if (req.body.state && req.body.state == "true") state = 1;
+    mgrServ.updateMgrState(req.body.id, state, function (err, manager) {
       if (err) return res.sendResult(null, 400, err);
       res.sendResult(manager, 200, "设置状态成功");
     })(req, res, next);

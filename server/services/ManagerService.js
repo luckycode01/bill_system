@@ -166,15 +166,10 @@ module.exports.updateManager = function (params, cb) {
  * @param  {Function} cb 回调函数
  */
 module.exports.deleteManager = function (id, cb) {
-  // managersDAO.exists(params, function (err, isExists) {
-  //   if (err) return cb(err);
-  //   if (isExists) {
-  //     return cb("用户名已存在");
-  //   }
-    managersDAO.destroy(id, function (err) {
-      if (err) return cb(err);
-      cb(null);
-    });
+  managersDAO.destroy(id, function (err) {
+    if (err) return cb(err);
+    cb(null);
+  });
   // });
 };
 
@@ -227,19 +222,14 @@ module.exports.setRole = function (id, rid, cb) {
 
 module.exports.updateMgrState = function (id, state, cb) {
   managersDAO.show(id, function (err, manager) {
-    if (err || !manager) cb("管理员ID不存在");
+    if (err || !manager) cb("用户ID不存在");
 
     managersDAO.update(
-      { mg_id: manager.mg_id, mg_state: state },
+      { id: manager.id, mg_state: state },
       function (err, manager) {
         if (err) return cb("设置失败");
         cb(null, {
-          id: manager.mg_id,
-          rid: manager.role_id,
-          username: manager.mg_name,
-          mobile: manager.mg_mobile,
-          email: manager.mg_email,
-          mg_state: manager.mg_state ? 1 : 0,
+          state: manager.mg_state ? 1 : 0,
         });
       }
     );
