@@ -55,7 +55,6 @@ module.exports.findByKey = function (key, offset, limit, cb) {
       sql,
       ["%" + key + "%", offset, limit],
       function (err, managers) {
-        console.log(111, managers);
         if (err) return cb("查询执行出错");
         cb(null, managers);
       }
@@ -143,7 +142,7 @@ module.exports.show = function (id, cb) {
  * @param  {Function} cb  回调函数
  */
 module.exports.update = function (obj, cb) {
-  daoModule.update("ManagerModel", obj.mg_id, obj, cb);
+  daoModule.update("ManagerModel", obj.id, obj, cb);
 };
 
 /**
@@ -153,9 +152,19 @@ module.exports.update = function (obj, cb) {
  * @param  {Function} cb 回调函数
  */
 module.exports.destroy = function (id, cb) {
-  daoModule.destroy("ManagerModel", id, function (err) {
-    if (err) return cb(err);
-    return cb(null);
+  var db = databaseModule.getDatabase();
+  var Model = db.models.ManagerModel;
+  Model.exists({ id: id }, function (err, isExists) {
+    console.log(err, isExists);
+    if (err) return cb("查询失败");
+    if (!isExists) {
+      return cb("用户不存在");
+    } else {
+      daoModule.destroy("ManagerModel", id, function (err) {
+        if (err) return cb(err);
+        return cb(null);
+      });
+    }
   });
 };
 

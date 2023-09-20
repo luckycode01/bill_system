@@ -21,7 +21,6 @@ module.exports.getAllManagers = function (conditions, cb) {
 
   // 通过关键词获取管理员数量
   managersDAO.countByKey(conditions["query"], function (err, count) {
-    console.log(111,count);
     key = conditions["query"];
     pagenum = parseInt(conditions["pagenum"]);
     pagesize = parseInt(conditions["pagesize"]);
@@ -91,17 +90,16 @@ module.exports.createManager = function (params, cb) {
         role_ids: params.rids,
         user_mobile: params.mobile,
         user_email: params.email,
-        mg_state:'1',
+        mg_state: "1",
         create_time: Date.parse(new Date()) / 1000,
         update_time: Date.parse(new Date()) / 1000,
         user_type: params.userType,
-        deleted: '0',
+        deleted: "0",
         avator: params.avator,
         user_sex: params.sex,
         user_edu: params.edu,
-        user_edustr:'',
+        user_edustr: "",
         user_introduce: params.introduce,
-
       },
       function (err, manager) {
         if (err) return cb("创建失败");
@@ -126,23 +124,58 @@ module.exports.createManager = function (params, cb) {
  * @param  {Function} cb     回调函数
  */
 module.exports.updateManager = function (params, cb) {
-  managersDAO.update(
-    {
-      mg_id: params.id,
-      mg_mobile: params.mobile,
-      mg_email: params.email,
-    },
-    function (err, manager) {
-      if (err) return cb(err);
-      cb(null, {
-        id: manager.mg_id,
-        username: manager.mg_name,
-        role_id: manager.role_id,
-        mobile: manager.mg_mobile,
-        email: manager.mg_email,
-      });
+  managersDAO.exists(params, function (err, isExists) {
+    if (err) return cb(err);
+
+    if (isExists) {
+      return cb("用户名已存在");
     }
-  );
+    managersDAO.update(
+      {
+        id: params.id,
+        user_mobile: params.mobile,
+        user_email: params.email,
+        username: params.username,
+        role_ids: params.rids,
+        update_time: Date.parse(new Date()) / 1000,
+        user_type: params.userType,
+        avator: params.avator,
+        user_sex: params.sex,
+        user_edu: params.edu,
+        user_edustr: params.edustr,
+        user_introduce: params.introduce,
+      },
+      function (err, manager) {
+        console.log(err);
+        if (err) return cb(err);
+        cb(null, {
+          id: manager.id,
+          username: manager.username,
+          mobile: manager.user_mobile,
+          email: manager.user_email,
+        });
+      }
+    );
+  });
+};
+
+/**
+ * 通过管理员 ID 进行删除操作
+ *
+ * @param  {[type]}   id 管理员ID
+ * @param  {Function} cb 回调函数
+ */
+module.exports.deleteManager = function (id, cb) {
+  // managersDAO.exists(params, function (err, isExists) {
+  //   if (err) return cb(err);
+  //   if (isExists) {
+  //     return cb("用户名已存在");
+  //   }
+    managersDAO.destroy(id, function (err) {
+      if (err) return cb(err);
+      cb(null);
+    });
+  // });
 };
 
 /**
@@ -162,19 +195,6 @@ module.exports.getManager = function (id, cb) {
       mobile: manager.mg_mobile,
       email: manager.mg_email,
     });
-  });
-};
-
-/**
- * 通过管理员 ID 进行删除操作
- *
- * @param  {[type]}   id 管理员ID
- * @param  {Function} cb 回调函数
- */
-module.exports.deleteManager = function (id, cb) {
-  managersDAO.destroy(id, function (err) {
-    if (err) return cb("删除失败");
-    cb(null);
   });
 };
 
