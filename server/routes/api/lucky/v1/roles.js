@@ -31,48 +31,40 @@ router.post(
   function (req, res, next) {
     if (!req.body.roleName)
       return res.sendResult(null, 400, "角色名称不能为空");
-    next();
-  },
-  // 处理业务逻辑
-  function (req, res, next) {
-    roleServ.createRole(
-      {
-        roleName: req.body.roleName,
-        roleDesc: req.body.roleDesc,
-      },
-      function (err, role) {
-        if (err) return res.sendResult(null, 400, err);
-        res.sendResult(role, 201, "创建成功");
-      }
-    )(req, res, next);
-  }
-);
-
-// 更新角色信息
-router.put(
-  "/:id",
-  // 参数验证
-  function (req, res, next) {
-    if (!req.params.id) return res.sendResult(null, 400, "角色ID不能为空");
-    if (isNaN(parseInt(req.params.id)))
+    if (req.body.id && isNaN(parseInt(req.body.id))) {
       return res.sendResult(null, 400, "角色ID必须为数字");
-    if (!req.body.roleName)
-      return res.sendResult(null, 400, "角色名称不能为空");
+    }
+
     next();
   },
   // 处理业务逻辑
   function (req, res, next) {
-    roleServ.updateRole(
-      {
-        id: req.params.id,
-        roleName: req.body.roleName,
-        roleDesc: req.body.roleDesc,
-      },
-      function (err, result) {
-        if (err) return res.sendResult(null, 400, err);
-        res.sendResult(result, 200, "获取成功");
-      }
-    )(req, res, next);
+    if (req.body.id) {
+      roleServ.updateRole(
+        {
+          id: req.body.id,
+          roleName: req.body.roleName,
+          roleDesc: req.body.roleDesc,
+          roleIds: req.body.roleIds,
+        },
+        function (err, result) {
+          if (err) return res.sendResult(null, 400, err);
+          res.sendResult(result, 200, "更新成功");
+        }
+      )(req, res, next);
+    } else {
+      roleServ.createRole(
+        {
+          roleName: req.body.roleName,
+          roleDesc: req.body.roleDesc,
+          roleIds: req.body.roleIds,
+        },
+        function (err, role) {
+          if (err) return res.sendResult(null, 400, err);
+          res.sendResult(role, 201, "创建成功");
+        }
+      )(req, res, next);
+    }
   }
 );
 
@@ -81,14 +73,14 @@ router.post(
   "/deleteRoles",
   // 参数验证
   function (req, res, next) {
-    if (!req.params.id) return res.sendResult(null, 400, "角色ID不能为空");
-    if (isNaN(parseInt(req.params.id)))
+    if (!req.body.id) return res.sendResult(null, 400, "角色ID不能为空");
+    if (isNaN(parseInt(req.body.id)))
       return res.sendResult(null, 400, "角色ID必须为数字");
     next();
   },
   // 处理业务逻辑
   function (req, res, next) {
-    roleServ.deleteRole(req.params.id, function (err, success) {
+    roleServ.deleteRole(req.body.id, function (err, success) {
       if (err) return res.sendResult(null, 400, err);
       res.sendResult(null, 200, "删除成功");
     })(req, res, next);
