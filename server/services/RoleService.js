@@ -262,9 +262,9 @@ module.exports.deleteRole = function (id, cb) {
  * @param  {[type]}   actionName  动作名（方法）
  * @param  {Function} cb          回调函数
  */
-module.exports.authRight = function (rid, serviceName, actionName, cb) {
+module.exports.authRight = function (userInfo, serviceName, actionName, cb) {
   permissionAPIDAO.authRight(
-    rid,
+    userInfo,
     serviceName,
     actionName,
     function (err, pass) {
