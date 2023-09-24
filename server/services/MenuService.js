@@ -1,90 +1,101 @@
 var _ = require('lodash');
 var path = require("path");
-var dao = require(path.join(process.cwd(),"dao/DAO"));
-var permissionAPIDAO = require(path.join(process.cwd(),"dao/PermissionAPIDAO"));
+var dao = require(path.join(process.cwd(), "dao/DAO"));
+var permissionAPIDAO = require(path.join(process.cwd(), "dao/PermissionAPIDAO"));
+var menuDAO = require(path.join(process.cwd(), "dao/MenuDAO"));
 
 /**
  * 获取左侧菜单数据
  * 
  * @param  {Function} cb 回调函数
  */
-module.exports.getLeftMenus = function(userInfo,cb) {
-	if(!userInfo) return cb("无权限访问");
+module.exports.getLeftMenus = function (userInfo, cb) {
+	if (!userInfo) return cb("无权限访问");
 
-	
 
-	var authFn = function(rid,keyRolePermissions,cb) {
-		permissionAPIDAO.list(function(err,permissions){
-			if(err) return cb("获取权限数据失败");
-			var keyPermissions = _.keyBy(permissions,'ps_id');
+
+	var authFn = function (rid, keyRolePermissions, cb) {
+		permissionAPIDAO.list(function (err, permissions) {
+			if (err) return cb("获取权限数据失败");
+			var keyPermissions = _.keyBy(permissions, 'ps_id');
 			var rootPermissionsResult = {};
 			// 处理一级菜单
-			for(idx in permissions) {
+			for (idx in permissions) {
 
 				permission = permissions[idx];
-				
-				if(permission.ps_level == 0) {
-					if(rid != 0) {
-						if(!keyRolePermissions[permission.ps_id]) continue;;
+
+				if (permission.ps_level == 0) {
+					if (rid != 0) {
+						if (!keyRolePermissions[permission.ps_id]) continue;;
 					}
 					rootPermissionsResult[permission.ps_id] = {
-						"id":permission.ps_id,
-						"authName":permission.ps_name,
-						"path":permission.ps_api_path,
-						"children":[],
-						"order":permission.ps_api_order
+						"id": permission.ps_id,
+						"authName": permission.ps_name,
+						"path": permission.ps_api_path,
+						"children": [],
+						"order": permission.ps_api_order
 					};
 				}
 			}
 
 			// 处理二级菜单
-			for(idx in permissions) {
+			for (idx in permissions) {
 				permission = permissions[idx];
-				if(permission.ps_level == 1) {
-					if(rid != 0) {
-						if(!keyRolePermissions[permission.ps_id]) continue;;
+				if (permission.ps_level == 1) {
+					if (rid != 0) {
+						if (!keyRolePermissions[permission.ps_id]) continue;;
 					}
 					parentPermissionResult = rootPermissionsResult[permission.ps_pid];
-					if(parentPermissionResult) {
+					if (parentPermissionResult) {
 						parentPermissionResult.children.push({
-							"id":permission.ps_id,
-							"authName":permission.ps_name,
-							"path":permission.ps_api_path,
-							"children":[],
-							"order":permission.ps_api_order
+							"id": permission.ps_id,
+							"authName": permission.ps_name,
+							"path": permission.ps_api_path,
+							"children": [],
+							"order": permission.ps_api_order
 						});
 					}
 				}
 			}
 			// 排序
 			result = _.values(rootPermissionsResult);
-			result = _.sortBy(result,"order");
-			for(idx in result) {
+			result = _.sortBy(result, "order");
+			for (idx in result) {
 				subresult = result[idx];
-				subresult.children = _.sortBy(subresult.children,"order");
+				subresult.children = _.sortBy(subresult.children, "order");
 			}
 
-			cb(null,result);
+			cb(null, result);
 		});
 	}
 
-	rid = userInfo.rid;
-	if(rid == 0) {
-		authFn(rid,null,cb);
+	rid = userInfo.rids;
+	if (rid == 0) {
+		authFn(rid, null, cb);
 	} else {
-		dao.show("RoleModel",userInfo.rid,function(err,role){
-			if(err || !role) return cb("无权限访问");
-			
-			
-			rolePermissions = role.ps_ids.split(",")
+		menuDAO.getMenuList(userInfo, function (err, role) {
+			if (err || !role) return cb("无权限访问");
+			rolePermissions = role;
 			keyRolePermissions = {}
-			for(idx in rolePermissions) {
+			for (idx in rolePermissions) {
 				keyRolePermissions[rolePermissions[idx]] = true;
 			}
 
-			authFn(rid,keyRolePermissions,cb);
-			
+			authFn(rid, keyRolePermissions, cb);
 		})
+		// dao.show("RoleModel",userInfo.rid,function(err,role){
+		// 	if(err || !role) return cb("无权限访问");
+
+
+		// 	rolePermissions = role.ps_ids.split(",")
+		// 	keyRolePermissions = {}
+		// 	for(idx in rolePermissions) {
+		// 		keyRolePermissions[rolePermissions[idx]] = true;
+		// 	}
+
+		// 	authFn(rid,keyRolePermissions,cb);
+
+		// })
 	}
-	
+
 }

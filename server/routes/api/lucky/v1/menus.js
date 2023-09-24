@@ -8,7 +8,7 @@ var authorization = require(path.join(process.cwd(),"/modules/authorization"));
 // 通过验证模块获取菜单服务模块
 var menuService = require(path.join(process.cwd(),"/services/MenuService"));
 
-router.get("/",
+router.get("/list",
 	function(req,res,next) {
 		menuService.getLeftMenus(req.userInfo,function(err,result) {
 			if(err) return res.sendResult(null,400,err);
