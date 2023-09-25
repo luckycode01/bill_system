@@ -84,12 +84,13 @@ module.exports.getAllRoles = function (cb) {
           id: role.role_id,
           roleName: role.role_name,
           roleDesc: role.role_desc,
-          children: [],
+          menuIdList: permissionIds,
+          // children: [],
         };
 
-        roleResult.children = _.values(
-          getPermissionsResult(permissionKeys, permissionIds)
-        );
+        // roleResult.children = _.values(
+        //   getPermissionsResult(permissionKeys, permissionIds)
+        // );
 
         rolesResult.push(roleResult);
       }

@@ -10,7 +10,7 @@ var roleServ = authorization.getService("RoleService");
 
 // 获取角色列表
 router.get(
-  "/list",
+  "/getRoleslist",
   // 参数验证
   function (req, res, next) {
     next();

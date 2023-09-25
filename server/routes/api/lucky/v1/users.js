@@ -12,7 +12,7 @@ var mgrServ = authorization.getService("ManagerService");
 
 // 查询用户列表
 router.get(
-  "/list",
+  "/getUserlist",
   function (req, res, next) {
     // 参数验证
     if (!req.query.pageNum || req.query.pageNum <= 0)
