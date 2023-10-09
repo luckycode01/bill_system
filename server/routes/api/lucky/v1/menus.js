@@ -25,12 +25,12 @@ router.post(
 
 		next();
 	},
-	// // // 业务逻辑
-	// function (req, res, next) {
-	// 	rightService.getAllRights(req.query.type, function (err, rights) {
-	// 		if (err) return res.sendResult(null, 400, err);
-	// 		res.sendResult(rights, 200, "获取权限列表成功");
-	// 	})(req, res, next)
-	// }
+	// // 业务逻辑
+	function (req, res, next) {
+		rightService.getAllRights(req.query.type, function (err, rights) {
+			if (err) return res.sendResult(null, 400, err);
+			res.sendResult(rights, 200, "获取权限列表成功");
+		})(req, res, next)
+	}
 )
 module.exports = router;
