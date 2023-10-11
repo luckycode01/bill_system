@@ -21,7 +21,14 @@ router.post(
 	// 参数验证
 	function (req, res, next) {
 		if (!req.body.menuName) return res.sendResult(null, 400, "菜单名称不能为空");
-		if (!req.body.parentld) return res.sendResult(null, 400, "层级不能为空");
+		if (!req.body.parentld) return res.sendResult(null, 400, "上级Id不能为空");
+		if (!req.body.type) return res.sendResult(null, 400, "权限类型不能为空");
+		if(req.body.type == 1){
+
+		}else if(req.body.type == 2){
+			
+		}
+		
 
 		next();
 	},
