@@ -32,6 +32,7 @@ module.exports.getLeftMenus = function (userInfo, cb) {
 						"id": permission.ps_id,
 						"authName": permission.ps_name,
 						"path": permission.ps_api_path,
+						"limit":permission.ps_api_limit,
 						"children": [],
 						"order": permission.ps_api_order
 					};
@@ -51,6 +52,7 @@ module.exports.getLeftMenus = function (userInfo, cb) {
 							"id": permission.ps_id,
 							"authName": permission.ps_name,
 							"path": permission.ps_api_path,
+							"limit":permission.ps_api_limit,
 							"children": [],
 							"order": permission.ps_api_order
 						});

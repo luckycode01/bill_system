@@ -64,7 +64,7 @@ INSERT INTO `sp_role` VALUES ('34', '测试角色2', '0,105,116,142,143,122', nu
 DROP TABLE IF EXISTS `sp_permission`;
 CREATE TABLE `sp_permission` (
   `ps_id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,
-  `ps_name` varchar(20) NOT NULL COMMENT '权限名称',
+  `ps_name` varchar(20) NOT NULL COMMENT '权限名称/菜单名称',
   `ps_pid` smallint(6) unsigned NOT NULL COMMENT '父id',
   `ps_c` varchar(32) NOT NULL DEFAULT '' COMMENT '控制器',
   `ps_a` varchar(32) NOT NULL DEFAULT '' COMMENT '操作方法',
@@ -130,19 +130,20 @@ CREATE TABLE `sp_permission_api` (
   `ps_api_service` varchar(255) DEFAULT NULL COMMENT '权限服务名称',
   `ps_api_action` varchar(255) DEFAULT NULL COMMENT '权限方法',
   `ps_api_path` varchar(255) DEFAULT NULL COMMENT '权限地址',
+  `ps_api_limit` varchar(50) DEFAULT NULL COMMENT '按钮权限'
   `ps_api_order` int(4) DEFAULT NULL COMMENT '序号',
   PRIMARY KEY (`id`),
   KEY `ps_id` (`ps_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-INSERT INTO `sp_permission_api` VALUES ('1', '101', null, null, 'goods', '3');
-INSERT INTO `sp_permission_api` VALUES ('2', '102', null, null, 'orders', '4');
-INSERT INTO `sp_permission_api` VALUES ('3', '103', null, null, 'rights', '2');
-INSERT INTO `sp_permission_api` VALUES ('4', '104', 'GoodService', 'getAllGoods', 'goods', '1');
-INSERT INTO `sp_permission_api` VALUES ('5', '105', 'GoodService', 'createGood', 'goods', null);
-INSERT INTO `sp_permission_api` VALUES ('6', '107', 'OrderService', 'getAllOrders', 'orders', null);
-INSERT INTO `sp_permission_api` VALUES ('9', '109', 'OrderService', 'createOrder', 'orders', null);
-INSERT INTO `sp_permission_api` VALUES ('10', '110', 'ManagerService', 'getAllManagers', 'users', null);
+INSERT INTO `sp_permission_api` VALUES ('1', '101', null, null, 'goods',null, '3');
+INSERT INTO `sp_permission_api` VALUES ('2', '102', null, null, 'orders',null, '4');
+INSERT INTO `sp_permission_api` VALUES ('3', '103', null, null, 'rights',null, '2');
+INSERT INTO `sp_permission_api` VALUES ('4', '104', 'GoodService', 'getAllGoods', 'goods',null, '1');
+INSERT INTO `sp_permission_api` VALUES ('5', '105', 'GoodService', 'createGood', 'goods', null,null);
+INSERT INTO `sp_permission_api` VALUES ('6', '107', 'OrderService', 'getAllOrders', 'orders',null, null);
+INSERT INTO `sp_permission_api` VALUES ('9', '109', 'OrderService', 'createOrder', 'orders', null,null);
+INSERT INTO `sp_permission_api` VALUES ('10', '110', 'ManagerService', 'getAllManagers', 'users',null, null);
 
 
 /*==============================================================*/

@@ -19,6 +19,7 @@ function getPermissionsResult(permissionKeys, permissionIds) {
         id: permission.ps_id,
         authName: permission.ps_name,
         path: permission.ps_api_path,
+        limit: permission.ps_api_limit,
         children: [],
       };
     }
@@ -38,6 +39,7 @@ function getPermissionsResult(permissionKeys, permissionIds) {
           id: permission.ps_id,
           authName: permission.ps_name,
           path: permission.ps_api_path,
+          limit: permission.ps_api_limit,
           children: [],
         };
         parentPermissionResult.children.push(tmpResult[permission.ps_id]);
@@ -58,6 +60,7 @@ function getPermissionsResult(permissionKeys, permissionIds) {
           id: permission.ps_id,
           authName: permission.ps_name,
           path: permission.ps_api_path,
+          limit: permission.ps_api_limit,
         });
       }
     }
