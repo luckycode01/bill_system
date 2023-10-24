@@ -31,7 +31,7 @@ module.exports.authRight = function (userInfo, serviceName, actionName, cb) {
 
 	// 权限验证
 	daoModule.findOne("PermissionAPIModel", { "ps_api_service": serviceName, "ps_api_action": actionName }, function (err, permissionAPI) {
-		console.log("rid => %s,serviceName => %s,actionName => %s", userInfo, serviceName, actionName, permissionAPI);
+		console.log("PermissionAPIModel====>rid => %s,serviceName => %s,actionName => %s", userInfo, serviceName, actionName, permissionAPI);
 		if (err || !permissionAPI) return cb("无权限访问", false);
 		sql = `SELECT id, GROUP_CONCAT(ps_ids) AS role_ps_ids FROM user_center JOIN sp_role ON FIND_IN_SET(sp_role.role_id, '${userInfo.rids}') > 0 WHERE user_center.id = ${userInfo.uid}; `;
 		database.driver.execQuery(sql, function (err, role) {

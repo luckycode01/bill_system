@@ -129,7 +129,7 @@ CREATE TABLE `sp_permission_api` (
   `ps_id` int(11) NOT NULL,
   `ps_api_service` varchar(255) DEFAULT NULL COMMENT '权限服务名称',
   `ps_api_action` varchar(255) DEFAULT NULL COMMENT '权限方法',
-  `ps_api_path` varchar(255) DEFAULT NULL COMMENT '权限地址',
+  `ps_api_path` varchar(100) DEFAULT NULL COMMENT '权限地址',
   `ps_api_limit` varchar(50) DEFAULT NULL COMMENT '按钮权限'
   `ps_api_order` int(4) DEFAULT NULL COMMENT '序号',
   PRIMARY KEY (`id`),
