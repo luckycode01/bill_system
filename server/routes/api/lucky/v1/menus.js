@@ -23,9 +23,9 @@ router.post(
 		if (!req.body.menuName) return res.sendResult(null, 400, "菜单名称不能为空");
 		if (!req.body.parentld) return res.sendResult(null, 400, "上级Id不能为空");
 		if (!req.body.type) return res.sendResult(null, 400, "权限类型不能为空");
-		if(req.body.type == 1){
+		if(req.body.type == 1){//添加菜单
 
-		}else if(req.body.type == 2){
+		}else if(req.body.type == 2){ //添加按钮
 			
 		}
 		
