@@ -10,6 +10,7 @@ export default {
     networkExceptionMsg:
       'Please check if your network connection is normal! The network is abnormal',
 
+    errMsg401_1: 'Invalid login information, about to jump to the login page!',
     errMsg401: 'The user does not have permission (token, user name, password error)!',
     errMsg403: 'The user is authorized, but access is forbidden!',
     errMsg404: 'Network request error, the resource was not found!',
