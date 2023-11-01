@@ -102,7 +102,7 @@ export const useUserStore = defineStore({
             userId: data.id,
             username: data.username,
             realName: data.username,
-            avatar: 'http://127.0.0.1:8888/tmp_uploads/cf1f8fd3b8b51d2ed419f2c72cb5e09b.jpg',
+            avatar: data.avator,
           };
           this.setUserInfo(userInfo);
           goHome && (await router.replace(userInfo?.homePath || PageEnum.BASE_HOME));

@@ -137,7 +137,7 @@ const transform: AxiosTransform = {
    */
   requestInterceptors: (config, options) => {
     // 请求之前处理config
-    const token = getToken();
+    const token = '';
     if (token && (config as Recordable)?.requestOptions?.withToken !== false) {
       // jwt token
       (config as Recordable).headers.Authorization = options.authenticationScheme
@@ -151,6 +151,10 @@ const transform: AxiosTransform = {
    * @description: 响应拦截器处理
    */
   responseInterceptors: (res: AxiosResponse<any>) => {
+    const { data } = res;
+    if (data.meta && data.meta.status == 400) {
+      createMessage.error('登录信息无效，即将跳转到登录页面');
+    }
     return res;
   },
 

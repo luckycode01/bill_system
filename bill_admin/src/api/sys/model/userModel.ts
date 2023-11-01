@@ -16,11 +16,19 @@ export interface metaInfo {
 }
 export interface dataInfo {
   id: number;
-  rid: number;
+  rids: number;
   email: string;
   mobile: string;
   token: string;
   username: string;
+  sex: string;
+  edu: string;
+  edustr: string;
+  introduce: string;
+  avator: string;
+  createTime: number;
+  updateTime: number;
+  userType: number;
 }
 
 /**
