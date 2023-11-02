@@ -1,5 +1,5 @@
 export const dateFormat = (time) => {
-  let date = new Date(time);
+  let date = new Date(time * 1000);
   let year = date.getFullYear();
   let month = date.getMonth() + 1;
   let day = date.getDate();

@@ -3,46 +3,46 @@ import type { AppRouteModule } from '/@/router/types';
 import { LAYOUT } from '/@/router/constant';
 import { t } from '/@/hooks/web/useI18n';
 
-const acl: AppRouteModule = {
-  path: '/acl',
-  name: 'Acl',
+const user: AppRouteModule = {
+  path: '/user-manager',
+  name: 'user-manager',
   component: LAYOUT,
-  redirect: '/acl/user',
+  redirect: '/user-manager/userlist',
   meta: {
     hideChildrenInMenu: false,
     orderNo: 11,
     icon: 'icon-park-outline:permissions',
-    title: t('routes.acl.acl'),
+    title: t('routes.user.acl'),
   },
   children: [
     {
       path: 'users',
       name: 'Users',
-      component: () => import('/@/views/acl/user/index.vue'),
+      component: () => import('/@/views/userManager/user/index.vue'),
       meta: {
         // affix: true,
-        title: t('routes.acl.user'),
+        title: t('routes.user.user'),
       },
     },
     {
       path: 'roles',
       name: 'Roles',
-      component: () => import('/@/views/acl/role/index.vue'),
+      component: () => import('/@/views/userManager/role/index.vue'),
       meta: {
         // affix: true,
-        title: t('routes.acl.role'),
+        title: t('routes.user.role'),
       },
     },
     {
       path: 'permission',
       name: 'Permission',
-      component: () => import('/@/views/acl/permission/index.vue'),
+      component: () => import('/@/views/userManager/permission/index.vue'),
       meta: {
         // affix: true,
-        title: t('routes.acl.permission'),
+        title: t('routes.user.permission'),
       },
     },
   ],
 };
 
-export default acl;
+export default user;

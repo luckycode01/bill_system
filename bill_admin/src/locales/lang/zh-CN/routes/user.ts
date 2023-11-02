@@ -1,6 +1,6 @@
 export default {
-  acl: '权限管理',
-  user: '用户管理',
+  acl: '用户管理',
+  user: '用户列表',
   role: '角色管理',
   permission: '权限列表',
   header: { placeholder: '请输入用户名', addBtn: '添加用户' },

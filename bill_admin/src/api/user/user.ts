@@ -12,7 +12,7 @@ import {
 import { ErrorMessageMode } from '/#/axios';
 
 enum Api {
-  Users = '/users',
+  Users = '/users/getUserlist',
 }
 
 /**

@@ -1,6 +1,6 @@
 export default {
-  acl: 'Acl Management',
-  user: 'User',
+  acl: 'user management',
+  user: 'User list',
   role: 'Role',
   permission: 'Acl List',
   header: { placeholder: 'please input username', addBtn: 'add user' },

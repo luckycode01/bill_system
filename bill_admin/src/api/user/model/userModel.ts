@@ -24,7 +24,7 @@ export type UsersListListModel = UsersListInfo[];
 export interface DataResUltModel {
   total: number;
   pagenum: number;
-  users: UsersListListModel;
+  data: UsersListListModel;
 }
 // 用户列表返回
 export interface UsersResultModel {
