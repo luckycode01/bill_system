@@ -76,8 +76,8 @@ module.exports.login = function(req,res,next) {
  */
 module.exports.tokenAuth = function(req,res,next) {
 	passport.authenticate('bearer', { session: false },function(err,tokenData) {
-		if(err) return res.sendResult(null,400,'无效token');
-		if(!tokenData) return res.sendResult(null,400,'无效token');
+		if(err) return res.sendResult(null,401,'无效token');
+		if(!tokenData) return res.sendResult(null,401,'无效token');
 		req.userInfo = {};
 		req.userInfo.uid = tokenData["uid"];
 		req.userInfo.rids = tokenData["rids"];
