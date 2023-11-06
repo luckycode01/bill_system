@@ -14,8 +14,8 @@
       </Row>
       <Table :row-key="(record) => record.id" :dataSource="usersList" :columns="columns" bordered :loading="loading"
         :row-class-name="(_record, index) => (index % 2 === 1 ? 'table-striped' : null)" :pagination="{
-          current,
-          pageSize,
+          current:userParams.pageNum,
+          pageSize:userParams.pageSize,
           total,
           pageSizeOptions: ['3', '5', '10', '20'],
           showQuickJumper: true,
@@ -122,8 +122,6 @@ import { useI18n } from '/@/hooks/web/useI18n';
 const { t } = useI18n();
 const { proxy } = getCurrentInstance();
 
-// let current = ref<number>(1);
-// let pageSize = ref<number>(3);
 let total = ref<number>(0);
 let loading = ref<boolean>(false);
 const usersList = ref<UsersListListModel>([]);
@@ -133,7 +131,7 @@ let dialogTitle = ref<string>('');
 const userParams = reactive<UserParamsInfo>({
   userName: '',
   pageNum: 1,
-  pageSize: 3,
+  pageSize: 10,
 });
 const editOpt = reactive({
   size: 'small',
