@@ -5,9 +5,9 @@ import { metaInfo } from '../../public';
  */
 
 export interface UserParamsInfo {
-  query: string;
-  pagenum: number;
-  pagesize: number;
+  userName: string;
+  pageNum: number;
+  pageSize: number;
 }
 export interface UsersListInfo {
   id: number;
@@ -41,6 +41,7 @@ export interface UserInfoModel {
   password?: string;
   email: string;
   mobile: string;
+  repeatpass:string;
 }
 export interface addOrEditResUltModel {
   id: number;

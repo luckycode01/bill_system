@@ -37,6 +37,7 @@ export default {
   form: {
     userName: 'name',
     userpass: 'password',
+    repeatpass: 'repeatpass',
     useremail: 'email',
     userephone: 'mobile',
   },

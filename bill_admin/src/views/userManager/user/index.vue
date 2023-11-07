@@ -14,8 +14,8 @@
       </Row>
       <Table :row-key="(record) => record.id" :dataSource="usersList" :columns="columns" bordered :loading="loading"
         :row-class-name="(_record, index) => (index % 2 === 1 ? 'table-striped' : null)" :pagination="{
-          current:userParams.pageNum,
-          pageSize:userParams.pageSize,
+          current: userParams.pageNum,
+          pageSize: userParams.pageSize,
           total,
           pageSizeOptions: ['3', '5', '10', '20'],
           showQuickJumper: true,
@@ -77,6 +77,9 @@
         <FormItem v-if="!userInfo.id" :label="t('routes.user.form.userpass')" name="password">
           <Input v-model:value="userInfo.password" />
         </FormItem>
+        <FormItem v-if="!userInfo.id" :label="t('routes.user.form.repeatpass')" name="password">
+          <Input v-model:value="userInfo.repeatpass" />
+        </FormItem>
         <FormItem :label="t('routes.user.form.useremail')" name="email">
           <Input v-model:value="userInfo.email" />
         </FormItem>
@@ -105,8 +108,8 @@ import {
   SettingOutlined,
 } from '@ant-design/icons-vue';
 import { RuleObject } from 'ant-design-vue/es/form/interface';
-import { ref, onMounted, reactive, UnwrapRef, getCurrentInstance } from 'vue';
-import { UserParamsInfo, UsersListListModel, UserInfoModel } from '/@/api/acl/model/userModel';
+import { ref, onMounted, reactive, UnwrapRef } from 'vue';
+import { UserParamsInfo, UsersListListModel, UserInfoModel } from '/@/api/user/model/userModel';
 import {
   getUsersListApi,
   changeUsersStateApi,
@@ -120,7 +123,6 @@ import { dateFormat } from '/@/utils/dateFormat';
 import _ from 'lodash';
 import { useI18n } from '/@/hooks/web/useI18n';
 const { t } = useI18n();
-const { proxy } = getCurrentInstance();
 
 let total = ref<number>(0);
 let loading = ref<boolean>(false);
@@ -284,15 +286,13 @@ const reset = () => {
 };
 
 // 分页器
-const handleChangePage = (currentPage, size) => {
-  current.value = currentPage;
-  pageSize.value = size;
+const handleChangePage = (currentPage) => {
+  userParams.pageNum = currentPage;
   getUserList();
 };
 const handSizeChange = (currentPage, size) => {
-  if (currentPage == 1) current.value = currentPage;
-  else current.value = 1;
-  pageSize.value = size;
+  userParams.pageNum = currentPage == 1 ? currentPage : 1;
+  userParams.pageSize = size;
   getUserList();
 };
 // 删除
@@ -300,8 +300,8 @@ const confirmDelete = async (userId) => {
   const res = await deleteUserInfoApi(userId);
   if (res.meta.status == 200) {
     message.success(res.meta.msg);
-    if (usersList.value.length == 1 && current.value != 1) {
-      current.value--;
+    if (usersList.value.length == 1 && userParams.pageNum != 1) {
+      userParams.pageNum--;
     }
     getUserList();
   } else {
@@ -325,7 +325,6 @@ const getUserList = async () => {
   loading.value = true;
   const res = await getUsersListApi(params);
   if (res.meta.status == 200) {
-    // proxy.$message.success(res.meta.msg)
     usersList.value = res.data && res.data.data;
     total.value = res.data.total;
   }

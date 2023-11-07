@@ -37,6 +37,7 @@ export default {
   form: {
     userName: '用户名称',
     userpass: '用户密码',
+    repeatpass: '确认密码',
     useremail: '用户邮箱',
     userephone: '用户电话',
   },
