@@ -321,14 +321,11 @@ const getUserList = async () => {
     pageNum: 1,
     pageSize: 3,
   };
-  // params.pageSize = userParams.pageSize;
-  // params.pageNum = userParams.pageNum;
-  // params.userName = userParams.userName;
   params = { ...userParams };
   loading.value = true;
   const res = await getUsersListApi(params);
   if (res.meta.status == 200) {
-    proxy.$message.success(res.meta.msg)
+    // proxy.$message.success(res.meta.msg)
     usersList.value = res.data && res.data.data;
     total.value = res.data.total;
   }
