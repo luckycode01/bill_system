@@ -41,7 +41,12 @@ export interface UserInfoModel {
   password?: string;
   email: string;
   mobile: string;
-  repeatpass:string;
+  passwordRepead?: string;
+  rids?: Array<[]>;
+  userType: number | string;
+  sex?: number | string;
+  edu?: number | string;
+  introduce?: number | string;
 }
 export interface addOrEditResUltModel {
   id: number;

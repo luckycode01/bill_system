@@ -62,7 +62,7 @@
       </Table>
     </Card>
 
-    <Modal v-model:visible="addOrEditUserDialog" :title="dialogTitle" @cancel="closeDialog">
+    <Modal v-model:visible="addOrEditUserDialog" width="50%" :title="dialogTitle" @cancel="closeDialog">
       <template #footer>
         <a-button key="back" @click="handleCancel">{{ t('routes.user.backBtn') }}</a-button>
         <a-button key="submit" type="primary" :loading="loading" @click="handleAddOrEditOk">{{
@@ -71,20 +71,42 @@
       </template>
       <Form class="!mt-30px !ml-20px" ref="addOrEditFormRef" :model="userInfo" :rules="rules" :label-col="{ span: 5 }"
         :wrapper-col="{ span: 14 }">
+        <FormItem :label="t('routes.user.form.userType')" name="userType">
+          <radio-group v-model:value="userInfo.userType">
+            <radio :value="1">{{ t('routes.user.form.typeAdmin') }}</radio>
+            <radio :value="2">{{ t('routes.user.form.typePersonal') }}</radio>
+          </radio-group>
+        </FormItem>
         <FormItem :label="t('routes.user.form.userName')" name="username">
-          <Input v-model:value="userInfo.username" :disabled="userInfo.id ? true : false" />
+          <Input v-model:value="userInfo.username" :disabled="userInfo.id ? true : false"
+            :placeholder="t('routes.user.tip.pleaseIn') + t('routes.user.form.userName')" />
         </FormItem>
         <FormItem v-if="!userInfo.id" :label="t('routes.user.form.userpass')" name="password">
-          <Input v-model:value="userInfo.password" />
+          <Input v-model:value="userInfo.password" :placeholder="t('routes.user.tip.inputPass')" />
         </FormItem>
         <FormItem v-if="!userInfo.id" :label="t('routes.user.form.repeatpass')" name="password">
-          <Input v-model:value="userInfo.repeatpass" />
+          <Input v-model:value="userInfo.passwordRepead" :placeholder="t('routes.user.tip.inputPass')" />
         </FormItem>
         <FormItem :label="t('routes.user.form.useremail')" name="email">
-          <Input v-model:value="userInfo.email" />
+          <Input v-model:value="userInfo.email"
+            :placeholder="t('routes.user.tip.pleaseIn') + t('routes.user.form.useremail')" />
         </FormItem>
         <FormItem :label="t('routes.user.form.userephone')" name="mobile">
-          <Input v-model:value="userInfo.mobile" />
+          <Input v-model:value="userInfo.mobile"
+            :placeholder="t('routes.user.tip.pleaseIn') + t('routes.user.form.userephone')" />
+        </FormItem>
+        <FormItem :label="t('routes.user.form.rids')" name="rids">
+          <checkbox-group v-model:value="userInfo.rids" :options="roleList"></checkbox-group>
+        </FormItem>
+        <FormItem :label="t('routes.user.form.sex')" name="sex">
+          <radio-group v-model:value="userInfo.sex">
+            <radio :value="0">{{ t('routes.user.form.man') }}</radio>
+            <radio :value="1">{{ t('routes.user.form.woman') }}</radio>
+          </radio-group>
+        </FormItem>
+        <FormItem :label="t('routes.user.form.introduce')" name="introduce">
+          <Input v-model:value="userInfo.introduce"
+            :placeholder="t('routes.user.tip.pleaseIn') + t('routes.user.form.introduce')" />
         </FormItem>
       </Form>
     </Modal>
@@ -154,6 +176,10 @@ const setOpt = reactive({
   type: 'primary',
   btnText: '',
 });
+const roleList = reactive([
+  {label:'角色1',value:'1'},
+  {label:'角色2',value:'2'},
+]);
 const handleClick = () => {
   console.log(1);
 };
@@ -197,17 +223,24 @@ let checkMobile = async (_rule: RuleObject, value: string) => {
 };
 const rules = {
   // 规则名称必须和表单数据的名称一致
+  userType: [{ required: true, message: t('routes.user.tip.pleaseSelT'), trigger: 'blur' }],
   username: [{ required: true, validator: checkUserName, trigger: 'blur' }],
   password: [{ required: true, validator: checkUserPass, trigger: 'blur' }],
   email: [{ required: false, validator: checkEmail, trigger: 'blur' }],
   mobile: [{ required: false, validator: checkMobile, trigger: 'blur' }],
 };
-// 添加或修改用户表单
+// 添加或修改用户表单 
 let userInfo: UnwrapRef<UserInfoModel> = reactive({
   username: '',
   password: '',
   email: '',
   mobile: '',
+  passwordRepead: '',
+  rids: [],
+  userType: 2,
+  sex: 0,
+  edu: '',
+  introduce: ''
 });
 // 打开添加修改对话框
 const handleOpenAddOrEdit = async (id?: number) => {
@@ -357,5 +390,8 @@ onMounted(() => {
 
 .ant-modal-footer {
   padding: 10px 100px;
+}
+.ant-modal{
+  top: 64px;
 }
 </style>

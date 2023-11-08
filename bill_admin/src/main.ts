@@ -40,6 +40,9 @@ import {
   Steps,
   Step,
   Tag,
+  CheckboxGroup,
+  RadioGroup,
+  Radio,
 } from 'ant-design-vue';
 
 import HindButton from '/@/components/HintButton/index.vue';
@@ -64,6 +67,9 @@ async function bootstrap() {
   app.component('Steps', Steps);
   app.component('Step', Step);
   app.component('Tag', Tag);
+  app.component('CheckboxGroup', CheckboxGroup);
+  app.component('RadioGroup', RadioGroup);
+  app.component('Radio', Radio);
   app.config.globalProperties.$message = message;
   // Configure store
   setupStore(app);
