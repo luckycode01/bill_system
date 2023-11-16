@@ -176,10 +176,7 @@ const setOpt = reactive({
   type: 'primary',
   btnText: '',
 });
-const roleList = reactive([
-  {label:'角色1',value:'1'},
-  {label:'角色2',value:'2'},
-]);
+const roleList = reactive([]);
 const handleClick = () => {
   console.log(1);
 };
@@ -373,7 +370,9 @@ const handleUserState = async (record) => {
   }
   getUserList();
 };
-
+// created(()=>{
+//   console.log(1111111);
+// })
 onMounted(() => {
   getUserList();
 });
@@ -391,7 +390,8 @@ onMounted(() => {
 .ant-modal-footer {
   padding: 10px 100px;
 }
-.ant-modal{
+
+.ant-modal {
   top: 64px;
 }
 </style>
