@@ -241,6 +241,7 @@ let userInfo: UnwrapRef<UserInfoModel> = reactive({
 });
 // 打开添加修改对话框
 const handleOpenAddOrEdit = async (id?: number) => {
+  await getRoleList();
   if (id) {
     dialogTitle.value = t('routes.user.tip.editUser');
     userInfo.id = id;
@@ -370,9 +371,15 @@ const handleUserState = async (record) => {
   }
   getUserList();
 };
-// created(()=>{
-//   console.log(1111111);
-// })
+// 获取角色列表
+const getRoleList = async () => {
+  const res = await changeUsersStateApi(record.id, record.state);
+  if (res.meta.status == 200) {
+    message.success(res.meta.msg);
+  } else {
+    message.error(res.meta.msg);
+  }
+};
 onMounted(() => {
   getUserList();
 });
