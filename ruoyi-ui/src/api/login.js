@@ -1,59 +1,22 @@
-import request from '@/utils/request'
+import request from "@/utils/request";
+import { proxy } from "./index";
 
 // 登录方法
-export function login(username, password, code, uuid) {
-  const data = {
-    username,
-    password,
-    code,
-    uuid
-  }
-  return request({
-    url: '/v1/login',
-    headers: {
-      isToken: false
-    },
-    method: 'post',
-    data: data
-  })
-}
-
-// 注册方法
-export function register(data) {
-  return request({
-    url: '/register',
-    headers: {
-      isToken: false
-    },
-    method: 'post',
-    data: data
-  })
-}
+export const login = (params) => {
+  return request.reqPost(`${proxy}/v1/login`, params);
+};
 
 // 获取用户详细信息
-export function getInfo() {
-  return request({
-    url: '/getInfo',
-    method: 'get'
-  })
+export function getInfo(params) {
+  return request.reqGet("/v1/getInfo", params);
 }
 
 // 退出方法
-export function logout() {
-  return request({
-    url: '/logout',
-    method: 'post'
-  })
+export function logout(params) {
+  return request.reqPost("/v1/logout", params);
 }
 
 // 获取验证码
-export function getCodeImg() {
-  return request({
-    url: '/captchaImage',
-    headers: {
-      isToken: false
-    },
-    method: 'get',
-    timeout: 20000
-  })
+export function getCodeImg(params) {
+  return request.reqPost("/v1/captchaImage", params);
 }
