@@ -8,11 +8,11 @@ var logger = require("../modules/logger").logger();
  * @param  {[type]}   conditions 查询条件
  * 查询条件统一规范
  * conditions
-	{
-		"query" : 关键词查询,
-		"pagenum" : 页数,
-		"pagesize" : 每页长度
-	}
+  {
+    "query" : 关键词查询,
+    "pagenum" : 页数,
+    "pagesize" : 每页长度
+  }
  * @param  {Function} cb         回调函数
  */
 module.exports.getAllManagers = function (conditions, cb) {
@@ -179,16 +179,24 @@ module.exports.deleteManager = function (id, cb) {
  * @param  {[type]}   id 管理员 ID
  * @param  {Function} cb 回调函数
  */
-module.exports.getManager = function (id, cb) {
+module.exports.getInfoManager = function (id, cb) {
   managersDAO.show(id, function (err, manager) {
     if (err) return cb(err);
     if (!manager) return cb("该管理员不存在");
     cb(null, {
-      id: manager.mg_id,
-      rid: manager.role_id,
-      username: manager.mg_name,
-      mobile: manager.mg_mobile,
-      email: manager.mg_email,
+      id: manager.id || null,
+      username: manager.username || null,
+      mobile: manager.user_mobile || null,
+      email: manager.user_email || null,
+      sex: manager.user_sex || null,
+      edu: manager.user_edu || null,
+      edustr: manager.user_edustr || null,
+      introduce: manager.user_introduce || null,
+      avatar: manager.avatar || null,
+      createTime: manager.create_time || null,
+      updateTime: manager.update_time || null,
+      userType: manager.user_type || null,
+      rids: manager.role_ids || null,
     });
   });
 };
@@ -259,19 +267,19 @@ module.exports.login = function (username, password, cb) {
 
     if (Password.verify(password, manager.password)) {
       cb(null, {
-        id: manager.id,
-        username: manager.username,
-        mobile: manager.user_mobile,
-        email: manager.user_email,
-        sex: manager.user_sex,
-        edu: manager.user_edu,
-        edustr: manager.user_edustr,
-        introduce: manager.user_introduce,
-        avator: manager.avator,
-        createTime: manager.create_time,
-        updateTime: manager.update_time,
-        userType: manager.user_type,
-        rids: manager.role_ids,
+        id: manager.id || null,
+        username: manager.username || null,
+        mobile: manager.user_mobile || null,
+        email: manager.user_email || null,
+        sex: manager.user_sex || null,
+        edu: manager.user_edu || null,
+        edustr: manager.user_edustr || null,
+        introduce: manager.user_introduce || null,
+        avatar: manager.avatar || null,
+        createTime: manager.create_time || null,
+        updateTime: manager.update_time || null,
+        userType: manager.user_type || null,
+        rids: manager.role_ids || null,
       });
     } else {
       return cb("密码错误");

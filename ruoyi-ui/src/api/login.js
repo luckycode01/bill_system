@@ -8,7 +8,7 @@ export const login = (params) => {
 
 // 获取用户详细信息
 export function getInfo(params) {
-  return request.reqGet("/v1/getInfo", params);
+  return request.reqGet(`${proxy}/v1/users/getUserInfo`, params);
 }
 
 // 退出方法

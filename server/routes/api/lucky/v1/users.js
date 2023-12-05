@@ -137,5 +137,21 @@ router.post(
     })(req, res, next);
   }
 );
+// 获取登录用户信息
+router.get(
+  "/getUserInfo",
+  function (req, res, next) {
+    // uniqueId,rids
+    next();
+  },
+  // 处理业务逻辑
+  // 处理业务逻辑
+  function (req, res, next) {
+    mgrServ.getInfoManager(req.userInfo.uid, function (err, manager) {
+      if (err) return res.sendResult(null, 400, err);
+      res.sendResult(manager, 200, "获取成功");
+    })(req, res, next);
+  }
+);
 
 module.exports = router;

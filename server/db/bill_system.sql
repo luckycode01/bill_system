@@ -30,7 +30,7 @@ create table user_center (
    `update_time` int(10) unsigned NOT NULL COMMENT '修改时间',
    `user_type` int(2) NOT NULL DEFAULT '1' COMMENT '用户类型(1:管理用户，2:普通用户)',
    `deleted` tinyint NOT NULL COMMENT '逻辑删除(0未删除；1删除)',
-   `avator` varchar(100) NULL DEFAULT NULL comment '用户头像',
+   `avatar` varchar(100) NULL DEFAULT NULL comment '用户头像',
    `user_sex` enum( '0', '1') NULL DEFAULT null COMMENT '性别（0：男，1：女）',
    `user_edu` enum('10', '20', '30', '40', '50', '60', '70')  NULL DEFAULT null COMMENT '学历(70:博士, 60:硕士, 50:本科, 40:专科, 30:高中, 20:初中, 10:小学)',
    `user_edustr` varchar(8) NULL DEFAULT COMMENT '学历',
