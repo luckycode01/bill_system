@@ -52,16 +52,15 @@ const user = {
       return new Promise((resolve, reject) => {
         getInfo()
           .then((res) => {
-            console.log(111111,res.data);
             const userInfo = res.data;
             const avatar = userInfo.avatar == "" || userInfo.avatar == null ? require("@/assets/images/profile.jpg") : userInfo.avatar;
-            // if (res.roles && res.roles.length > 0) {
-            //   // 验证返回的roles是否是一个非空数组
-            //   commit("SET_ROLES", res.roles);
-            //   commit("SET_PERMISSIONS", res.permissions);
-            // } else {
-            //   commit("SET_ROLES", ["ROLE_DEFAULT"]);
-            // }
+            if (userInfo.rids && userInfo.rids.split(",").length > 0) {
+              // 验证返回的roles是否是一个非空数组
+              commit("SET_ROLES", userInfo.rids);
+              // commit("SET_PERMISSIONS", res.permissions);
+            } else {
+              commit("SET_ROLES", ["ROLE_DEFAULT"]);
+            }
             commit("SET_NAME", userInfo.username);
             commit("SET_AVATAR", avatar);
             resolve(res);
@@ -74,6 +73,8 @@ const user = {
 
     // 退出系统
     LogOut({ commit, state }) {
+      removeToken();
+      return;
       return new Promise((resolve, reject) => {
         logout(state.token)
           .then(() => {
