@@ -264,14 +264,14 @@
 	overflow: hidden;
 }
 
-/* 拖拽列样式 */
-.sortable-ghost{
-	opacity: .8;
-	color: #fff!important;
-	background: #42b983!important;
+.flex{
+	display: flex;
+	
 }
-
-.top-right-btn {
-	position: relative;
-	float: right;
+.space-around{
+	justify-content: space-around;
+	
+}
+.space-between{
+	justify-content: space-between;
 }
