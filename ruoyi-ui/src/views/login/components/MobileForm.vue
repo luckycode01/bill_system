@@ -1,16 +1,17 @@
 <template>
   <div class="login">
-    
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules">
       <el-form-item prop="username">
-        <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
+        <el-input v-model="loginForm.mobile" type="text" auto-complete="off" placeholder="手机号">
           <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
-        <el-input v-model="loginForm.password" type="password" auto-complete="off" show-password placeholder="密码">
-          <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />
-        </el-input>
+        <el-row type="flex" justify="space-between" style="align-items: center; overflow: hidden">
+          <el-input v-model="loginForm.smsCode" prefix="ios-lock" size="large" clearable placeholder="请输入手机验证码" class="input-verify" autocomplete="off" />
+          <el-button class="get-msg" type="primary" @click="sendCode" :disabled="!loginForm.mobile">获取验证码</el-button>
+          <!-- <el-button  class="get-msg" type="primary" :loading="countdown>0">{{countdown + 's'}}</el-button> -->
+        </el-row>
       </el-form-item>
       <el-form-item prop="code" v-if="captchaEnabled">
         <el-input v-model="loginForm.code" auto-complete="off" placeholder="验证码" style="width: 63%" @keyup.enter.native="handleLogin">
@@ -20,8 +21,7 @@
           <img :src="codeUrl" @click="getCode" class="login-code-img" />
         </div>
       </el-form-item>
-      <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;">记住密码</el-checkbox>
-      <el-button type="text" size="mini" class="forget">忘记密码</el-button>
+      <el-button type="text" size="mini" class="forget"></el-button>
       <el-form-item style="width:100%;">
         <el-button :loading="loading" class="login-btn" size="mini" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
           <span v-if="!loading">登 录</span>
@@ -29,7 +29,7 @@
         </el-button>
       </el-form-item>
     </el-form>
-    
+
   </div>
 </template>
 
@@ -44,18 +44,17 @@ export default {
     return {
       codeUrl: "",
       loginForm: {
-        username: "admin",
-        password: "123456",
-        rememberMe: false,
+        mobile: "13400001111",
+        smsCode: "",
         code: "",
-        uuid: ""
+        uuid: '',
       },
       loginRules: {
-        username: [
-          { required: true, trigger: "blur", message: "请输入您的账号" }
+        mobile: [
+          { required: true, trigger: "blur", message: "请输入您的手机号" }
         ],
-        password: [
-          { required: true, trigger: "blur", message: "请输入您的密码" }
+        smsCode: [
+          { required: true, trigger: "blur", message: "请输入手机验证码" }
         ],
         code: [{ required: true, trigger: "change", message: "请输入验证码" }]
       },
@@ -140,7 +139,6 @@ export default {
   color: #707070;
 }
 
-
 .el-form {
   width: 400px;
   ::v-deep .el-input {
@@ -153,6 +151,15 @@ export default {
     font-size: 16px;
     height: 40px;
     background: #0960bd;
+  }
+  .get-msg {
+    width: 110px;
+    // background: none;
+    // border: none;
+    color: #fff;
+    text-align: center;
+    height: 40px;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
   }
   .input-icon {
     font-size: 16px;

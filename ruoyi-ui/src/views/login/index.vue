@@ -25,14 +25,11 @@
               <el-tab-pane label="密码登录" name="password">
                 <LoginForm />
               </el-tab-pane>
-              <el-tab-pane label="验证码登录" name="code">
-                
+              <el-tab-pane label="手机登录" name="code">
+                <MobileForm />
               </el-tab-pane>
             </el-tabs>
             <ForgetPasswordForm />
-            <RegisterForm />
-            <MobileForm />
-            <QrCodeForm />
             <el-divider>其他登录方式</el-divider>
             <div class="othen-login flex space-around">
               <img src="@/assets/images/png/weixin.png" alt="">
@@ -50,11 +47,13 @@
 
 <script>
 import LoginForm from "./components/LoginForm";
+import MobileForm from "./components/MobileForm";
+import ForgetPasswordForm from "./components/ForgetPasswordForm";
 export default {
-  components: { LoginForm },
+  components: { LoginForm, MobileForm, ForgetPasswordForm },
   data() {
     return {
-      activeName:'password',
+      activeName: 'password',
       title: process.env.VUE_APP_TITLE,
     }
   }
@@ -65,7 +64,7 @@ export default {
 div {
   box-sizing: border-box;
 }
-::v-deep .el-tabs__nav-wrap::after{
+::v-deep .el-tabs__nav-wrap::after {
   display: none;
 }
 .login {
@@ -103,11 +102,11 @@ div {
           cursor: pointer;
         }
       }
-      ::v-deep .el-tabs__content{
+      ::v-deep .el-tabs__content {
         min-width: 400px;
         min-height: 272px;
       }
-      ::v-deep .el-tabs__item{
+      ::v-deep .el-tabs__item {
         font-size: 20px;
         font-weight: 700;
       }
