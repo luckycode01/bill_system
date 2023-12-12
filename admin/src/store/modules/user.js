@@ -46,6 +46,10 @@ const user = {
           });
       });
     },
+    msgLogin({ commit }, userInfo) {
+      return new Promise((resolve, reject) => {
+      });
+    },
 
     // 获取用户信息
     GetInfo({ commit, state }) {
@@ -53,7 +57,7 @@ const user = {
         getInfo()
           .then((res) => {
             const userInfo = res.data;
-            const avatar = userInfo.avatar == "" || userInfo.avatar == null ? require("@/assets/images/profile.jpg") : userInfo.avatar;
+            const avatar = userInfo.avatar == "" || userInfo.avatar == null ? require("@/assets/logo/avatar.jpg") : userInfo.avatar;
             if (userInfo.rids && userInfo.rids.split(",").length > 0) {
               // 验证返回的roles是否是一个非空数组
               commit("SET_ROLES", userInfo.rids);

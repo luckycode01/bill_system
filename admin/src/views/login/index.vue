@@ -21,24 +21,27 @@
         </div>
         <div class="login-form">
           <div class="form-main">
-            <el-tabs v-model="activeName" @tab-click="handleClick">
-              <el-tab-pane label="密码登录" name="password">
-                <LoginForm />
-              </el-tab-pane>
-              <el-tab-pane label="手机登录" name="code">
-                <MobileForm />
-              </el-tab-pane>
-            </el-tabs>
-            <ForgetPasswordForm />
-            <el-divider>其他登录方式</el-divider>
-            <div class="othen-login flex space-around">
-              <img src="@/assets/images/png/weixin.png" alt="">
-              <img src="@/assets/images/png/qq.png" alt="">
-              <img src="@/assets/images/png/github.png" alt="">
-              <img src="@/assets/images/png/google.png" alt="">
-              <img src="@/assets/images/png/Twitter.png" alt="">
-            </div>
+            <template v-if="!isShowForget">
+              <el-tabs v-model="activeName">
+                <el-tab-pane label="密码登录" name="password">
+                  <LoginForm @forgetPass="forgetPass" />
+                </el-tab-pane>
+                <el-tab-pane label="手机登录" name="code">
+                  <MobileForm />
+                </el-tab-pane>
+              </el-tabs>
+              <el-divider>其他登录方式</el-divider>
+              <div class="othen-login flex space-around">
+                <img src="@/assets/images/png/weixin.png" alt="">
+                <img src="@/assets/images/png/qq.png" alt="">
+                <img src="@/assets/images/png/github.png" alt="">
+                <img src="@/assets/images/png/google.png" alt="">
+                <img src="@/assets/images/png/Twitter.png" alt="">
+              </div>
+            </template>
+            <ForgetPasswordForm v-if="isShowForget" />
           </div>
+
         </div>
       </div>
     </div>
@@ -55,6 +58,12 @@ export default {
     return {
       activeName: 'password',
       title: process.env.VUE_APP_TITLE,
+      isShowForget: false,
+    }
+  },
+  methods: {
+    forgetPass() {
+      this.isShowForget = !this.isShowForget;
     }
   }
 }

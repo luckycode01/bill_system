@@ -1,27 +1,29 @@
 <template>
   <div class="login">
-    
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules">
+
+    <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules">
       <el-form-item prop="username">
-        <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
+        <el-input v-model="loginForm.username" type="text" autocomplete="off" placeholder="账号">
           <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
-        <el-input v-model="loginForm.password" type="password" auto-complete="off" show-password placeholder="密码">
+        <el-input v-model="loginForm.password" type="password" autocomplete="off" show-password placeholder="密码">
           <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />
         </el-input>
       </el-form-item>
-      <el-form-item prop="code" v-if="captchaEnabled">
-        <el-input v-model="loginForm.code" auto-complete="off" placeholder="验证码" style="width: 63%" @keyup.enter.native="handleLogin">
-          <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" />
-        </el-input>
-        <div class="login-code">
-          <img :src="codeUrl" @click="getCode" class="login-code-img" />
-        </div>
+      <el-form-item prop="capCode">
+        <el-row type="flex" justify="space-between" style="align-items: center; overflow: hidden">
+          <el-input v-model="loginForm.capCode" type="text" autocomplete="off" placeholder="图形验证码" size="large" @keyup.enter.native="handleLogin">
+            <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" />
+          </el-input>
+          <div style="position: relative; font-size: 12px">
+            <img v-loading="codeUrl" :src="codeUrl" @click="getCode()" alt="加载验证码失败" style="width: 110px; cursor: pointer; display: block" />
+          </div>
+        </el-row>
       </el-form-item>
       <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;">记住密码</el-checkbox>
-      <el-button type="text" size="mini" class="forget">忘记密码</el-button>
+      <el-button type="text" size="mini" class="forget" @click="handelForget">忘记密码</el-button>
       <el-form-item style="width:100%;">
         <el-button :loading="loading" class="login-btn" size="mini" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
           <span v-if="!loading">登 录</span>
@@ -29,7 +31,7 @@
         </el-button>
       </el-form-item>
     </el-form>
-    
+
   </div>
 </template>
 
@@ -46,8 +48,8 @@ export default {
       loginForm: {
         username: "admin",
         password: "123456",
+        capCode: 1111,
         rememberMe: false,
-        code: "",
         uuid: ""
       },
       loginRules: {
@@ -57,7 +59,7 @@ export default {
         password: [
           { required: true, trigger: "blur", message: "请输入您的密码" }
         ],
-        code: [{ required: true, trigger: "change", message: "请输入验证码" }]
+        capCode: [{ required: true, trigger: "blur", message: "请输入验证码" }]
       },
       loading: false,
       // 验证码开关
@@ -81,26 +83,24 @@ export default {
   },
   methods: {
     getCode() {
-      getCodeImg().then(res => {
-        this.captchaEnabled = res.captchaEnabled === undefined ? true : res.captchaEnabled;
-        if (this.captchaEnabled) {
-          this.codeUrl = "data:image/gif;base64," + res.img;
-          this.loginForm.uuid = res.uuid;
-        }
-      });
+      // getCodeImg().then(res => {
+      //   this.captchaEnabled = res.captchaEnabled === undefined ? true : res.captchaEnabled;
+      //   if (this.captchaEnabled) {
+      //     this.codeUrl = "data:image/gif;base64," + res.img;
+      //     this.loginForm.uuid = res.uuid;
+      //   }
+      // });
     },
     getCookie() {
       const username = Cookies.get("username");
       const password = Cookies.get("password");
-      const rememberMe = Cookies.get('rememberMe')
-      this.loginForm = {
-        username: username === undefined ? this.loginForm.username : username,
-        password: password === undefined ? this.loginForm.password : decrypt(password),
-        rememberMe: rememberMe === undefined ? false : Boolean(rememberMe)
-      };
+      const rememberMe = Cookies.get('rememberMe');
+      this.loginForm.username = username === undefined ? this.loginForm.username : username;
+      this.loginForm.password = password === undefined ? this.loginForm.password : decrypt(password);
+      this.loginForm.rememberMe = rememberMe === undefined ? false : Boolean(rememberMe);
     },
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
+      this.$refs.loginFormRef.validate(valid => {
         if (valid) {
           this.loading = true;
           if (this.loginForm.rememberMe) {
@@ -116,12 +116,15 @@ export default {
             this.$router.push({ path: this.redirect || "/" }).catch(() => { });
           }).catch(() => {
             this.loading = false;
-            // if (this.captchaEnabled) {
-            //   this.getCode();
-            // }
+            if (this.captchaEnabled) {
+              this.getCode();
+            }
           }).finally(() => this.loading = false)
         }
       });
+    },
+    handelForget(){
+      this.$emit("forgetPass")
     }
   }
 };
@@ -139,7 +142,6 @@ export default {
   text-align: center;
   color: #707070;
 }
-
 
 .el-form {
   width: 400px;
@@ -190,5 +192,11 @@ export default {
 }
 .login-code-img {
   height: 38px;
+}
+::v-deep .el-input__prefix {
+  line-height: 50px;
+  .svg-icon {
+    vertical-align: inherit;
+  }
 }
 </style>

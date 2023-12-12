@@ -1,27 +1,31 @@
 <template>
   <div class="login">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules">
-      <el-form-item prop="username">
+      <el-form-item prop="mobile">
         <el-input v-model="loginForm.mobile" type="text" auto-complete="off" placeholder="手机号">
-          <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
+          <svg-icon slot="prefix" icon-class="phone" class="el-input__icon input-icon" />
         </el-input>
       </el-form-item>
-      <el-form-item prop="password">
+      <el-form-item prop="smsCode">
         <el-row type="flex" justify="space-between" style="align-items: center; overflow: hidden">
-          <el-input v-model="loginForm.smsCode" prefix="ios-lock" size="large" clearable placeholder="请输入手机验证码" class="input-verify" autocomplete="off" />
-          <el-button class="get-msg" type="primary" @click="sendCode" :disabled="!loginForm.mobile">获取验证码</el-button>
-          <!-- <el-button  class="get-msg" type="primary" :loading="countdown>0">{{countdown + 's'}}</el-button> -->
+          <el-input v-model="loginForm.smsCode" prefix="ios-lock" size="large" clearable placeholder="请输入手机验证码" class="input-verify" autocomplete="off">
+            <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" />
+          </el-input>
+          <el-button v-if="!countdown" class="get-msg" type="primary" @click="getSmsCode" :disabled="!loginForm.mobile">获取验证码</el-button>
+          <el-button v-else class="get-msg" type="primary" :loading="countdown>0">{{countdown + ' s'}}</el-button>
         </el-row>
       </el-form-item>
-      <el-form-item prop="code" v-if="captchaEnabled">
-        <el-input v-model="loginForm.code" auto-complete="off" placeholder="验证码" style="width: 63%" @keyup.enter.native="handleLogin">
-          <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" />
-        </el-input>
-        <div class="login-code">
-          <img :src="codeUrl" @click="getCode" class="login-code-img" />
-        </div>
+      <el-form-item prop="code">
+        <el-row type="flex" justify="space-between" style="align-items: center; overflow: hidden">
+          <el-input v-model="loginForm.code" auto-complete="off" placeholder="图形验证码" size="large" @keyup.enter.native="handleLogin">
+            <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" />
+          </el-input>
+          <div style="position: relative; font-size: 12px">
+            <img v-loading="codeUrl" :src="codeUrl" @click="getCode()" alt="加载验证码失败" style="width: 110px; cursor: pointer; display: block" />
+          </div>
+        </el-row>
       </el-form-item>
-      <el-button type="text" size="mini" class="forget"></el-button>
+      <el-checkbox style="margin:0px 0px 25px 0px;opacity: 0;"></el-checkbox>
       <el-form-item style="width:100%;">
         <el-button :loading="loading" class="login-btn" size="mini" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
           <span v-if="!loading">登 录</span>
@@ -34,13 +38,21 @@
 </template>
 
 <script>
-import { getCodeImg } from "@/api/login";
-import Cookies from "js-cookie";
+import { getCodeImg, sendMsg } from "@/api/login";
 import { encrypt, decrypt } from '@/utils/jsencrypt'
 
 export default {
   name: "Login",
   data() {
+    const mobileValidate = (rule, value, callback) => {
+      if (value === '') {
+        return callback(new Error('请输入手机号'));
+      }
+      if (!(/^1[3456789][0-9]{9}$/.test(value))) {
+        return callback(new Error('手机号码格式错误'));
+      }
+      return callback();
+    };
     return {
       codeUrl: "",
       loginForm: {
@@ -51,19 +63,21 @@ export default {
       },
       loginRules: {
         mobile: [
-          { required: true, trigger: "blur", message: "请输入您的手机号" }
+          { required: true, trigger: "blur", message: "请输入您的手机号" },
+          { validator: mobileValidate, trigger: 'blur' }
         ],
         smsCode: [
           { required: true, trigger: "blur", message: "请输入手机验证码" }
         ],
-        code: [{ required: true, trigger: "change", message: "请输入验证码" }]
+        code: [{ required: true, trigger: "blur", message: "请输入验证码" }]
       },
       loading: false,
       // 验证码开关
       captchaEnabled: true,
       // 注册开关
       register: false,
-      redirect: undefined
+      redirect: undefined,
+      countdown: 0
     };
   },
   watch: {
@@ -76,48 +90,51 @@ export default {
   },
   created() {
     this.getCode();
-    this.getCookie();
   },
   methods: {
-    getCode() {
-      getCodeImg().then(res => {
-        this.captchaEnabled = res.captchaEnabled === undefined ? true : res.captchaEnabled;
-        if (this.captchaEnabled) {
-          this.codeUrl = "data:image/gif;base64," + res.img;
-          this.loginForm.uuid = res.uuid;
+    //发送短信
+    getSmsCode() {
+      if (!(/^1[3456789][0-9]{9}$/.test(this.loginForm.mobile))) {
+        return this.$message.error("手机号码格式错误");
+      }
+      const params = { mobile: this.loginForm.mobile };
+      sendMsg(params).then(res => {
+        if (res.code == 200) {
+          this.$message.success(res.res.meta.msg);
+          this.countdown = 60;
+          this.timer = setInterval(() => {
+            this.countdown--;
+            if (this.countdown <= 0) {
+              clearInterval(this.timer);
+              this.timer = null;
+            }
+          }, 1000)
+        } else {
+          this.$message.error(res.meta.msg)
         }
-      });
+      })
+
     },
-    getCookie() {
-      const username = Cookies.get("username");
-      const password = Cookies.get("password");
-      const rememberMe = Cookies.get('rememberMe')
-      this.loginForm = {
-        username: username === undefined ? this.loginForm.username : username,
-        password: password === undefined ? this.loginForm.password : decrypt(password),
-        rememberMe: rememberMe === undefined ? false : Boolean(rememberMe)
-      };
+    getCode() {
+      // getCodeImg().then(res => {
+      //   this.captchaEnabled = res.captchaEnabled === undefined ? true : res.captchaEnabled;
+      //   if (this.captchaEnabled) {
+      //     this.codeUrl = "data:image/gif;base64," + res.img;
+      //     this.loginForm.uuid = res.uuid;
+      //   }
+      // });
     },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true;
-          if (this.loginForm.rememberMe) {
-            Cookies.set("username", this.loginForm.username, { expires: 30 });
-            Cookies.set("password", encrypt(this.loginForm.password), { expires: 30 });
-            Cookies.set('rememberMe', this.loginForm.rememberMe, { expires: 30 });
-          } else {
-            Cookies.remove("username");
-            Cookies.remove("password");
-            Cookies.remove('rememberMe');
-          }
-          this.$store.dispatch("Login", this.loginForm).then(() => {
+          this.$store.dispatch("msgLogin", this.loginForm).then(() => {
             this.$router.push({ path: this.redirect || "/" }).catch(() => { });
           }).catch(() => {
             this.loading = false;
-            // if (this.captchaEnabled) {
-            //   this.getCode();
-            // }
+            if (this.captchaEnabled) {
+              this.getCode();
+            }
           }).finally(() => this.loading = false)
         }
       });
@@ -154,8 +171,6 @@ export default {
   }
   .get-msg {
     width: 110px;
-    // background: none;
-    // border: none;
     color: #fff;
     text-align: center;
     height: 40px;
@@ -198,4 +213,11 @@ export default {
 .login-code-img {
   height: 38px;
 }
+::v-deep .el-input__prefix {
+  line-height: 50px;
+  .svg-icon {
+    vertical-align: inherit;
+  }
+}
+// ::v-deep
 </style>

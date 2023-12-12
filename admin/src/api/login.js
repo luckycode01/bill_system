@@ -5,6 +5,10 @@ import { proxy } from "./index";
 export const login = (params) => {
   return request.reqPost(`${proxy}/v1/login`, params);
 };
+// 发送短信
+export const sendMsg = (params) => {
+  return request.reqPost(`${proxy}/v1/sendMsg`, params);
+};
 
 // 获取用户详细信息
 export function getInfo(params) {
