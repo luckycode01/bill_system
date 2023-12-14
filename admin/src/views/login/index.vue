@@ -39,7 +39,7 @@
                 <img src="@/assets/images/png/Twitter.png" alt="">
               </div>
             </template>
-            <ForgetPasswordForm v-if="isShowForget" />
+            <ForgetPasswordForm v-if="isShowForget" @forgetPass="forgetPass"/>
           </div>
 
         </div>

@@ -1,5 +1,6 @@
 <template>
   <div class="forget">
+    <span class="forget-title">找回密码</span>
     <el-form ref="forgetFormRef" :model="forgetForm" :rules="forgetRules">
       <el-form-item prop="mobile">
         <el-input v-model="forgetForm.mobile" type="text" auto-complete="off" placeholder="手机号">
@@ -8,16 +9,16 @@
       </el-form-item>
       <el-form-item prop="smsCode">
         <el-row type="flex" justify="space-between" style="align-items: center; overflow: hidden">
-          <el-input v-model="loginForm.smsCode" prefix="ios-lock" size="large" clearable placeholder="请输入手机验证码" class="input-verify" autocomplete="off">
+          <el-input v-model="forgetForm.smsCode" prefix="ios-lock" size="large" clearable placeholder="请输入手机验证码" class="input-verify" autocomplete="off">
             <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" />
           </el-input>
-          <el-button v-if="!countdown" class="get-msg" type="primary" @click="getSmsCode" :disabled="!loginForm.mobile">获取验证码</el-button>
+          <el-button v-if="!countdown" class="get-msg" type="primary" @click="getSmsCode" :disabled="!forgetForm.mobile">获取验证码</el-button>
           <el-button v-else class="get-msg" type="primary" :loading="countdown>0">{{countdown + ' s'}}</el-button>
         </el-row>
       </el-form-item>
       <el-form-item prop="code">
         <el-row type="flex" justify="space-between" style="align-items: center; overflow: hidden">
-          <el-input v-model="loginForm.code" auto-complete="off" placeholder="图形验证码" size="large" @keyup.enter.native="handleLogin">
+          <el-input v-model="forgetForm.code" auto-complete="off" placeholder="图形验证码" size="large" @keyup.enter.native="handleLogin">
             <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" />
           </el-input>
           <div style="position: relative; font-size: 12px">
@@ -25,7 +26,7 @@
           </div>
         </el-row>
       </el-form-item>
-      <el-checkbox style="margin:0px 0px 25px 0px;opacity: 0;"></el-checkbox>
+      <el-button type="text" size="mini" class="forget" @click="$emit('forgetPass')" style="margin:0px 0px 25px 0px;">返回登录</el-button>
       <el-form-item style="width:100%;">
         <el-button :loading="loading" class="login-btn" size="mini" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
           <span v-if="!loading">登 录</span>
@@ -92,10 +93,10 @@ export default {
   methods: {
     //发送短信
     getSmsCode() {
-      if (!(/^1[3456789][0-9]{9}$/.test(this.loginForm.mobile))) {
+      if (!(/^1[3456789][0-9]{9}$/.test(this.forgetForm.mobile))) {
         return this.$message.error("手机号码格式错误");
       }
-      const params = { mobile: this.loginForm.mobile };
+      const params = { mobile: this.forgetForm.mobile };
       sendMsg(params).then(res => {
         if (res.code == 200) {
           this.$message.success(res.res.meta.msg);
@@ -116,13 +117,13 @@ export default {
     getCode() {
       // getCodeImg().then(res => {
       //   this.codeUrl = "data:image/gif;base64," + res.img;
-      //   this.loginForm.uuid = res.uuid;
+      //   this.forgetForm.uuid = res.uuid;
       // });
     },
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
+      this.$refs.forgetForm.validate(valid => {
         if (valid) {
-        
+
         }
       });
     }
@@ -206,5 +207,11 @@ export default {
     vertical-align: inherit;
   }
 }
-// ::v-deep
+.forget-title {
+  display: block;
+  height: 40px;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
 </style>
