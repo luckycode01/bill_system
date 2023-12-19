@@ -1,6 +1,5 @@
 <template>
-  <div class="app-container home">
-    index
+  <div class="container">
   </div>
 </template>
 
@@ -9,16 +8,18 @@ export default {
   name: "Index",
   data() {
     return {
-     
+
     };
   },
   methods: {
-   
+
   }
 };
 </script>
 
 <style scoped lang="scss">
+.container{
 
+}
 </style>
 

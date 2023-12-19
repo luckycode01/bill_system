@@ -74,6 +74,26 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '',
+    component: Layout,
+    redirect: 'index2',
+    meta: { title: '首页', icon: 'dashboard', affix: true },
+    children: [
+      {
+        path: 'index2',
+        component: () => import('@/views/index'),
+        name: 'Index',
+        meta: { title: '首页首页', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'index1',
+        component: () => import('@/views/index'),
+        name: 'Index',
+        meta: { title: '首页1111首页', icon: 'dashboard', affix: true }
+      }
+    ]
+  },
 ]
 
 // 动态路由，基于用户权限动态去加载

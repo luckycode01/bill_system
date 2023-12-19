@@ -1,9 +1,24 @@
 <template>
   <div class="forget">
-    <span class="forget-title">找回密码</span>
+    <span class="forget-title">重置密码</span>
     <el-form ref="forgetFormRef" :model="forgetForm" :rules="forgetRules">
+      <el-form-item prop="username">
+        <el-input v-model="forgetForm.username" type="text" autocomplete="off" placeholder="登录账号">
+          <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
+        </el-input>
+      </el-form-item>
+      <el-form-item prop="password">
+        <el-input v-model="forgetForm.password" type="text" autocomplete="off" placeholder="新密码">
+          <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />
+        </el-input>
+      </el-form-item>
+      <el-form-item prop="repPassword">
+        <el-input v-model="forgetForm.repPassword" type="text" autocomplete="off" placeholder="确认密码">
+          <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />
+        </el-input>
+      </el-form-item>
       <el-form-item prop="mobile">
-        <el-input v-model="forgetForm.mobile" type="text" auto-complete="off" placeholder="手机号">
+        <el-input v-model="forgetForm.mobile" type="text" auto-complete="off" placeholder="绑定账号的手机号">
           <svg-icon slot="prefix" icon-class="phone" class="el-input__icon input-icon" />
         </el-input>
       </el-form-item>
@@ -26,7 +41,8 @@
           </div>
         </el-row>
       </el-form-item>
-      <el-button type="text" size="mini" class="forget" @click="$emit('forgetPass')" style="margin:0px 0px 25px 0px;">返回登录</el-button>
+      <el-checkbox style="opacity: 0;"></el-checkbox>
+      <el-button type="text" size="mini" class="forget" @click="handelForget" style="margin:0px 0px 25px 0px;">返回登录</el-button>
       <el-form-item style="width:100%;">
         <el-button :loading="loading" class="login-btn" size="mini" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
           <span v-if="!loading">登 录</span>
@@ -45,6 +61,15 @@ import { encrypt, decrypt } from '@/utils/jsencrypt'
 export default {
   name: "Login",
   data() {
+    const passwordValidate = (rule, value, callback) => {
+      if (value === '') {
+        return callback(new Error('请输入确认密码'));
+      }
+      if (this.forgetForm.password != value) {
+        return callback(new Error('输入的密码与第一次不一致请重新输入'));
+      }
+      return callback();
+    };
     const mobileValidate = (rule, value, callback) => {
       if (value === '') {
         return callback(new Error('请输入手机号'));
@@ -57,12 +82,25 @@ export default {
     return {
       codeUrl: "",
       forgetForm: {
-        mobile: "13400001111",
+        username: "",
+        password: "",
+        repPassword: "",
+        mobile: "",
         smsCode: "",
         code: "",
         uuid: '',
       },
       forgetRules: {
+        username: [
+          { required: true, trigger: "blur", message: "请输入用户名" }
+        ],
+        password: [
+          { required: true, trigger: "blur", message: "请输入修改密码" }
+        ],
+        repPassword: [
+          { required: true, trigger: "blur", message: "请输入确认密码" },
+          { validator: passwordValidate, trigger: 'blur' }
+        ],
         mobile: [
           { required: true, trigger: "blur", message: "请输入您的手机号" },
           { validator: mobileValidate, trigger: 'blur' }
@@ -91,6 +129,9 @@ export default {
     this.getCode();
   },
   methods: {
+    handelForget() {
+      this.$emit("forgetPass");
+    },
     //发送短信
     getSmsCode() {
       if (!(/^1[3456789][0-9]{9}$/.test(this.forgetForm.mobile))) {

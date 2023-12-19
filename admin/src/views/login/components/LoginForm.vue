@@ -124,7 +124,7 @@ export default {
       });
     },
     handelForget(){
-      this.$emit("forgetPass")
+      this.$emit("forgetPass");
     }
   }
 };
