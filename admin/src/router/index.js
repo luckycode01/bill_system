@@ -62,7 +62,7 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '',
+    path: '/',
     component: Layout,
     redirect: 'index',
     children: [
@@ -70,27 +70,21 @@ export const constantRoutes = [
         path: 'index',
         component: () => import('@/views/index'),
         name: 'Index',
-        meta: { title: '首页', icon: 'dashboard', affix: true }
+        meta: { title: '首页', icon: 'pc', affix: true }
       }
     ]
   },
   {
-    path: '',
+    path: '/icon-manage',
     component: Layout,
-    redirect: 'index2',
-    meta: { title: '首页', icon: 'dashboard', affix: true },
+    redirect: '/icon-manage',
+    meta: { title: 'icon管理', icon: 'dashboard', affix: false },
     children: [
       {
-        path: 'index2',
-        component: () => import('@/views/index'),
+        path: '/icon-list',
+        component: () => import('@/components/IconSelect'),
         name: 'Index',
-        meta: { title: '首页首页', icon: 'dashboard', affix: true }
-      },
-      {
-        path: 'index1',
-        component: () => import('@/views/index'),
-        name: 'Index',
-        meta: { title: '首页1111首页', icon: 'dashboard', affix: true }
+        meta: { title: 'icon列表', icon: 'dashboard', affix: false }
       }
     ]
   },

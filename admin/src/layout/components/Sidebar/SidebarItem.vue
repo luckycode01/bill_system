@@ -95,9 +95,13 @@ export default {
 ::v-deep .el-submenu__title {
   height: 48px;
   line-height: 48px;
+  font-size: 15px;
+  font-weight: 500;
 }
 ::v-deep .el-menu-item {
   height: 48px;
   line-height: 48px;
+  font-size: 15px;
+  font-weight: 500;
 }
 </style>
