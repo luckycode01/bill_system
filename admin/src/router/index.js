@@ -70,7 +70,7 @@ export const constantRoutes = [
         path: 'index',
         component: () => import('@/views/index'),
         name: 'Index',
-        meta: { title: '首页', icon: 'pc', affix: true }
+        meta: { title: '首页', icon: 'home', affix: true }
       }
     ]
   },
@@ -78,13 +78,13 @@ export const constantRoutes = [
     path: '/icon-manage',
     component: Layout,
     redirect: '/icon-manage',
-    meta: { title: 'icon管理', icon: 'dashboard', affix: false },
+    meta: { title: 'icon管理', icon: 'icon', affix: false },
     children: [
       {
         path: '/icon-list',
-        component: () => import('@/components/IconSelect'),
+        component: () => import('@/views/iconManage/index'),
         name: 'Index',
-        meta: { title: 'icon列表', icon: 'dashboard', affix: false }
+        meta: { title: 'icon列表', icon: 'icon', affix: false }
       }
     ]
   },

@@ -1,6 +1,5 @@
 <template>
-  <div class="container">
-  </div>
+  <div class="container"></div>
 </template>
 
 <script>
@@ -12,14 +11,11 @@ export default {
     };
   },
   methods: {
-
-  }
+  },
 };
 </script>
 
 <style scoped lang="scss">
-.container{
-
+.container {
 }
 </style>
-
