@@ -57,7 +57,6 @@ export default {
       const colorList = this.config.colorList || ["#9fe6f4", "#54FF9F", "#3ae7fc", "#ee752f", "#69bbc4"];
       const colorList1 = this.config.colorList1 || ["#18c5e7", "#00CD66", "#03d9f5", "#ee752f", "#69bbc4"];
       data.value.forEach((item, index) => {
-        console.log(index, data.value);
         let seriesItem = {
           name: (data.name && data.name[index]) || "",
           type: "bar",
@@ -73,8 +72,6 @@ export default {
           itemStyle: {
             normal: {
               color: (params) => {
-                console.log(index);
-                console.log(colorList[index], colorList1[index]);
                 return new _this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
                   offset: 0,
                   color: colorList[index] // 0% 处的颜色

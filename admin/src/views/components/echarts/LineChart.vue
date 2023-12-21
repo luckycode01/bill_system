@@ -52,7 +52,6 @@ export default {
     init() {
       const _this = this;
       const data = this.handleData();
-      console.log(111, data);
       this.myChart = this.$echarts.init(this.$refs.chartRef)
       let seriesList = [];
       const colorList = this.config.colorList || ["#2B70D5", "#81b337", "#dbbe77", "#ee752f", "#69bbc4"];
