@@ -54,8 +54,8 @@ export default {
       const data = this.handleData();
       this.myChart = this.$echarts.init(this.$refs.chartRef)
       let seriesList = [];
-      const colorList = this.config.colorList || ["#9fe6f4", "#54FF9F", "#3ae7fc", "#ee752f", "#69bbc4"];
-      const colorList1 = this.config.colorList1 || ["#18c5e7", "#00CD66", "#03d9f5", "#ee752f", "#69bbc4"];
+      const colorList = this.config.colorList || ["#18c5e7", "#00CD66", "#03d9f5", "#ee752f", "#69bbc4"];
+      const colorList1 = this.config.colorList1 || ["#9fe6f4", "#54FF9F", "#3ae7fc", "#ee752f", "#69bbc4"];
       data.value.forEach((item, index) => {
         let seriesItem = {
           name: (data.name && data.name[index]) || "",
@@ -64,12 +64,14 @@ export default {
             show: Object.is(this.config.showLabel, undefined) ? true : false,
             position: "top",
             textStyle: {
-              color: colorList[index] || "rgba(255, 255, 255,0.7)",
+              color: colorList[index] || "rgba(136 ,136 ,136 ,1)",
               fontSize: 12
             },
             formatter: "{c}"
           },
+          barWidth: this.config.barWidth || 'auto',
           itemStyle: {
+
             normal: {
               color: (params) => {
                 return new _this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
@@ -87,6 +89,10 @@ export default {
         seriesList.push(seriesItem)
       })
       let option = {
+        title: {
+          show: this.config.showTitle ? true : false,
+          text: this.config.title,
+        },
         backgroundColor: "transparent",
         tooltip: {
           show: Object.is(this.config.showTooltip, undefined) ? true : false,
@@ -125,21 +131,22 @@ export default {
               //坐标轴轴线相关设置。数学上的x轴
               show: true,
               lineStyle: {
-                color: "rgba(255,255,255,1)"
+                color: "rgba(136 ,136 ,136 ,0.3)",
               }
             },
 
             axisLabel: {
               //坐标轴刻度标签的相关设置
               textStyle: {
-                color: "rgba(255,255,255,1)",
-                fontWeight: 100,
+                color: "rgba(136 ,136 ,136 ,1)",
+                fontWeight: 400,
               },
+              margin: 20,
               align: 'center',
               rotate: this.config.isRaotate ? this.config.isRaotate : 0,
             },
             axisTick: {
-              show: true
+              show: true,
             },
             data: data.xData
           }],
@@ -155,17 +162,21 @@ export default {
             splitLine: {
               show: true,
               lineStyle: {
-                color: "rgba(255, 255, 255, 1)",
+                color: "rgba(136 ,136 ,136 ,0.15)",
                 type: 'solid'
               }
             },
             axisLine: {
-              show: false
+              show: false,
+              lineStyle: {
+                color: "rgba(136 ,136 ,136 ,0.6)",
+                type: "solid",
+              },
             },
             axisLabel: {
               margin: 20,
               textStyle: {
-                color: "#333333",
+                color: "rgba(136 ,136 ,136 ,1)",
                 fontSize: 12
               },
               formatter: (params) => {

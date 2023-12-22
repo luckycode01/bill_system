@@ -31,17 +31,6 @@ import Layout from '@/layout'
 // 公共路由
 export const constantRoutes = [
   {
-    path: '/redirect',
-    component: Layout,
-    hidden: true,
-    children: [
-      {
-        path: '/redirect/:path(.*)',
-        component: () => import('@/views/redirect')
-      }
-    ]
-  },
-  {
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true
@@ -64,12 +53,12 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: 'index',
+    redirect: 'home',
     children: [
       {
-        path: 'index',
+        path: 'home',
         component: () => import('@/views/index'),
-        name: 'Index',
+        name: 'home',
         meta: { title: '首页', icon: 'home', affix: true }
       }
     ]

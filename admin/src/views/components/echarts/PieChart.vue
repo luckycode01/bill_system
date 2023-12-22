@@ -36,7 +36,6 @@ export default {
     init() {
       const _this = this;
       const data = this.initData.name.map((item, index) => { return { name: item, value: this.initData.value[index] } })
-      console.log(111, data);
       this.myChart = this.$echarts.init(this.$refs.chartRef)
       const colorList = this.config.colorList || ["#165DFF", "#00B2FF", "#8C4EDA", "#80E2FF"];
       let option = {
