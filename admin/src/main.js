@@ -14,6 +14,9 @@ import directive from './directive' // directive
 import plugins from './plugins' // plugins
 import { download } from '@/utils/request'
 
+import dayjs from 'dayjs'
+import * as echarts from 'echarts'
+
 import './assets/icons' // icon
 import './permission' // permission control
 
@@ -30,7 +33,8 @@ import ImagePreview from "@/components/ImagePreview"
 import VueMeta from 'vue-meta'
 
 // 全局方法挂载
-
+Vue.prototype.$echarts = echarts
+Vue.prototype.$dayjs = dayjs
 // 全局组件挂载
 
 Vue.component('Editor', Editor)

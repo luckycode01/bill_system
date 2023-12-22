@@ -38,6 +38,7 @@ export default {
   padding: 12px;
   .el-card {
     height: 100%;
+    overflow-y: auto;
   }
 }
 
@@ -66,8 +67,8 @@ export default {
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 4px;
+  height: 4px;
 }
 
 ::-webkit-scrollbar-track {
