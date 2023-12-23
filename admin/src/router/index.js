@@ -1,10 +1,10 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from "vue";
+import Router from "vue-router";
 
-Vue.use(Router)
+Vue.use(Router);
 
 /* Layout */
-import Layout from '@/layout'
+import Layout from "@/layout";
 
 /**
  * Note: 路由配置项
@@ -31,73 +31,89 @@ import Layout from '@/layout'
 // 公共路由
 export const constantRoutes = [
   {
-    path: '/login',
-    component: () => import('@/views/login/index'),
-    hidden: true
+    path: "/login",
+    component: () => import("@/views/login/index"),
+    hidden: true,
   },
   {
-    path: '/register',
-    component: () => import('@/views/register'),
-    hidden: true
+    path: "/register",
+    component: () => import("@/views/login/register"),
+    hidden: true,
   },
   {
-    path: '/404',
-    component: () => import('@/views/error/404'),
-    hidden: true
+    path: "/404",
+    component: () => import("@/views/error/404"),
+    hidden: true,
   },
   {
-    path: '/401',
-    component: () => import('@/views/error/401'),
-    hidden: true
+    path: "/401",
+    component: () => import("@/views/error/401"),
+    hidden: true,
   },
   {
-    path: '/',
+    path: "/",
     component: Layout,
-    redirect: 'home',
+    redirect: "home",
     children: [
       {
-        path: 'home',
-        component: () => import('@/views/index'),
-        name: 'home',
-        meta: { title: '首页', icon: 'home', affix: true }
-      }
-    ]
+        path: "home",
+        component: () => import("@/views/index"),
+        name: "home",
+        meta: { title: "首页", icon: "home", affix: true },
+      },
+    ],
   },
   {
-    path: '/icon-manage',
+    path: "/system",
     component: Layout,
-    redirect: '/icon-manage',
-    meta: { title: 'icon管理', icon: 'icon', affix: false },
+    // redirect: 'icon-list',
+    meta: { title: "系统管理", icon: "setting", affix: false },
     children: [
       {
-        path: '/icon-list',
-        component: () => import('@/views/iconManage/index'),
-        name: 'Index',
-        meta: { title: 'icon列表', icon: 'icon', affix: false }
-      }
-    ]
+        path: "user-list",
+        component: () => import("@/views/system/userManage/index"),
+        name: "userManage",
+        meta: { title: "用户管理", icon: "user-manage", affix: false },
+      },
+      {
+        path: "role-list",
+        component: () => import("@/views/system/roleManage/index"),
+        name: "roleManage",
+        meta: { title: "角色管理", icon: "user-manage", affix: false },
+      },
+      {
+        path: "menu-list",
+        component: () => import("@/views/system/menuManage/index"),
+        name: "menuManage",
+        meta: { title: "菜单管理", icon: "menu-manage", affix: false },
+      },
+      {
+        path: "icon-list",
+        component: () => import("@/views/system/iconManage/index"),
+        name: "icon-list",
+        meta: { title: "icon列表", icon: "category", affix: false },
+      },
+    ],
   },
-]
+];
 
 // 动态路由，基于用户权限动态去加载
-export const dynamicRoutes = [
-
-]
+export const dynamicRoutes = [];
 
 // 防止连续点击多次路由报错
 let routerPush = Router.prototype.push;
 let routerReplace = Router.prototype.replace;
 // push
 Router.prototype.push = function push(location) {
-  return routerPush.call(this, location).catch(err => err)
-}
+  return routerPush.call(this, location).catch((err) => err);
+};
 // replace
 Router.prototype.replace = function push(location) {
-  return routerReplace.call(this, location).catch(err => err)
-}
+  return routerReplace.call(this, location).catch((err) => err);
+};
 
 export default new Router({
-  mode: 'hash', // 去掉url中的#
+  mode: "hash", // 去掉url中的#
   scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
-})
+  routes: constantRoutes,
+});
