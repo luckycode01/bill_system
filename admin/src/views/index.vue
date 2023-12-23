@@ -4,8 +4,10 @@
       <el-col :span="6" v-for="(item, index) in topList" :key="item.title">
         <div class="top-card flex" :class="'color' + (index + 1)">
           <div class="left flex-column space-between">
+            <span class="num">
+              <animate-number from="1" :to="item.value" duration="1000" :formatter="formatter"></animate-number>
+            </span>
             <span>{{ item.title }}</span>
-            <span class="num">{{ item.value }}</span>
           </div>
           <div class="right">
             <LineChart v-if="item.cName == 'LineChart'" :initData="initData1" :config="echartConfig"></LineChart>
@@ -41,6 +43,7 @@
 import LineChart from "./components/echarts/LineChart";
 import BarChart from "./components/echarts/BarChart";
 import PieChart from "./components/echarts/PieChart";
+
 import { getTimeData } from "@/utils/index"
 export default {
   name: "Index",
@@ -202,6 +205,9 @@ export default {
         this.threeYearsInData.value3.push((Math.random() * 10).toFixed(2));
       }
     },
+    formatter(num) {
+      return num.toFixed(2)
+    },
   },
 };
 </script>
@@ -210,8 +216,8 @@ export default {
 .container {
   .top-card {
     width: 100%;
-    height: 110px;
-    padding: 16px;
+    height: 120px;
+    padding: 20px 16px;
     border-radius: 6px;
     background: linear-gradient(to right, #caeef9, #f1f9fe);
     &.color2 {
@@ -227,15 +233,15 @@ export default {
     }
 
     .left {
-      width: 80px;
-      font-size: 13px;
+      width: 90px;
+      font-size: 14px;
 
       span {
         margin-bottom: 12px;
       }
 
       .num {
-        font-size: 16px;
+        font-size: 24px;
         font-weight: 500;
       }
     }

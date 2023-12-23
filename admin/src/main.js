@@ -29,6 +29,8 @@ import ImageUpload from "@/components/ImageUpload"
 // 图片预览组件
 import ImagePreview from "@/components/ImagePreview"
 
+import VueAnimateNumber from 'vue-animate-number'
+
 // 头部标签组件
 import VueMeta from 'vue-meta'
 
@@ -45,6 +47,7 @@ Vue.component('ImagePreview', ImagePreview)
 Vue.use(directive)
 Vue.use(plugins)
 Vue.use(VueMeta)
+Vue.use(VueAnimateNumber)
 
 /**
  * If you don't want to use mock-server
