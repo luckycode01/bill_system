@@ -134,7 +134,7 @@ export default {
           showContent: true,
           formatter: (params) => {
             var htmlStr = '';
-            if (this.initData.value.length = 1) {
+            if (data.value.length = 1) {
               const { name, seriesName, value, color } = params[0];
               htmlStr += `
                 <div>

@@ -155,7 +155,7 @@ service.reqPost = (url, params = {}) => {
 }
 service.reqGet = (url, params = {}) => {
   return new Promise((resolve, reject) => {
-    service.get(url, params)
+    service.get(url, {params})
       .then(response => {
         resolve(response);
       }, err => {

@@ -20,6 +20,8 @@ import * as echarts from 'echarts'
 import './assets/icons' // icon
 import './permission' // permission control
 
+// 分页组件
+import Pagination from "@/components/Pagination";
 // 富文本组件
 import Editor from "@/components/Editor"
 // 文件上传组件
@@ -43,6 +45,7 @@ Vue.component('Editor', Editor)
 Vue.component('FileUpload', FileUpload)
 Vue.component('ImageUpload', ImageUpload)
 Vue.component('ImagePreview', ImagePreview)
+Vue.component('Pagination', Pagination)
 
 Vue.use(directive)
 Vue.use(plugins)
