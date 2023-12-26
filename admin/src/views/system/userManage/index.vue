@@ -2,7 +2,7 @@
   <div class="container">
     <el-row :gutter="10" class="mg-b12">
       <el-col :span="4">
-        <el-input v-model="searchData.userName" placeholder="请输入用户名" prefix-icon="el-icon-search" size="mini"></el-input>
+        <el-input v-model="searchData.userName" placeholder="请输入用户名" prefix-icon="el-icon-search" size="mini" @change="getDataList(1)"></el-input>
       </el-col>
       <el-col :span="4">
         <el-input v-model="searchData.mobiel" placeholder="请输入手机号" prefix-icon="el-icon-search" size="mini"></el-input>
@@ -23,7 +23,7 @@
       <el-button type="primary" size="mini" icon="el-icon-plus">添加用户</el-button>
       <el-button type="danger" size="mini" icon="el-icon-delete">批量删除</el-button>
     </el-row>
-    <el-table :data="usersList" style="width: 100%" border stripe>
+    <el-table v-loading="loading" :data="usersList" style="width: 100%" border stripe>
       <el-table-column type="index" label="序号" width="50"></el-table-column>
       <el-table-column prop="username" align="center" label="用户名" show-overflow-tooltip></el-table-column>
       <el-table-column prop="mobile" align="center" label="电话" show-overflow-tooltip></el-table-column>
@@ -50,7 +50,7 @@ export default {
         mobiel: '',
         state: '',
         timeArr: '',
-        pageNum:1,
+        pageNum: 1,
         pageSize: 10,
       },
       total: 0,
@@ -63,8 +63,11 @@ export default {
   },
   methods: {
     // 获取用户列表
-    async getDataList() {
+    async getDataList(pageNum) {
       try {
+        if (pageNum) {
+          this.searchData.pageNum = pageNum;
+        }
         const params = { ...this.searchData };
         this.loading = true;
         const res = await getUserlistReq(params);
