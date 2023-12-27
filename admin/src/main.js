@@ -1,56 +1,56 @@
-import Vue from 'vue'
+import Vue from "vue";
 
-import Cookies from 'js-cookie'
+import Cookies from "js-cookie";
 
-import Element from 'element-ui'
-import './assets/styles/element-variables.scss'
+import Element from "element-ui";
+import "./assets/styles/element-variables.scss";
 
-import '@/assets/styles/index.scss' // global css
-import '@/assets/styles/public.scss' //public css
-import App from './App'
-import store from './store'
-import router from './router'
-import directive from './directive' // directive
-import plugins from './plugins' // plugins
-import { download } from '@/utils/request'
+import "@/assets/styles/index.scss"; // global css
+import "@/assets/styles/public.scss"; //public css
+import App from "./App";
+import store from "./store";
+import router from "./router";
+import directive from "./directive"; // directive
+import plugins from "./plugins"; // plugins
+import { download } from "@/utils/request";
 
-import dayjs from 'dayjs'
-import * as echarts from 'echarts'
+import dayjs from "dayjs";
+import * as echarts from "echarts";
 
-import './assets/icons' // icon
-import './permission' // permission control
+import "./assets/icons"; // icon
+import "./permission"; // permission control
 
 // 分页组件
 import Pagination from "@/components/Pagination";
 // 富文本组件
-import Editor from "@/components/Editor"
+import Editor from "@/components/Editor";
 // 文件上传组件
-import FileUpload from "@/components/FileUpload"
+import FileUpload from "@/components/FileUpload";
 // 图片上传组件
-import ImageUpload from "@/components/ImageUpload"
+import ImageUpload from "@/components/ImageUpload";
 // 图片预览组件
-import ImagePreview from "@/components/ImagePreview"
+import ImagePreview from "@/components/ImagePreview";
 
-import VueAnimateNumber from 'vue-animate-number'
+import VueAnimateNumber from "vue-animate-number";
 
 // 头部标签组件
-import VueMeta from 'vue-meta'
+import VueMeta from "vue-meta";
 
 // 全局方法挂载
-Vue.prototype.$echarts = echarts
-Vue.prototype.$dayjs = dayjs
+Vue.prototype.$echarts = echarts;
+Vue.prototype.$dayjs = dayjs;
 // 全局组件挂载
 
-Vue.component('Editor', Editor)
-Vue.component('FileUpload', FileUpload)
-Vue.component('ImageUpload', ImageUpload)
-Vue.component('ImagePreview', ImagePreview)
-Vue.component('Pagination', Pagination)
+Vue.component("Editor", Editor);
+Vue.component("FileUpload", FileUpload);
+Vue.component("ImageUpload", ImageUpload);
+Vue.component("ImagePreview", ImagePreview);
+Vue.component("Pagination", Pagination);
 
-Vue.use(directive)
-Vue.use(plugins)
-Vue.use(VueMeta)
-Vue.use(VueAnimateNumber)
+Vue.use(directive);
+Vue.use(plugins);
+Vue.use(VueMeta);
+Vue.use(VueAnimateNumber);
 
 /**
  * If you don't want to use mock-server
@@ -62,14 +62,14 @@ Vue.use(VueAnimateNumber)
  */
 
 Vue.use(Element, {
-  size: Cookies.get('size') || 'medium' // set element-ui default size
-})
+  size: Cookies.get("size") || "medium", // set element-ui default size
+});
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
-  el: '#app',
+  el: "#app",
   router,
   store,
-  render: h => h(App)
-})
+  render: (h) => h(App),
+});

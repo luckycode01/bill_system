@@ -114,7 +114,13 @@ export default {
           }
           this.$store.dispatch("Login", this.loginForm).then(() => {
             this.$router.push({ path: this.redirect || "/" }).catch(() => { });
-          }).catch(() => {
+          }).catch((err) => {
+            const h = this.$createElement;
+            this.$notify.error({
+              title: '提示',
+              message: h('i', { style: 'color: teal' }, err.meta.msg)
+            });
+
             this.loading = false;
             if (this.captchaEnabled) {
               this.getCode();
@@ -123,7 +129,7 @@ export default {
         }
       });
     },
-    handelForget(){
+    handelForget() {
       this.$emit("forgetPass");
     }
   }

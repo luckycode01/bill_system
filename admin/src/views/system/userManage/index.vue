@@ -20,29 +20,44 @@
       </el-col>
     </el-row>
     <el-row :gutter="10" class="mg-b12">
-      <el-button type="primary" size="mini" icon="el-icon-plus">添加用户</el-button>
+      <el-button type="primary" size="mini" icon="el-icon-plus" @click="($event)=>{openAddOrEditUser()}">添加用户</el-button>
       <el-button type="danger" size="mini" icon="el-icon-delete">批量删除</el-button>
     </el-row>
     <el-table v-loading="loading" :data="usersList" style="width: 100%" border stripe>
       <el-table-column type="index" label="序号" width="50"></el-table-column>
-      <el-table-column prop="username" align="center" label="用户名" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="username" align="center" label="用户名"></el-table-column>
       <el-table-column prop="mobile" align="center" label="电话" show-overflow-tooltip></el-table-column>
-      <el-table-column prop="email" align="center" label="邮箱" show-overflow-tooltip min-width="120"></el-table-column>
-      <el-table-column prop="state" align="center" label="状态" show-overflow-tooltip></el-table-column>
-      <el-table-column prop="createTime" align="center" label="创建时间" show-overflow-tooltip></el-table-column>
-      <el-table-column label="操作" align="center" show-overflow-tooltip>
-        <template>
-
+      <el-table-column prop="email" align="center" label="邮箱" show-overflow-tooltip min-width="width"></el-table-column>
+      <el-table-column prop="state" align="center" label="状态" width="80">
+        <template slot-scope="{row}">
+          <el-switch v-model="row.state" active-color="#13ce66" @change="handleUserState(row)"></el-switch>
+        </template>
+      </el-table-column>
+      <el-table-column prop="createTime" align="center" label="创建时间" show-overflow-tooltip>
+        <template slot-scope="{row}">
+          <span>{{handleTime(row.createTime)}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" align="center" width="120">
+        <template slot-scope="{row}">
+          <el-button @click="openAddOrEditUser(row)" :title='"编辑"' type='text' icon="el-icon-edit" size='mini'>编辑</el-button>
+          <el-button @click="showAddOrEditUserDialog(row)" :title='"删除"' type='text' icon="el-icon-delete" size='mini' style="color:red">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <pagination v-show="total>0" :total="total" :page.sync="searchData.pageNum" :limit.sync="searchData.pageSize" @pagination="getDataList" />
+    <addOrEditUser ref="addOrEditUserRef"></addOrEditUser>
   </div>
 </template>
 
 <script>
-import { getUserlistReq } from "@/api/user/list"
+import { getUserlistReq, changeUsersStateReq } from "@/api/user/list"
+import addOrEditUser from '@/views/system/userManage/components/addOrEditUser'
+import { getTimeData } from "@/utils/index"
 export default {
+  components: {
+    addOrEditUser
+  },
   data() {
     return {
       searchData: {
@@ -56,6 +71,7 @@ export default {
       total: 0,
       loading: false,
       usersList: [],
+      dataForm: {},
     }
   },
   created() {
@@ -82,6 +98,21 @@ export default {
         console.log(err);
       }
     },
+    async handleUserState(row) {
+      const res = await changeUsersStateReq({ id: row.id, state: row.state.toString() });
+      if (res.meta.status == 200) {
+        this.$message.success(res.meta.msg);
+      } else {
+        this.$message.error(res.meta.msg);
+      }
+    },
+    openAddOrEditUser(row) {
+      this.$refs.addOrEditUserRef.init(row);
+    },
+    handleTime(createTime) {
+      const { year, month, day, hours, min, sec } = getTimeData(createTime);
+      return `${year}-${month}-${day} ${hours}:${min}:${sec}`
+    }
   }
 }
 </script>
