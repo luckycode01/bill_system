@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="添加用户" :visible.sync="addOrEditUserDialog" center width="700px" :before-close="dialogBeforeClose">
+  <el-dialog :title="dataForm.id?'编辑用户':'添加用户'" :visible.sync="addOrEditUserDialog" center width="700px" :before-close="dialogBeforeClose">
     <el-form ref="addOrEditFormRef" :model="dataForm" :rules="addOrEditRules" label-width="80px">
       <el-row :gutter="10">
         <el-col :span="12">
@@ -8,18 +8,18 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item v-if="!dataForm.id" label="密码" prop="password">
-            <el-input v-model="dataForm.password" placeholder="请输入密码" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item v-if="!dataForm.id" label="确认密码" prop="password">
-            <el-input v-model="dataForm.passwordRepead" placeholder="请输入确认密码" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
           <el-form-item label="手机号" prop="mobile">
             <el-input v-model="dataForm.mobile" placeholder="请输入手机号" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item v-if="!dataForm.id" label="密码" prop="password">
+            <el-input v-model="dataForm.password" type="password" show-password  placeholder="请输入密码" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item v-if="!dataForm.id" label="确认密码" prop="passwordRepead">
+            <el-input v-model="dataForm.passwordRepead" type="password" show-password placeholder="请输入确认密码" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -47,7 +47,7 @@
             <el-radio-group v-model="dataForm.sex">
               <el-radio :label="0">男</el-radio>
               <el-radio :label="1">女</el-radio>
-              <el-radio label="">未知</el-radio>
+              <el-radio :label="2">未知</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { getRoleListReq } from "@/api/user/list"
+import { getRoleListReq, addOrUpdateUser } from "@/api/user/list"
 
 export default {
   data() {
@@ -93,7 +93,7 @@ export default {
     const checkRePassword = (rule, value, callback) => {
       if (!this.dataForm.id && !/\S/.test(value)) {
         callback(new Error("确认密码不能为空"));
-      } else if (this.dataForm.passWord !== value) {
+      } else if (this.dataForm.password !== value) {
         callback(new Error("确认密码与密码输入不一致"));
       } else {
         callback();
@@ -101,9 +101,7 @@ export default {
     };
     const checkEmail = (rule, value, callback) => {
       const reg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
-      if (!value)
-        callback(new Error("请输入邮箱地址"));
-      if (!reg.test(value)) {
+      if (value && !reg.test(value)) {
         callback(new Error("邮箱地址格式有误，请重新输入"));
       } else {
         callback();
@@ -128,7 +126,7 @@ export default {
         passwordRepead: '',
         email: '',
         mobile: '',
-        rids: '',
+        rids: [],
         sex: '',
         introduce: '',
       },
@@ -153,14 +151,24 @@ export default {
             this.dataForm[item] = row[item] ? row[item] : '';
           }
         })
+        this.dataForm.rids = row.rids.split(",").map(item => +item);
       }
       this.getRoleList();
       this.addOrEditUserDialog = true;
     },
     submit() {
-      this.$refs.addOrEditFormRef.validate(value => {
+      this.$refs.addOrEditFormRef.validate(async value => {
         if (value) {
-          console.log(this.dataForm);
+          const params = { ...this.dataForm };
+          params.rids = params.rids.join(",");
+          const res = await addOrUpdateUser(params);
+          if (res && res.meta.status == 200) {
+            this.$message.success(res.meta.msg);
+            this.dialogBeforeClose();
+            this.$emit('getDataList');
+          } else {
+            this.$message.error(res.meta.msg);
+          }
         } else {
           this.$message.error("请先完善信息再提交")
         }
@@ -176,13 +184,13 @@ export default {
       }
     },
     dialogBeforeClose(done) {
+      this.$refs.addOrEditFormRef.resetFields();
       const keys = Object.keys(this.dataForm);
       keys.forEach(item => {
         this.dataForm[item] = '';
       })
-      this.$refs.addOrEditFormRef.resetFields();
-      this.addOrEditUserDialog = false;
-      done instanceof Function ? done() : '';
+      this.dataForm.rids = [];
+      done instanceof Function ? done() : this.addOrEditUserDialog = false;
     },
   }
 }

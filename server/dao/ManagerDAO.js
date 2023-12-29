@@ -88,14 +88,7 @@ module.exports.exists = function (params, cb) {
         if (isExists) {
           return cb("手机号已被占用", isExists);
         } else {
-          Model.exists({ user_email: params.email }, function (err, isExists) {
-            if (err) return cb("查询失败");
-            if (isExists) {
-              cb("邮箱已被占用", isExists);
-            } else {
-              cb(null, isExists);
-            }
-          });
+          cb(null, isExists);
         }
       });
     }

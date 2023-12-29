@@ -41,6 +41,9 @@ router.get(
 router.post(
   "/addOrUpdateUser",
   function (req, res, next) {
+    if (req.body.id && req.body.id == 1) {
+      return res.sendResult(null, 400, "超级管理员不能修改");
+    }
     if (!req.body.username) {
       return res.sendResult(null, 400, "用户名不能为空");
     }
@@ -71,13 +74,13 @@ router.post(
       username: req.body.username,
       password: req.body.password,
       mobile: req.body.mobile,
-      email: req.body.email,
-      rids: req.body.rids,
+      email: req.body.email || null,
+      rids: req.body.rids || null,
       userType: req.body.userType,
-      avator: req.body.avator || "",
-      sex: req.body.sex || "",
-      edu: req.body.edu || "",
-      introduce: req.body.introduce || "",
+      avator: req.body.avator || null,
+      sex: req.body.sex || null,
+      edu: req.body.edu || null,
+      introduce: req.body.introduce || null,
     };
     if (req.body.id) {
       // id存在，修改用户否则为创建用户
@@ -89,7 +92,7 @@ router.post(
     } else {
       mgrServ.createManager(params, function (err, manager) {
         if (err) return res.sendResult(null, 400, err);
-        res.sendResult(manager, 201, "创建成功");
+        res.sendResult(manager, 200, "创建成功");
       })(req, res, next);
     }
   }
@@ -100,6 +103,9 @@ router.post(
   "/deleteUser",
   // 验证参数
   function (req, res, next) {
+    if(req.body.id && req.body.id == 1){
+      return res.sendResult(null, 400, "超级管理员不能删除");
+    }
     if (!req.body.id) return res.sendResult(null, 400, "用户ID不能为空");
     if (isNaN(parseInt(req.body.id)))
       return res.sendResult(null, 400, "ID必须是数字");
@@ -120,6 +126,9 @@ router.post(
   "/updateUserState",
   // 参数验证
   function (req, res, next) {
+    if (req.body.id && req.body.id == 1) {
+      return res.sendResult(null, 400, "超级管理员不能禁用");
+    }
     if (!req.body.id) {
       return res.sendResult(null, 400, "用户ID不能为空");
     }

@@ -1,22 +1,25 @@
 <template>
   <div class="container">
     <el-row :gutter="10" class="mg-b12">
-      <el-col :span="4">
+      <el-col :span="3">
         <el-input v-model="searchData.userName" placeholder="请输入用户名" prefix-icon="el-icon-search" size="mini" @change="getDataList(1)"></el-input>
       </el-col>
-      <el-col :span="4">
+      <el-col :span="3">
+        <el-select v-model="searchData.state" placeholder="请选择用户类型" prefix-icon="el-icon-search" size="mini"></el-select>
+      </el-col>
+      <el-col :span="3">
         <el-input v-model="searchData.mobiel" placeholder="请输入手机号" prefix-icon="el-icon-search" size="mini"></el-input>
       </el-col>
-      <el-col :span="4">
+      <el-col :span="3">
         <el-select v-model="searchData.state" placeholder="请选择用户状态" prefix-icon="el-icon-search" size="mini"></el-select>
       </el-col>
-      <el-col :span="6">
+      <el-col :span="5">
         <el-date-picker v-model="searchData.timeArr" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" size="mini">
         </el-date-picker>
       </el-col>
       <el-col :span="5" style="text-align:right">
         <el-button type="primary" size="mini" icon="el-icon-search">搜索</el-button>
-        <el-button type="primary" plain size="mini" icon="el-icon-refresh">重置</el-button>
+        <el-button type="primary" plain size="mini" icon="el-icon-refresh" @click="reset">重置</el-button>
       </el-col>
     </el-row>
     <el-row :gutter="10" class="mg-b12">
@@ -26,34 +29,46 @@
     <el-table v-loading="loading" :data="usersList" style="width: 100%" border stripe>
       <el-table-column type="index" label="序号" width="50"></el-table-column>
       <el-table-column prop="username" align="center" label="用户名"></el-table-column>
+      <el-table-column align="center" label="用户类型" width="80">
+        <template slot-scope="{row}">
+          <span>{{row.userType==1?'管理用户':'普通用户'}}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="mobile" align="center" label="电话" show-overflow-tooltip></el-table-column>
       <el-table-column prop="email" align="center" label="邮箱" show-overflow-tooltip min-width="width"></el-table-column>
-      <el-table-column prop="state" align="center" label="状态" width="80">
+      <el-table-column prop="roleNames" align="center" label="角色" show-overflow-tooltip min-width="width"></el-table-column>
+      <el-table-column align="center" label="状态" width="80">
         <template slot-scope="{row}">
           <el-switch v-model="row.state" active-color="#13ce66" @change="handleUserState(row)"></el-switch>
         </template>
       </el-table-column>
       <el-table-column prop="createTime" align="center" label="创建时间" show-overflow-tooltip>
         <template slot-scope="{row}">
-          <span>{{handleTime(row.createTime)}}</span>
+          <span>{{row.createTime | handleTime}}</span>
         </template>
       </el-table-column>
+      <el-table-column prop="createTime" align="center" label="修改时间" show-overflow-tooltip>
+        <template slot-scope="{row}">
+          <span>{{row.updateTime | handleTime}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="introduce" align="center" label="用户简介" show-overflow-tooltip min-width="width"></el-table-column>
       <el-table-column label="操作" align="center" width="120">
         <template slot-scope="{row}">
-          <el-button @click="openAddOrEditUser(row)" :title='"编辑"' type='text' icon="el-icon-edit" size='mini'>编辑</el-button>
-          <el-button @click="showAddOrEditUserDialog(row)" :title='"删除"' type='text' icon="el-icon-delete" size='mini' style="color:red">删除</el-button>
+          <el-button @click="openAddOrEditUser(row)" type='text' icon="el-icon-edit" size='mini'>编辑</el-button>
+          <el-button @click="deleteUser(row)" type='text' icon="el-icon-delete" size='mini' style="color:red">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <pagination v-show="total>0" :total="total" :page.sync="searchData.pageNum" :limit.sync="searchData.pageSize" @pagination="getDataList" />
-    <addOrEditUser ref="addOrEditUserRef"></addOrEditUser>
+    <addOrEditUser ref="addOrEditUserRef" @getDataList="getDataList"></addOrEditUser>
   </div>
 </template>
 
 <script>
-import { getUserlistReq, changeUsersStateReq } from "@/api/user/list"
-import addOrEditUser from '@/views/system/userManage/components/addOrEditUser'
-import { getTimeData } from "@/utils/index"
+import { getUserlistReq, changeUsersStateReq, deleteUser } from "@/api/user/list";
+import addOrEditUser from '@/views/system/userManage/components/addOrEditUser';
+import dayjs from "dayjs";
 export default {
   components: {
     addOrEditUser
@@ -77,7 +92,35 @@ export default {
   created() {
     this.getDataList();
   },
+  filters: {
+    handleTime(val) {
+      return dayjs(val * 1000).format('YYYY-MM-DD HH:mm:ss')
+    }
+  },
   methods: {
+    deleteUser(row) {
+      this.$confirm(`是否删除用户< ${row.username} >?`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        const res = await deleteUser({ id: row.id })
+        if (res.meta.status == 200) {
+          this.$message.success(res.meta.msg);
+          if (this.usersList.length == 1 && this.searchData.pageNum > 1) {
+            this.searchData.pageNum--;
+          }
+          this.getDataList();
+        } else {
+          this.$message.error(res.meta.msg);
+        }
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消删除'
+        });
+      });
+    },
     // 获取用户列表
     async getDataList(pageNum) {
       try {
@@ -105,14 +148,22 @@ export default {
       } else {
         this.$message.error(res.meta.msg);
       }
+      this.getDataList();
     },
     openAddOrEditUser(row) {
       this.$refs.addOrEditUserRef.init(row);
     },
-    handleTime(createTime) {
-      const { year, month, day, hours, min, sec } = getTimeData(createTime);
-      return `${year}-${month}-${day} ${hours}:${min}:${sec}`
-    }
+    reset() {
+      this.searchData = {
+        userName: '',
+        mobiel: '',
+        state: '',
+        timeArr: '',
+        pageNum: 1,
+        pageSize: 10,
+      };
+      this.getDataList();
+    },
   }
 }
 </script>

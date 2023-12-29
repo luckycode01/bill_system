@@ -55,6 +55,7 @@ module.exports.getAllManagers = function (conditions, cb) {
           edustr: manager.user_edustr,
           introduce: manager.user_introduce,
           state: manager.mg_state == 1,
+          rids: manager.role_ids,
         });
       }
       var resultDta = {};
@@ -124,39 +125,29 @@ module.exports.createManager = function (params, cb) {
  * @param  {Function} cb     回调函数
  */
 module.exports.updateManager = function (params, cb) {
-  managersDAO.exists(params, function (err, isExists) {
-    if (err) return cb(err);
-
-    if (isExists) {
-      return cb("用户名已存在");
+  managersDAO.update(
+    {
+      id: params.id,
+      user_mobile: params.mobile,
+      user_email: params.email,
+      username: params.username,
+      role_ids: params.rids,
+      update_time: Date.parse(new Date()) / 1000,
+      user_type: params.userType,
+      avator: params.avator,
+      user_sex: params.sex || null,
+      user_edu: params.edu || null,
+      user_edustr: params.edustr,
+      user_introduce: params.introduce,
+    },
+    function (err, manager) {
+      console.log(err);
+      if (err) return cb(err);
+      cb(null, {
+        id: manager.id,
+      });
     }
-    managersDAO.update(
-      {
-        id: params.id,
-        user_mobile: params.mobile,
-        user_email: params.email,
-        username: params.username,
-        role_ids: params.rids,
-        update_time: Date.parse(new Date()) / 1000,
-        user_type: params.userType,
-        avator: params.avator,
-        user_sex: params.sex,
-        user_edu: params.edu,
-        user_edustr: params.edustr,
-        user_introduce: params.introduce,
-      },
-      function (err, manager) {
-        console.log(err);
-        if (err) return cb(err);
-        cb(null, {
-          id: manager.id,
-          username: manager.username,
-          mobile: manager.user_mobile,
-          email: manager.user_email,
-        });
-      }
-    );
-  });
+  );
 };
 
 /**
