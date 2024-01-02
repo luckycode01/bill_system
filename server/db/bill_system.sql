@@ -22,7 +22,7 @@ create table user_center (
    `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
    `username` varchar(32) NOT NULL COMMENT '用户名',
    `password` char(64) NOT NULL COMMENT '密码',
-   `role_ids` varchar(512) NOT NULL DEFAULT '' COMMENT '角色id(逗号分割的字符串)',
+   `role_ids` varchar(512) NULL DEFAULT NULL COMMENT '角色id(逗号分割的字符串)',
    `user_mobile` varchar(32) DEFAULT NULL COMMENT '手机号',
    `user_email` varchar(64) DEFAULT NULL COMMENT '邮箱',
    `mg_state` tinyint(2) DEFAULT '1' COMMENT '1：表示启用 0:表示禁用',
@@ -51,12 +51,14 @@ CREATE TABLE `sp_role` (
   `ps_ids` varchar(512) NOT NULL DEFAULT '' COMMENT '权限ids,1,2,5',
   `ps_ca` text COMMENT '控制器-操作,控制器-操作,控制器-操作',
   `role_desc` text,
+  `create_time` int(10) unsigned NOT NULL COMMENT '创建时间',
+  `update_time` int(10) unsigned NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`role_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-INSERT INTO `sp_role` VALUES ('30', '主管', '101,0,104,116,115,142,143,144,121,122,123,149,102,107,109,103,111,129,130,134,135,138,139,140,141,112,147,125,110,131,132,133,136,137,145,146,148', 'Goods-index,Goods-tianjia,Category-index,Order-showlist,Brand-index', '技术负责人');
-INSERT INTO `sp_role` VALUES ('31', '测试角色', '101,0,104,105,116,117,115,142,143,144,121,122,123,149,103,111,129,134,138,112,147', 'Goods-showlist,Goods-tianjia,Category-showlist,Order-showlist,Order-dayin,Order-tianjia', '测试角色描述');
-INSERT INTO `sp_role` VALUES ('34', '测试角色2', '0,105,116,142,143,122', null, '测试描述12');
+INSERT INTO `sp_role` VALUES ('30', '主管', '101,0,104,116,115,142,143,144,121,122,123,149,102,107,109,103,111,129,130,134,135,138,139,140,141,112,147,125,110,131,132,133,136,137,145,146,148', 'Goods-index,Goods-tianjia,Category-index,Order-showlist,Brand-index', '技术负责人',1486720211,1486720211);
+INSERT INTO `sp_role` VALUES ('31', '测试角色', '101,0,104,105,116,117,115,142,143,144,121,122,123,149,103,111,129,134,138,112,147', 'Goods-showlist,Goods-tianjia,Category-showlist,Order-showlist,Order-dayin,Order-tianjia', '测试角色描述',1486720211,1486720211);
+INSERT INTO `sp_role` VALUES ('34', '测试角色2', '0,105,116,142,143,122', null, '测试描述12',1486720211,1486720211);
 
 -- ----------------------------
 -- Table structure for sp_permission
@@ -144,6 +146,7 @@ INSERT INTO `sp_permission_api` VALUES ('5', '105', 'GoodService', 'createGood',
 INSERT INTO `sp_permission_api` VALUES ('6', '107', 'OrderService', 'getAllOrders', 'orders',null, null);
 INSERT INTO `sp_permission_api` VALUES ('9', '109', 'OrderService', 'createOrder', 'orders', null,null);
 INSERT INTO `sp_permission_api` VALUES ('10', '110', 'ManagerService', 'getAllManagers', 'users',null, null);
+INSERT INTO `sp_permission_api` VALUES ('11', '110', 'ManagerService', 'getInfoManager', 'users',null, null);
 
 
 /*==============================================================*/

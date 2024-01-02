@@ -88,6 +88,8 @@ module.exports.getAllRoles = function (cb) {
           roleName: role.role_name,
           roleDesc: role.role_desc,
           menuIdList: permissionIds,
+          createTime: role.create_time || null,
+          updateTime: role.update_time || null,
           // children: [],
         };
 

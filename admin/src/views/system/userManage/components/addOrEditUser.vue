@@ -14,7 +14,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item v-if="!dataForm.id" label="密码" prop="password">
-            <el-input v-model="dataForm.password" type="password" show-password  placeholder="请输入密码" />
+            <el-input v-model="dataForm.password" type="password" show-password placeholder="请输入密码" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -66,7 +66,8 @@
 </template>
 
 <script>
-import { getRoleListReq, addOrUpdateUser } from "@/api/user/list"
+import { addOrUpdateUser } from "@/api/user/list"
+import { getRoleslistReq } from "@/api/user/role";
 
 export default {
   data() {
@@ -151,7 +152,7 @@ export default {
             this.dataForm[item] = row[item] ? row[item] : '';
           }
         })
-        this.dataForm.rids = row.rids.split(",").map(item => +item);
+        this.dataForm.rids = (Array.isArray(row.rids) && row.rids.split(",").map(item => +item)) || [];
       }
       this.getRoleList();
       this.addOrEditUserDialog = true;
@@ -176,7 +177,7 @@ export default {
     },
 
     async getRoleList() {
-      const res = await getRoleListReq();
+      const res = await getRoleslistReq();
       if (res.meta.status == 200) {
         this.roleList = res.data || [];
       } else {

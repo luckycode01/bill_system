@@ -9,10 +9,6 @@ export const getUserlistReq = (params) => {
 export const changeUsersStateReq = (params) => {
   return request.reqPost(`${proxy}/v1/users/updateUserState`, params);
 };
-// 获取角色列表
-export const getRoleListReq = (params) => {
-  return request.reqGet(`${proxy}/v1/roles/getRoleslist`, params);
-};
 // 更新用户
 export const addOrUpdateUser = (params) => {
   return request.reqPost(`${proxy}/v1/users/addOrUpdateUser`, params);

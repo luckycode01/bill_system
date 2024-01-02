@@ -3,6 +3,7 @@ var express = require("express");
 const { values } = require("lodash");
 var router = express.Router();
 var path = require("path");
+const { isNull } = require("underscore");
 
 // 获取验证模块
 var authorization = require(path.join(process.cwd(), "/modules/authorization"));
@@ -62,10 +63,10 @@ router.post(
       }
     }
     if (!req.body.rids) {
-      req.body.rids = -1;
+      req.body.rids = isNull;
       //return res.sendResult(null,200,"角色ID不能为空");
     }
-    if (isNaN(parseInt(req.body.rids))) req.body.rids = -1; //return res.sendResult(null,200,"角色ID必须是数字");
+    if (isNaN(parseInt(req.body.rids))) req.body.rids = null; //return res.sendResult(null,200,"角色ID必须是数字");
     next();
   },
   // 处理业务逻辑

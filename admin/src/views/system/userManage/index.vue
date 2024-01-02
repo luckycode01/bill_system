@@ -5,13 +5,19 @@
         <el-input v-model="searchData.userName" placeholder="请输入用户名" prefix-icon="el-icon-search" size="mini" @change="getDataList(1)"></el-input>
       </el-col>
       <el-col :span="3">
-        <el-select v-model="searchData.state" placeholder="请选择用户类型" prefix-icon="el-icon-search" size="mini"></el-select>
-      </el-col>
-      <el-col :span="3">
         <el-input v-model="searchData.mobiel" placeholder="请输入手机号" prefix-icon="el-icon-search" size="mini"></el-input>
       </el-col>
       <el-col :span="3">
-        <el-select v-model="searchData.state" placeholder="请选择用户状态" prefix-icon="el-icon-search" size="mini"></el-select>
+        <el-select v-model="searchData.state" placeholder="请选择用户类型" prefix-icon="el-icon-search" size="mini">
+          <el-option label="管理用户" value="1"></el-option>
+          <el-option label="普通用户" value="2"></el-option>
+        </el-select>
+      </el-col>
+      <el-col :span="3">
+        <el-select v-model="searchData.state" placeholder="请选择用户状态" prefix-icon="el-icon-search" size="mini">
+          <el-option label="启用" value="0"></el-option>
+          <el-option label="禁用" value="1"></el-option>
+        </el-select>
       </el-col>
       <el-col :span="5">
         <el-date-picker v-model="searchData.timeArr" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" size="mini">
@@ -23,8 +29,8 @@
       </el-col>
     </el-row>
     <el-row :gutter="10" class="mg-b12">
-      <el-button type="primary" size="mini" icon="el-icon-plus" @click="($event)=>{openAddOrEditUser()}">添加用户</el-button>
-      <el-button type="danger" size="mini" icon="el-icon-delete">批量删除</el-button>
+      <el-button type="primary" size="mini" icon="el-icon-plus" @click="($event)=>openAddOrEditUser()">添加用户</el-button>
+      <el-button type="danger" size="mini" icon="el-icon-delete" @click="($event)=>deleteUser()">批量删除</el-button>
     </el-row>
     <el-table v-loading="loading" :data="usersList" style="width: 100%" border stripe>
       <el-table-column type="index" label="序号" width="50"></el-table-column>
@@ -60,7 +66,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <pagination v-show="total>0" :total="total" :page.sync="searchData.pageNum" :limit.sync="searchData.pageSize" @pagination="getDataList" />
+    <pagination v-show="total>searchData.pageSize" :total="total" :page.sync="searchData.pageNum" :limit.sync="searchData.pageSize" @pagination="getDataList" />
     <addOrEditUser ref="addOrEditUserRef" @getDataList="getDataList"></addOrEditUser>
   </div>
 </template>
@@ -94,32 +100,36 @@ export default {
   },
   filters: {
     handleTime(val) {
-      return dayjs(val * 1000).format('YYYY-MM-DD HH:mm:ss')
+      return val ? dayjs(val * 1000).format('YYYY-MM-DD HH:mm:ss') : ''
     }
   },
   methods: {
     deleteUser(row) {
-      this.$confirm(`是否删除用户< ${row.username} >?`, '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(async () => {
-        const res = await deleteUser({ id: row.id })
-        if (res.meta.status == 200) {
-          this.$message.success(res.meta.msg);
-          if (this.usersList.length == 1 && this.searchData.pageNum > 1) {
-            this.searchData.pageNum--;
+      if (!row) {
+        this.$message.info("功能开发中")
+      } else {
+        this.$confirm(`是否删除用户< ${row.username} >?`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(async () => {
+          const res = await deleteUser({ id: row.id })
+          if (res.meta.status == 200) {
+            this.$message.success(res.meta.msg);
+            if (this.usersList.length == 1 && this.searchData.pageNum > 1) {
+              this.searchData.pageNum--;
+            }
+            this.getDataList();
+          } else {
+            this.$message.error(res.meta.msg);
           }
-          this.getDataList();
-        } else {
-          this.$message.error(res.meta.msg);
-        }
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '取消删除'
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消删除'
+          });
         });
-      });
+      }
     },
     // 获取用户列表
     async getDataList(pageNum) {
