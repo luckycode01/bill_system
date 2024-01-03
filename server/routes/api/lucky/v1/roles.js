@@ -73,6 +73,7 @@ router.post(
   "/deleteRoles",
   // 参数验证
   function (req, res, next) {
+    if (req.body.id == 1) return res.sendResult(null, 400, "超管角色不可删除");
     if (!req.body.id) return res.sendResult(null, 400, "角色ID不能为空");
     if (isNaN(parseInt(req.body.id)))
       return res.sendResult(null, 400, "角色ID必须为数字");

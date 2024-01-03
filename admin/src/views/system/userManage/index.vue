@@ -123,12 +123,7 @@ export default {
           } else {
             this.$message.error(res.meta.msg);
           }
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '取消删除'
-          });
-        });
+        }).catch(() => {});
       }
     },
     // 获取用户列表

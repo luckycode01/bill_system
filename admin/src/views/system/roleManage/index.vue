@@ -6,7 +6,7 @@
       </el-input>
     </el-row>
     <el-row :gutter="10" class="mg-b12">
-      <el-button type="primary" size="mini" icon="el-icon-plus" @click="($event)=>openAddOrEditRole()">添加角色</el-button>
+      <el-button type="primary" size="mini" icon="el-icon-plus" @click="($event)=>openAddOrEditRole('add')">添加角色</el-button>
       <el-button type="danger" size="mini" icon="el-icon-delete" @click="($event)=>deleteRole()">批量删除</el-button>
     </el-row>
     <el-table v-loading="loading" :data="roleList" style="width: 100%" border stripe>
@@ -25,8 +25,8 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="200">
         <template slot-scope="{row}">
-          <el-button @click="openAddOrEditRole(row)" type='text' icon="el-icon-more-outline" size='mini'>详情</el-button>
-          <el-button @click="openAddOrEditRole(row)" type='text' icon="el-icon-edit" size='mini'>编辑</el-button>
+          <el-button @click="openAddOrEditRole('detail',row.id)" type='text' icon="el-icon-more-outline" size='mini'>详情</el-button>
+          <el-button @click="openAddOrEditRole('edit',row.id)" type='text' icon="el-icon-edit" size='mini'>编辑</el-button>
           <el-button @click="deleteRole(row)" type='text' icon="el-icon-delete" size='mini' style="color:red">删除</el-button>
         </template>
       </el-table-column>
@@ -107,7 +107,15 @@ export default {
         console.log(err);
       }
     },
-    openAddOrEditRole() { },
+    openAddOrEditRole(type, id) {
+      if (type == 'edit') {
+
+      } else {
+
+      }
+      this.openAddOrEditRole = true;
+
+    },
     deleteRole(row) {
       if (!row) {
         this.$message.info("功能开发中")
@@ -127,12 +135,7 @@ export default {
           } else {
             this.$message.error(res.meta.msg);
           }
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '取消删除'
-          });
-        });
+        }).catch(() => { });
       }
     },
 
