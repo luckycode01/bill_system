@@ -2,7 +2,7 @@
   <div class="container">
     <el-row :gutter="10" class="mg-b12">
       <el-col :span="3">
-        <el-input v-model="searchData.userName" placeholder="请输入用户名" prefix-icon="el-icon-search" size="mini" @change="getDataList(1)"></el-input>
+        <el-input v-model="searchData.userName" placeholder="请输入用户名" prefix-icon="el-icon-search" size="mini" @keyup.native.enter="getDataList(1)"></el-input>
       </el-col>
       <el-col :span="3">
         <el-input v-model="searchData.mobiel" placeholder="请输入手机号" prefix-icon="el-icon-search" size="mini"></el-input>
@@ -24,7 +24,7 @@
         </el-date-picker>
       </el-col>
       <el-col :span="5" style="text-align:right">
-        <el-button type="primary" size="mini" icon="el-icon-search">搜索</el-button>
+        <el-button type="primary" size="mini" icon="el-icon-search" @click="getDataList(1)">搜索</el-button>
         <el-button type="primary" plain size="mini" icon="el-icon-refresh" @click="reset">重置</el-button>
       </el-col>
     </el-row>

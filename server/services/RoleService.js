@@ -73,34 +73,57 @@ function getPermissionsResult(permissionKeys, permissionIds) {
  *
  * @param  {Function} cb 回调函数
  */
-module.exports.getAllRoles = function (cb) {
-  dao.list("RoleModel", null, function (err, roles) {
-    if (err) return cb("获取角色数据失败");
-    permissionAPIDAO.list(function (err, permissions) {
-      if (err) return cb("获取权限数据失败");
-      var permissionKeys = _.keyBy(permissions, "ps_id");
-      var rolesResult = [];
-      for (idx in roles) {
-        role = roles[idx];
-        permissionIds = role.ps_ids.split(",");
-        roleResult = {
-          id: role.role_id,
-          roleName: role.role_name,
-          roleDesc: role.role_desc,
-          menuIdList: permissionIds,
-          createTime: role.create_time || null,
-          updateTime: role.update_time || null,
-          // children: [],
+module.exports.getAllRoles = function (conditions, cb) {
+  //获取所有角色数量
+  dao.countByConditions("RoleModel", conditions, function (err, count) {
+    const key = conditions["roleName"];
+    const pageNum = parseInt(conditions["pageNum"]);
+    const pageSize = parseInt(conditions["pageSize"]);
+    pageCount = Math.ceil(count / pageSize);
+    offset = (pageNum - 1) * pageSize;
+    if (offset >= count) {
+      offset = count;
+    }
+    limit = pageSize;
+
+    conditions["offset"] = offset;
+    conditions["limit"] = limit;
+
+    dao.list("RoleModel", conditions, function (err, roles) {
+      if (err) return cb("获取角色数据失败");
+      permissionAPIDAO.list(function (err, permissions) {
+        if (err) return cb("获取权限数据失败");
+        var permissionKeys = _.keyBy(permissions, "ps_id");
+        var perData = [];
+        for (idx in roles) {
+          role = roles[idx];
+          permissionIds = role.ps_ids.split(",");
+          roleResult = {
+            id: role.role_id,
+            roleName: role.role_name,
+            roleDesc: role.role_desc,
+            menuIdList: permissionIds,
+            createTime: role.create_time || null,
+            updateTime: role.update_time || null,
+            // children: [],
+          };
+
+          // roleResult.children = _.values(
+          //   getPermissionsResult(permissionKeys, permissionIds)
+          // );
+
+          perData.push(roleResult);
+        }
+        var rolesResult = {
+          data: perData,
+          total: count,
+          pageInfo: {
+            pageNum,
+            pageSize,
+          },
         };
-
-        // roleResult.children = _.values(
-        //   getPermissionsResult(permissionKeys, permissionIds)
-        // );
-
-        rolesResult.push(roleResult);
-      }
-
-      cb(null, rolesResult);
+        cb(null, rolesResult);
+      });
     });
   });
 };

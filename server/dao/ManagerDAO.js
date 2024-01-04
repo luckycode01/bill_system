@@ -47,9 +47,8 @@ module.exports.findByKey = function (key, offset, limit, cb) {
   db = databaseModule.getDatabase();
   // sql = "SELECT * FROM user_center as user LEFT JOIN sp_role as role ON FIND_IN_SET(role.role_id, user.role_ids) > 0";
   sql =
-    "SELECT user.*,GROUP_CONCAT(role.role_name) as role_names FROM user_center as user LEFT JOIN sp_role as role ON FIND_IN_SET(role.role_id, user.role_ids) > 0 GROUP BY user.id ";
+    "SELECT user.*,GROUP_CONCAT(role.role_name) as role_names FROM user_center as user LEFT JOIN sp_role as role ON FIND_IN_SET(role.role_id, user.role_ids) > 0 GROUP BY user.id order by create_time desc";
   if (key) {
-    console.log(222, key);
     sql += " HAVING username LIKE ? LIMIT ?,?";
     database.driver.execQuery(
       sql,

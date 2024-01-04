@@ -13,14 +13,28 @@ router.get(
   "/getRoleslist",
   // 参数验证
   function (req, res, next) {
+    // 参数验证
+    if (req.query.pageNum || req.query.pageSize) {
+      if (req.query.pageNum <= 0)
+        return res.sendResult(null, 400, "pagenum 参数错误");
+      if (req.query.pageSize <= 0)
+        return res.sendResult(null, 400, "pagesize 参数错误");
+    }
     next();
   },
   // 处理业务逻辑
   function (req, res, next) {
-    roleServ.getAllRoles(function (err, result) {
-      if (err) return res.sendResult(null, 400, err);
-      res.sendResult(result, 200, "获取成功");
-    })(req, res, next);
+    roleServ.getAllRoles(
+      {
+        roleName: req.query.userName,
+        pageNum: req.query.pageNum,
+        pageSize: req.query.pageSize,
+      },
+      function (err, result) {
+        if (err) return res.sendResult(null, 400, err);
+        res.sendResult(result, 200, "获取成功");
+      }
+    )(req, res, next);
   }
 );
 
