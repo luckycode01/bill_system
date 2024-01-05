@@ -26,9 +26,14 @@ router.get(
   function (req, res, next) {
     mgrServ.getAllManagers(
       {
-        query: req.query.userName,
-        pagenum: req.query.pageNum,
-        pagesize: req.query.pageSize,
+        userName: req.query.userName || null,
+        mobile: req.query.mobile || null,
+        userType: req.query.userType || null,
+        state: req.query.state || null,
+        startTime: req.query.startTime ? Date.parse(new Date(req.query.startTime)) / 1000 : null,
+        endTime: req.query.endTime ? Date.parse(new Date(req.query.endTime)) / 1000 : null,
+        pageNum: req.query.pageNum,
+        pageSize: req.query.pageSize,
       },
       function (err, result) {
         if (err) return res.sendResult(null, 400, err);
@@ -104,7 +109,7 @@ router.post(
   "/deleteUser",
   // 验证参数
   function (req, res, next) {
-    if(req.body.id && req.body.id == 1){
+    if (req.body.id && req.body.id == 1) {
       return res.sendResult(null, 400, "超级管理员不能删除");
     }
     if (!req.body.id) return res.sendResult(null, 400, "用户ID不能为空");

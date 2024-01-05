@@ -16,23 +16,26 @@ var logger = require("../modules/logger").logger();
  * @param  {Function} cb         回调函数
  */
 module.exports.getAllManagers = function (conditions, cb) {
-  if (!conditions.pagenum) return cb("pagenum 参数不合法");
-  if (!conditions.pagesize) return cb("pagesize 参数不合法");
+  if (!conditions.pageNum) return cb("pageNum 参数不合法");
+  if (!conditions.pageSize) return cb("pageSize 参数不合法");
 
   // 通过关键词获取管理员数量
-  managersDAO.countByKey(conditions["query"], function (err, count) {
-    key = conditions["query"];
-    pagenum = parseInt(conditions["pagenum"]);
-    pagesize = parseInt(conditions["pagesize"]);
+  managersDAO.countByKey(conditions["userName"], function (err, count) {
+    pageNum = parseInt(conditions["pageNum"]);
+    pageSize = parseInt(conditions["pageSize"]);
 
-    pageCount = Math.ceil(count / pagesize);
-    offset = (pagenum - 1) * pagesize;
+    pageCount = Math.ceil(count / pageSize);
+    offset = (pageNum - 1) * pageSize;
     if (offset >= count) {
       offset = count;
     }
-    limit = pagesize;
+    limit = pageSize;
 
-    managersDAO.findByKey(key, offset, limit, function (err, managers) {
+    // 构建参数conditions
+    conditions["offset"] = offset;
+    conditions["limit"] = limit;
+
+    managersDAO.findByKey(conditions, function (err, managers) {
       var retManagers = [];
       for (idx in managers) {
         var manager = managers[idx];
@@ -61,8 +64,8 @@ module.exports.getAllManagers = function (conditions, cb) {
       var resultDta = {};
       resultDta["total"] = count;
       resultDta["pageInfo"] = {
-        pagenum,
-        pagesize,
+        pageNum,
+        pageSize,
       };
       resultDta["data"] = retManagers;
       cb(err, resultDta);

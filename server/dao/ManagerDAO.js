@@ -43,28 +43,29 @@ module.exports.findOne = function (conditions, cb) {
  * @param  {[type]}   limit
  * @param  {Function} cb     回调函数
  */
-module.exports.findByKey = function (key, offset, limit, cb) {
-  db = databaseModule.getDatabase();
+module.exports.findByKey = function (conditions, cb) {
+  const { userName, offset, limit, mobile, userType, startTime, endTime, state } = conditions;
+  console.log(conditions);
   // sql = "SELECT * FROM user_center as user LEFT JOIN sp_role as role ON FIND_IN_SET(role.role_id, user.role_ids) > 0";
-  sql =
-    "SELECT user.*,GROUP_CONCAT(role.role_name) as role_names FROM user_center as user LEFT JOIN sp_role as role ON FIND_IN_SET(role.role_id, user.role_ids) > 0 GROUP BY user.id order by create_time desc";
-  if (key) {
-    sql += " HAVING username LIKE ? LIMIT ?,?";
-    database.driver.execQuery(
-      sql,
-      ["%" + key + "%", offset, limit],
-      function (err, managers) {
-        if (err) return cb("查询执行出错");
-        cb(null, managers);
-      }
-    );
-  } else {
-    sql += " LIMIT ?,? ";
-    database.driver.execQuery(sql, [offset, limit], function (err, managers) {
+  sql = `
+    SELECT user.*,GROUP_CONCAT(role.role_name) as role_names FROM user_center as user 
+    LEFT JOIN sp_role as role ON FIND_IN_SET(role.role_id, user.role_ids) > 0 `;
+  sql += `
+    WHERE (? is NUll OR user.username LIKE ?) 
+    AND (? is NUll OR user.user_mobile LIKE ?) 
+    AND (? is NUll OR user.mg_state = ?) 
+    AND (? is NUll OR user.user_type = ?) 
+    AND (? is NUll OR user.create_time > ?) 
+    AND (? is NUll OR user.create_time < ?) 
+    GROUP BY user.id 
+    ORDER by user.create_time DESC  LIMIT ?,?`;
+  database.driver.execQuery(sql,
+    [userName, `%${userName}%`, mobile, `%${mobile}%`, state, state, userType, userType, startTime, startTime, endTime, endTime, offset, limit],
+    function (err, managers) {
       if (err) return cb("查询执行出错");
       cb(null, managers);
-    });
-  }
+    }
+  );
 };
 
 /**

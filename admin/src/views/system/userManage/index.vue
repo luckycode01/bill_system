@@ -2,29 +2,29 @@
   <div class="container">
     <el-row :gutter="10" class="mg-b12">
       <el-col :span="3">
-        <el-input v-model="searchData.userName" placeholder="请输入用户名" prefix-icon="el-icon-search" size="mini" @keyup.native.enter="getDataList(1)"></el-input>
+        <el-input v-model="searchData.userName" @change="handleSearch" clearable placeholder="请输入用户名" prefix-icon="el-icon-search" size="mini" @keyup.native.enter="getDataList(1)"></el-input>
       </el-col>
       <el-col :span="3">
-        <el-input v-model="searchData.mobiel" placeholder="请输入手机号" prefix-icon="el-icon-search" size="mini"></el-input>
+        <el-input v-model="searchData.mobile" @change="handleSearch" clearable placeholder="请输入手机号" prefix-icon="el-icon-search" size="mini"></el-input>
       </el-col>
       <el-col :span="3">
-        <el-select v-model="searchData.state" placeholder="请选择用户类型" prefix-icon="el-icon-search" size="mini">
+        <el-select v-model="searchData.userType" @change="handleSearch" clearable placeholder="请选择用户类型" prefix-icon="el-icon-search" size="mini">
           <el-option label="管理用户" value="1"></el-option>
           <el-option label="普通用户" value="2"></el-option>
         </el-select>
       </el-col>
       <el-col :span="3">
-        <el-select v-model="searchData.state" placeholder="请选择用户状态" prefix-icon="el-icon-search" size="mini">
-          <el-option label="启用" value="0"></el-option>
-          <el-option label="禁用" value="1"></el-option>
+        <el-select v-model="searchData.state" @change="handleSearch" clearable placeholder="请选择用户状态" prefix-icon="el-icon-search" size="mini">
+          <el-option label="启用" value="1"></el-option>
+          <el-option label="禁用" value="0"></el-option>
         </el-select>
       </el-col>
       <el-col :span="5">
-        <el-date-picker v-model="searchData.timeArr" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" size="mini">
+        <el-date-picker v-model="searchData.timeArr" value-format="yyyy-MM-dd HH:mm:ss" :default-time="['00:00:00','23:59:59']" @change="handleSearch" clearable type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" size="mini">
         </el-date-picker>
       </el-col>
       <el-col :span="5" style="text-align:right">
-        <el-button type="primary" size="mini" icon="el-icon-search" @click="getDataList(1)">搜索</el-button>
+        <el-button type="primary" size="mini" icon="el-icon-search" @click="handleSearch">搜索</el-button>
         <el-button type="primary" plain size="mini" icon="el-icon-refresh" @click="reset">重置</el-button>
       </el-col>
     </el-row>
@@ -32,7 +32,7 @@
       <el-button type="primary" size="mini" icon="el-icon-plus" @click="($event)=>openAddOrEditUser()">添加用户</el-button>
       <el-button type="danger" size="mini" icon="el-icon-delete" @click="($event)=>deleteUser()">批量删除</el-button>
     </el-row>
-    <el-table v-loading="loading" :data="usersList" style="width: 100%" border stripe>
+    <el-table v-loading="loading" :data="usersList" style="width: 100%" :height="tableHeight" border stripe>
       <el-table-column type="index" label="序号" width="50"></el-table-column>
       <el-table-column prop="username" align="center" label="用户名"></el-table-column>
       <el-table-column align="center" label="用户类型" width="80">
@@ -74,18 +74,21 @@
 <script>
 import { getUserlistReq, changeUsersStateReq, deleteUser } from "@/api/user/list";
 import addOrEditUser from '@/views/system/userManage/components/addOrEditUser';
+import tableHeight from '@/mixin/tableHeight';
 import dayjs from "dayjs";
 export default {
   components: {
     addOrEditUser
   },
+  mixins: [tableHeight],
   data() {
     return {
       searchData: {
         userName: '',
-        mobiel: '',
+        mobile: '',
         state: '',
-        timeArr: '',
+        userType: '',
+        timeArr: [],
         pageNum: 1,
         pageSize: 10,
       },
@@ -104,6 +107,18 @@ export default {
     }
   },
   methods: {
+    handleSearch() {
+      this.searchData.pageNum = 1;
+      const timeArr = this.searchData.timeArr;
+      if (timeArr && timeArr.length) {
+        this.searchData.startTime = timeArr[0] ? timeArr[0] : '';
+        this.searchData.endTime = timeArr[1] ? timeArr[1] : '';
+      } else {
+        this.searchData.startTime = '';
+        this.searchData.endTime = '';
+      }
+      this.getDataList();
+    },
     deleteUser(row) {
       if (!row) {
         this.$message.info("功能开发中")
@@ -119,20 +134,18 @@ export default {
             if (this.usersList.length == 1 && this.searchData.pageNum > 1) {
               this.searchData.pageNum--;
             }
-            this.getDataList();
+            this.getDataList(this.searchData.pageNum);
           } else {
             this.$message.error(res.meta.msg);
           }
-        }).catch(() => {});
+        }).catch(() => { });
       }
     },
     // 获取用户列表
-    async getDataList(pageNum) {
+    async getDataList() {
       try {
-        if (pageNum) {
-          this.searchData.pageNum = pageNum;
-        }
         const params = { ...this.searchData };
+        delete params.timeArr;
         this.loading = true;
         const res = await getUserlistReq(params);
         if (res.meta.status == 200) {
@@ -143,7 +156,6 @@ export default {
         }
         this.loading = false;
       } catch (err) {
-        console.log(err);
       }
     },
     async handleUserState(row) {
@@ -153,7 +165,7 @@ export default {
       } else {
         this.$message.error(res.meta.msg);
       }
-      this.getDataList();
+      this.getDataList(this.searchData.pageNum);
     },
     openAddOrEditUser(row) {
       this.$refs.addOrEditUserRef.init(row);
@@ -161,9 +173,10 @@ export default {
     reset() {
       this.searchData = {
         userName: '',
-        mobiel: '',
+        mobile: '',
         state: '',
-        timeArr: '',
+        userType: '',
+        timeArr: [],
         pageNum: 1,
         pageSize: 10,
       };

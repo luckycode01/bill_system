@@ -1,15 +1,15 @@
 <template>
   <div class="container">
     <el-row :gutter="10" class="mg-b12">
-      <el-input v-model="roleName" placeholder="请输入角色名称" size="mini" style="width:260px" @change="getDataList(1)">
-        <template slot="append"><i class="icon el-icon-search cursor" @click="getDataList(1)"></i></template>
+      <el-input v-model="roleName" placeholder="请输入角色名称" size="mini" style="width:260px" @change="handleSearch">
+        <template slot="append"><i class="icon el-icon-search cursor" @click="handleSearch"></i></template>
       </el-input>
     </el-row>
     <el-row :gutter="10" class="mg-b12">
       <el-button type="primary" size="mini" icon="el-icon-plus" @click="($event)=>openAddOrEditRole()">添加角色</el-button>
       <el-button type="danger" size="mini" icon="el-icon-delete" @click="($event)=>deleteRole()">批量删除</el-button>
     </el-row>
-    <el-table v-loading="loading" :data="roleList" style="width: 100%" border stripe>
+    <el-table v-loading="loading" :data="roleList" style="width: 100%" :height="tableHeight" border stripe>
       <el-table-column type="index" label="序号" width="50"></el-table-column>
       <el-table-column prop="roleName" align="center" label="角色名"></el-table-column>
       <el-table-column prop="roleDesc" align="center" label="角色描述" show-overflow-tooltip min-width="width"></el-table-column>
@@ -63,16 +63,18 @@ import {
 import {
   getMenuList
 } from "@/api/user/menus";
+import tableHeight from '@/mixin/tableHeight';
 
 import dayjs from "dayjs";
 export default {
   components: {
   },
+  mixins: [tableHeight],
   data() {
     return {
       roleName: '',
       loading: false,
-      roleList:[],
+      roleList: [],
       menuList: [],
       pageInfo: {
         pageNum: 1,
@@ -113,6 +115,10 @@ export default {
     },
     handleNodeClick(data) {
       console.log(data);
+    },
+    handleSearch() {
+      this.searchData.pageNum = 1;
+      this.getDataList();
     },
     async getDataList() {
       try {

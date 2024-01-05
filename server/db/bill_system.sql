@@ -41,6 +41,17 @@ create table user_center (
 
 INSERT INTO `user_center` VALUES ('1', 'admin', '$2y$10$sZlpZNoLAnoD1DtYO9REAODCPkpMb5bwl4oMzrMvJa83k9BY3KRwq', '0,1,2', '13412344321', 'adsfad@qq.com', '1', '1486720211',  '1486720211', '1', '0',null,null,null,null,null);
 
+INSERT INTO `user_center` VALUES (510, 'lucky','$2y$10$sZlpZNoLAnoD1DtYO9REAODCPkpMb5bwl4oMzrMvJa83k9BY3KRwq','2,3', '13412341001', '13412341001@qq.com', 0, 1704326400, 1704326400, 1, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user_center` VALUES (511, '001', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123002', '13412123002@qq.com', 0, 1704326400, 1704326400, 2, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user_center` VALUES (512, '002', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123003', '13412123003@qq.com', 0, 1704326400, 1704326400, 2, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user_center` VALUES (513, '003', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123004', '13412123004@qq.com', 0, 1704326400, 1704326400, 2, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user_center` VALUES (514, '004', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123005', '13412123005@qq.com', 0, 1704441451, 1704441451, 2, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user_center` VALUES (515, '005', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123006', '13412123006@qq.com', 0, 1704441451, 1704441451, 2, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user_center` VALUES (516, '006', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123007', '13412123007@qq.com', 0, 1704441451, 1704441451, 2, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user_center` VALUES (517, '007', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123008', '13412123008@qq.com', 0, 1704441451, 1704441451, 2, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user_center` VALUES (518, '008', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123009', '13412123009@qq.com', 0, 1704441451, 1704441451, 2, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user_center` VALUES (519, '009', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123010', '13412123010@qq.com', 0, 1704441451, 1704441451, 2, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user_center` VALUES (520, '010', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123011', '13412123011@qq.com', 0, 1704441451, 1704441451, 2, 0, NULL, NULL, NULL, NULL, NULL);
 -- ----------------------------
 -- Table structure for sp_role
 -- ----------------------------
@@ -59,6 +70,25 @@ CREATE TABLE `sp_role` (
 INSERT INTO `sp_role` VALUES ('30', '主管', '101,0,104,116,115,142,143,144,121,122,123,149,102,107,109,103,111,129,130,134,135,138,139,140,141,112,147,125,110,131,132,133,136,137,145,146,148', 'Goods-index,Goods-tianjia,Category-index,Order-showlist,Brand-index', '技术负责人',1486720211,1486720211);
 INSERT INTO `sp_role` VALUES ('31', '测试角色', '101,0,104,105,116,117,115,142,143,144,121,122,123,149,103,111,129,134,138,112,147', 'Goods-showlist,Goods-tianjia,Category-showlist,Order-showlist,Order-dayin,Order-tianjia', '测试角色描述',1486720211,1486720211);
 INSERT INTO `sp_role` VALUES ('34', '测试角色2', '0,105,116,142,143,122', null, '测试描述12',1486720211,1486720211);
+
+INSERT INTO `sp_role` VALUES ('35', '主管1', '101,0,148', 'Order-showlist,Brand-index', '技术111111',1704441451,1704441451);
+INSERT INTO `sp_role` VALUES ('36', '主管2', '101,0,148', 'Order-showlist,Brand-index', '技术222222',1704441451,1704441451);
+INSERT INTO `sp_role` VALUES ('37', '主管3', '101,0,148', 'Order-showlist,Brand-index', '技术1704326400',1704326400,1704326400);
+INSERT INTO `sp_role` VALUES ('38', '主管4', '101,0,148', 'Order-showlist,Brand-index', '技术1704326400',1704326400,1704326400);
+INSERT INTO `sp_role` VALUES ('39', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术1704326400',1704326400,1704326400);
+INSERT INTO `sp_role` VALUES ('40', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术1704326400',1704326400,1704326400);
+INSERT INTO `sp_role` VALUES ('41', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术1704326400',1704326400,1704326400);
+INSERT INTO `sp_role` VALUES ('42', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术1704326400',1704326400,1704326400);
+INSERT INTO `sp_role` VALUES ('43', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术1704326400',1704326400,1704326400);
+INSERT INTO `sp_role` VALUES ('44', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术1704326400',1704326400,1704326400);
+INSERT INTO `sp_role` VALUES ('45', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术1704326400',1704326400,1704326400);
+INSERT INTO `sp_role` VALUES ('46', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术1704326400',1704326400,1704326400);
+INSERT INTO `sp_role` VALUES ('47', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术1704326400',1704326400,1704326400);
+INSERT INTO `sp_role` VALUES ('48', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术1704326400',1704326400,1704326400);
+INSERT INTO `sp_role` VALUES ('49', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术1704326400',1704326400,1704326400);
+INSERT INTO `sp_role` VALUES ('50', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术1704326400',1704326400,1704326400);
+INSERT INTO `sp_role` VALUES ('51', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术1704326400',1704326400,1704326400);
+
 
 -- ----------------------------
 -- Table structure for sp_permission
