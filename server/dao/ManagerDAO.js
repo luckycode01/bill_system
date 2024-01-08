@@ -45,7 +45,6 @@ module.exports.findOne = function (conditions, cb) {
  */
 module.exports.findByKey = function (conditions, cb) {
   const { userName, offset, limit, mobile, userType, startTime, endTime, state } = conditions;
-  console.log(conditions);
   // sql = "SELECT * FROM user_center as user LEFT JOIN sp_role as role ON FIND_IN_SET(role.role_id, user.role_ids) > 0";
   sql = `
     SELECT user.*,GROUP_CONCAT(role.role_name) as role_names FROM user_center as user 
@@ -101,21 +100,21 @@ module.exports.exists = function (params, cb) {
  * @param  {[type]}   key 关键词
  * @param  {Function} cb  回调函数
  */
-module.exports.countByKey = function (key, cb) {
+module.exports.countByKey = function (conditions, cb) {
+  const { userName, mobile, userType, startTime, endTime, state } = conditions;
   db = databaseModule.getDatabase();
-  sql = "SELECT count(*) as count FROM user_center";
-  if (key) {
-    sql += " WHERE username LIKE ?";
-    database.driver.execQuery(sql, ["%" + key + "%"], function (err, result) {
-      if (err) return cb("查询执行出错");
-      cb(null, result[0]["count"]);
-    });
-  } else {
-    database.driver.execQuery(sql, function (err, result) {
-      if (err) return cb("查询执行出错");
-      cb(null, result[0]["count"]);
-    });
-  }
+  sql = "SELECT count(*) as count FROM user_center as user";
+  sql += `
+    WHERE (? is NUll OR user.username LIKE ?) 
+    AND (? is NUll OR user.user_mobile LIKE ?) 
+    AND (? is NUll OR user.mg_state = ?) 
+    AND (? is NUll OR user.user_type = ?) 
+    AND (? is NUll OR user.create_time > ?) 
+    AND (? is NUll OR user.create_time < ?)`;
+  database.driver.execQuery(sql, [userName, `%${userName}%`, mobile, `%${mobile}%`, state, state, userType, userType, startTime, startTime, endTime, endTime], function (err, result) {
+    if (err) return cb("查询执行出错");
+    cb(null, result[0]["count"]);
+  });
 };
 
 /**

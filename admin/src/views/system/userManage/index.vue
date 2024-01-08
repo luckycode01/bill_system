@@ -66,7 +66,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <pagination v-show="total>searchData.pageSize" :total="total" :page.sync="searchData.pageNum" :limit.sync="searchData.pageSize" @pagination="getDataList" />
+    <pagination  :total="total" :page.sync="searchData.pageNum" :limit.sync="searchData.pageSize" @pagination="getDataList" />
     <addOrEditUser ref="addOrEditUserRef" @getDataList="getDataList"></addOrEditUser>
   </div>
 </template>

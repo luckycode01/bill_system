@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <el-row :gutter="10" class="mg-b12">
-      <el-input v-model="roleName" placeholder="请输入角色名称" size="mini" style="width:260px" @change="handleSearch">
+      <el-input v-model="roleName" placeholder="请输入角色名称" size="mini" style="width:260px" clearable @change="handleSearch">
         <template slot="append"><i class="icon el-icon-search cursor" @click="handleSearch"></i></template>
       </el-input>
     </el-row>
@@ -31,7 +31,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <pagination v-show="pageInfo.total > pageInfo.pageSize" :total="pageInfo.total" :page.sync="pageInfo.pageNum" :limit.sync="pageInfo.pageSize" @pagination="getDataList" />
+    <pagination :total="pageInfo.total" :page.sync="pageInfo.pageNum" :limit.sync="pageInfo.pageSize" @pagination="getDataList" />
     <el-dialog title="" :visible.sync="addOrEditRoleDialog" width="500px" :before-close="dialogBeforeClose">
       <el-form ref="addorEditroleFormRef" :rules="addorEditRules" :model="addorEditroleForm" label-width="80px">
         <el-form-item label="角色名称" prop="roleName">
@@ -117,7 +117,7 @@ export default {
       console.log(data);
     },
     handleSearch() {
-      this.searchData.pageNum = 1;
+      this.pageInfo.pageNum = 1;
       this.getDataList();
     },
     async getDataList() {

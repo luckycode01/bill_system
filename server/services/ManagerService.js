@@ -20,7 +20,7 @@ module.exports.getAllManagers = function (conditions, cb) {
   if (!conditions.pageSize) return cb("pageSize 参数不合法");
 
   // 通过关键词获取管理员数量
-  managersDAO.countByKey(conditions["userName"], function (err, count) {
+  managersDAO.countByKey(conditions, function (err, count) {
     pageNum = parseInt(conditions["pageNum"]);
     pageSize = parseInt(conditions["pageSize"]);
 

@@ -26,7 +26,7 @@ router.get(
   function (req, res, next) {
     roleServ.getAllRoles(
       {
-        roleName: req.query.userName,
+        roleName: req.query.roleName || null,
         pageNum: req.query.pageNum,
         pageSize: req.query.pageSize,
       },

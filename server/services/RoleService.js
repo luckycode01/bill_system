@@ -1,6 +1,7 @@
 var _ = require("lodash");
 var path = require("path");
 var dao = require(path.join(process.cwd(), "dao/DAO"));
+const roleDAO = require(path.join(process.cwd(), "dao/roleDAO"));
 var permissionAPIDAO = require(path.join(
   process.cwd(),
   "dao/PermissionAPIDAO"
@@ -75,8 +76,8 @@ function getPermissionsResult(permissionKeys, permissionIds) {
  */
 module.exports.getAllRoles = function (conditions, cb) {
   //获取所有角色数量
-  dao.countByConditions("RoleModel", conditions, function (err, count) {
-    const key = conditions["roleName"];
+  // dao.countByConditions("RoleModel", conditions, function (err, count) {
+  roleDAO.countByKey(conditions, function (err, count) {
     const pageNum = parseInt(conditions["pageNum"]);
     const pageSize = parseInt(conditions["pageSize"]);
     pageCount = Math.ceil(count / pageSize);
@@ -89,7 +90,8 @@ module.exports.getAllRoles = function (conditions, cb) {
     conditions["offset"] = offset;
     conditions["limit"] = limit;
 
-    dao.list("RoleModel", conditions, function (err, roles) {
+    // dao.list("RoleModel", conditions, function (err, roles) {
+      roleDAO.findByKey(conditions, function (err, roles) {
       if (err) return cb("获取角色数据失败");
       permissionAPIDAO.list(function (err, permissions) {
         if (err) return cb("获取权限数据失败");
