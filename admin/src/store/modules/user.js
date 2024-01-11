@@ -39,7 +39,7 @@ const user = {
               setToken(token);
               commit("SET_TOKEN", token);
               resolve();
-            }else{
+            } else {
               reject(res);
             }
           })
@@ -58,18 +58,22 @@ const user = {
       return new Promise((resolve, reject) => {
         getInfo()
           .then((res) => {
-            const userInfo = res.data;
-            const avatar = userInfo.avatar == "" || userInfo.avatar == null ? require("@/assets/logo/avatar.jpg") : userInfo.avatar;
-            if (userInfo.rids && userInfo.rids.split(",").length > 0) {
-              // 验证返回的roles是否是一个非空数组
-              commit("SET_ROLES", userInfo.rids);
-              // commit("SET_PERMISSIONS", res.permissions);
-            } else {
-              commit("SET_ROLES", ["ROLE_DEFAULT"]);
+            if (res.meta.status == 200) {
+              const userInfo = res.data;
+              const avatar = userInfo.avatar == "" || userInfo.avatar == null ? require("@/assets/logo/avatar.jpg") : userInfo.avatar;
+              if (userInfo.rids && userInfo.rids.split(",").length > 0) {
+                // 验证返回的roles是否是一个非空数组
+                commit("SET_ROLES", userInfo.rids);
+                // commit("SET_PERMISSIONS", res.permissions);
+              } else {
+                commit("SET_ROLES", ["ROLE_DEFAULT"]);
+              }
+              commit("SET_NAME", userInfo.username);
+              commit("SET_AVATAR", avatar);
+              resolve(res);
+            }else{
+              reject(res.meta.msg)
             }
-            commit("SET_NAME", userInfo.username);
-            commit("SET_AVATAR", avatar);
-            resolve(res);
           })
           .catch((error) => {
             reject(error);
