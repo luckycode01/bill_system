@@ -14,8 +14,14 @@ export default {
   methods: {
     resetHeight() {
       this.$nextTick(() => {
+        // 是否有分页
+        const page = document.querySelector('.el-pagination');
         const cardDom = document.querySelector('.el-card');
-        this.tableHeight = cardDom.offsetHeight - 180;
+        this.tableHeight = cardDom.offsetHeight - 130;
+        if (page) {
+          this.tableHeight = this.tableHeight - 50;
+        }
+
       })
     },
   }

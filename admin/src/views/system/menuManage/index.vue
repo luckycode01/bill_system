@@ -10,14 +10,17 @@
       <el-button type="primary" size="mini" icon="el-icon-refresh" plain @click="reset">重置</el-button>
     </el-row>
     <el-row :gutter="10" class="mg-b12">
-      <el-button type="primary" size="mini" icon="el-icon-plus" @click="($event)=>openAddOrEditMenu()">添加角色</el-button>
+      <el-button type="primary" size="mini" icon="el-icon-plus" @click="($event)=>openAddOrEditMenu()">添加菜单</el-button>
       <el-button type="danger" size="mini" icon="el-icon-delete" @click="($event)=>deleteMenu()">批量删除</el-button>
     </el-row>
-    <el-table v-loading="loading" :data="menuList" style="width: 100%" :height="tableHeight" border stripe>
-      <el-table-column type="index" label="序号" width="50"></el-table-column>
-      <el-table-column prop="roleName" align="center" label="角色名"></el-table-column>
-      <el-table-column prop="roleDesc" align="center" label="角色描述" show-overflow-tooltip min-width="width"></el-table-column>
-      <el-table-column prop="createTime" align="center" label="创建时间" show-overflow-tooltip>
+    <el-table v-loading="loading" :data="menuList" style="width: 100%" :height="tableHeight" row-key="id" default-expand-all :tree-props="{children: 'children', hasChildren: 'hasChildren'}" border stripe>
+      <el-table-column prop="authName" align="center" label="菜单名称" width="140"></el-table-column>
+      <el-table-column prop="roleDesc" align="center" label="图标"  width="80"></el-table-column>
+      <el-table-column prop="roleDesc" align="center" label="排序"  width="80"></el-table-column>
+      <el-table-column prop="roleDesc" align="center" label="权限标识" show-overflow-tooltip width="width"></el-table-column>
+      <el-table-column prop="roleDesc" align="center" label="组件路径" show-overflow-tooltip width="width"></el-table-column>
+      <el-table-column prop="roleDesc" align="center" label="状态" width="80"></el-table-column>
+      <el-table-column prop="createTime" align="center" label="创建时间"  width="140">
         <template slot-scope="{row}">
           <span>{{row.createTime | handleTime}}</span>
         </template>
@@ -33,12 +36,12 @@
     <el-dialog title="" :visible.sync="addOrEditMenuDialog" width="500px" :before-close="dialogBeforeClose">
       <el-form ref="addOrEditMenuFormRef" :rules="addorEditRules" :model="addOrEditMenuForm" label-width="80px">
         <el-form-item label="角色名称" prop="roleName">
-          <el-input v-model="addOrEditMenuForm.roleName" :disabled="isDisabled" required placeholder="请输入角色名称" size="mini"></el-input>
+
         </el-form-item>
       </el-form>
       <div slot="footer">
         <el-button @click="dialogBeforeClose" size="mini">取 消</el-button>
-        <el-button v-if="!isDisabled" type="primary" @click="submitAddOrMenu" size="mini">确 定</el-button>
+        <el-button type="primary" @click="submitAddOrMenu" size="mini">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -61,7 +64,7 @@ export default {
         menuName: '',
       },
       loading: false,
-      menuList: [{}],
+      menuList: [],
       pageInfo: {
         pageNum: 1,
         pageSize: 10,
@@ -99,13 +102,13 @@ export default {
     async getDataList() {
       try {
         const params = {
-          roleName: this.roleName,
+          menuName: this.menuName,
           pageNum: this.pageInfo.pageNum,
           pageSize: this.pageInfo.pageSize,
         }
-        const res = await getRoleslistReq(params);
+        const res = await getMenuList(params);
         if (res.meta.status == 200) {
-          this.menuList = res.data.data || [];
+          this.menuList = res.data || [];
           this.pageInfo.total = res.data.total;
         }
 
@@ -136,7 +139,6 @@ export default {
     },
 
     dialogBeforeClose(done) {
-      this.isDisabled = false;
       this.$refs.addOrEditMenuFormRef.resetFields();
       const keys = Object.keys(this.addOrEditMenuForm);
       keys.forEach(item => {
