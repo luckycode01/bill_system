@@ -34,7 +34,17 @@ module.exports.getLeftMenus = function (userInfo, cb) {
 						"path": permission.ps_api_path,
 						"limit":permission.ps_api_limit,
 						"children": [],
-						"order": permission.ps_api_order
+						"order": permission.ps_api_order,
+						"level":'',
+						type:permission.ps_type,
+						order:permission.ps_order,
+						icon:permission.ps_icon,
+						sign:permission.ps_sign,
+						params:permission.ps_params,
+						show:permission.ps_show,
+						createTime:permission.create_time,
+						serviceName:permission.ps_api_service,
+						actionName:permission.ps_api_action,
 					};
 				}
 			}
@@ -54,7 +64,16 @@ module.exports.getLeftMenus = function (userInfo, cb) {
 							"path": permission.ps_api_path,
 							"limit":permission.ps_api_limit,
 							"children": [],
-							"order": permission.ps_api_order
+							"order": permission.ps_api_order,
+							type:permission.ps_type,
+							order:permission.ps_order,
+							icon:permission.ps_icon,
+							sign:permission.ps_sign,
+							params:permission.ps_params,
+							show:permission.ps_show,
+							createTime:permission.create_time,
+							serviceName:permission.ps_api_service,
+							actionName:permission.ps_api_action,
 						});
 					}
 				}

@@ -15,12 +15,17 @@
     </el-row>
     <el-table v-loading="loading" :data="menuList" style="width: 100%" :height="tableHeight" row-key="id" default-expand-all :tree-props="{children: 'children', hasChildren: 'hasChildren'}" border stripe>
       <el-table-column prop="authName" align="center" label="菜单名称" width="140"></el-table-column>
-      <el-table-column prop="roleDesc" align="center" label="图标"  width="80"></el-table-column>
-      <el-table-column prop="roleDesc" align="center" label="排序"  width="80"></el-table-column>
-      <el-table-column prop="roleDesc" align="center" label="权限标识" show-overflow-tooltip width="width"></el-table-column>
-      <el-table-column prop="roleDesc" align="center" label="组件路径" show-overflow-tooltip width="width"></el-table-column>
-      <el-table-column prop="roleDesc" align="center" label="状态" width="80"></el-table-column>
-      <el-table-column prop="createTime" align="center" label="创建时间"  width="140">
+      <el-table-column prop="icon" align="center" label="图标" width="80">
+        <template slot-scope="{row}">
+          <svg-icon :icon-class="row.icon" class-name="icon" />
+        </template>
+      </el-table-column>
+      <el-table-column prop="order" align="center" label="排序" width="80"></el-table-column>
+      <el-table-column prop="sign" align="center" label="权限标识" show-overflow-tooltip width="width"></el-table-column>
+      <el-table-column prop="path" align="center" label="组件路径" show-overflow-tooltip width="width"></el-table-column>
+      <el-table-column prop="serviceName" align="center" label="服务名称" show-overflow-tooltip width="width"></el-table-column>
+      <el-table-column prop="actionName" align="center" label="方法名称" show-overflow-tooltip width="width"></el-table-column>
+      <el-table-column prop="createTime" align="center" label="创建时间" width="150">
         <template slot-scope="{row}">
           <span>{{row.createTime | handleTime}}</span>
         </template>
@@ -33,28 +38,19 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-dialog title="" :visible.sync="addOrEditMenuDialog" width="500px" :before-close="dialogBeforeClose">
-      <el-form ref="addOrEditMenuFormRef" :rules="addorEditRules" :model="addOrEditMenuForm" label-width="80px">
-        <el-form-item label="角色名称" prop="roleName">
-
-        </el-form-item>
-      </el-form>
-      <div slot="footer">
-        <el-button @click="dialogBeforeClose" size="mini">取 消</el-button>
-        <el-button type="primary" @click="submitAddOrMenu" size="mini">确 定</el-button>
-      </div>
-    </el-dialog>
+    <addOrEdit ref="addOrEditRef"></addOrEdit>
   </div>
 </template>
 
 <script>
-import { } from "@/api/user/role";
 import { getMenuList } from "@/api/user/menus";
 import tableHeight from '@/mixin/tableHeight';
+import addOrEdit from '@/views/system/menuManage/components/addOrEdit'
 
 import dayjs from "dayjs";
 export default {
   components: {
+    addOrEdit
   },
   mixins: [tableHeight],
   data() {
@@ -70,13 +66,6 @@ export default {
         pageSize: 10,
         total: 0,
       },
-      addOrEditMenuDialog: false,
-      addOrEditMenuForm: {
-
-      },
-      addorEditRules: {
-        menuName: [{ required: true, message: "请输入角色名称", tigger: 'blue' }]
-      },
     }
   },
   created() {
@@ -88,13 +77,7 @@ export default {
     }
   },
   methods: {
-    submitAddOrMenu() {
-      this.$refs.addOrEditMenuFormRef.validate(val => {
-        if (val) {
 
-        }
-      })
-    },
     handleSearch() {
       this.pageInfo.pageNum = 1;
       this.getDataList();
@@ -117,12 +100,7 @@ export default {
       }
     },
     openAddOrEditMenu(row, type) {
-      if (row) {
-
-      }
-
-      this.addOrEditMenuDialog = true;
-
+      this.$refs.addOrEditRef.init(row);
     },
     deleteMenu(row) {
       if (!row) {
@@ -138,15 +116,7 @@ export default {
       }
     },
 
-    dialogBeforeClose(done) {
-      this.$refs.addOrEditMenuFormRef.resetFields();
-      const keys = Object.keys(this.addOrEditMenuForm);
-      keys.forEach(item => {
-        this.addOrEditMenuForm[item] = '';
-      })
 
-      done instanceof Function ? done() : this.addOrEditRoleDialog = false;
-    },
     reset() {
       this.searchData = {
       };
