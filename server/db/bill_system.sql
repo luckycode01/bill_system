@@ -111,54 +111,13 @@ CREATE TABLE `sp_permission` (
 	PRIMARY KEY ( `ps_id` ) 
 ) ENGINE = INNODB AUTO_INCREMENT = 50 DEFAULT CHARSET = utf8mb3 COMMENT = '权限表';
 
-INSERT INTO `sp_permission` VALUES ('101', '商品管理', '0', '', '', '0');
-INSERT INTO `sp_permission` VALUES ('102', '订单管理', '0', '', 'order', '0');
-INSERT INTO `sp_permission` VALUES ('103', '权限管理', '0', '', '', '0');
-INSERT INTO `sp_permission` VALUES ('104', '商品列表', '101', 'Goods', 'index', '1');
-INSERT INTO `sp_permission` VALUES ('105', '添加商品', '104', 'Goods', 'tianjia', '2');
-INSERT INTO `sp_permission` VALUES ('107', '订单列表', '102', 'Order', 'index', '1');
-INSERT INTO `sp_permission` VALUES ('109', '添加订单', '107', 'Order', 'tianjia', '2');
-INSERT INTO `sp_permission` VALUES ('110', '用户列表', '125', 'Manager', 'index', '1');
-INSERT INTO `sp_permission` VALUES ('111', '角色列表', '103', 'Role', 'index', '1');
-INSERT INTO `sp_permission` VALUES ('112', '权限列表', '103', 'Permission', 'index', '1');
-INSERT INTO `sp_permission` VALUES ('115', '分类参数', '101', 'Type', 'index', '1');
-INSERT INTO `sp_permission` VALUES ('116', '商品修改', '104', 'Goods', 'upd', '2');
-INSERT INTO `sp_permission` VALUES ('117', '商品删除', '104', 'Goods', 'del', '2');
-INSERT INTO `sp_permission` VALUES ('121', '商品分类', '101', '', '', '1');
-INSERT INTO `sp_permission` VALUES ('122', '添加分类', '121', '', '', '2');
-INSERT INTO `sp_permission` VALUES ('123', '删除分类', '121', '', '', '2');
-INSERT INTO `sp_permission` VALUES ('125', '用户管理', '0', '', '', '0');
-INSERT INTO `sp_permission` VALUES ('129', '添加角色', '111', '', '', '2');
-INSERT INTO `sp_permission` VALUES ('130', '删除角色', '111', '', '', '2');
-INSERT INTO `sp_permission` VALUES ('131', '添加用户', '110', '', '', '2');
-INSERT INTO `sp_permission` VALUES ('132', '删除用户', '110', '', '', '2');
-INSERT INTO `sp_permission` VALUES ('133', '更新用户', '110', '', '', '2');
-INSERT INTO `sp_permission` VALUES ('134', '角色授权', '111', '', '', '2');
-INSERT INTO `sp_permission` VALUES ('135', '取消角色授权', '111', '', '', '2');
-INSERT INTO `sp_permission` VALUES ('136', '获取用户详情', '110', '', '', '2');
-INSERT INTO `sp_permission` VALUES ('137', '分配用户角色', '110', '', '', '2');
-INSERT INTO `sp_permission` VALUES ('138', '获取角色列表', '111', '', '', '2');
-INSERT INTO `sp_permission` VALUES ('139', '获取角色详情', '111', '', '', '2');
-INSERT INTO `sp_permission` VALUES ('140', '更新角色信息', '111', '', '', '2');
-INSERT INTO `sp_permission` VALUES ('141', '更新角色权限', '111', '', '', '2');
-INSERT INTO `sp_permission` VALUES ('142', '获取参数列表', '115', '', '', '2');
-INSERT INTO `sp_permission` VALUES ('143', '创建商品参数', '115', '', '', '2');
-INSERT INTO `sp_permission` VALUES ('144', '删除商品参数', '115', '', '', '2');
-INSERT INTO `sp_permission` VALUES ('145', '数据统计', '0', '', '', '0');
-INSERT INTO `sp_permission` VALUES ('146', '数据报表', '145', '', '', '1');
-INSERT INTO `sp_permission` VALUES ('147', '查看权限', '112', '', '', '2');
-INSERT INTO `sp_permission` VALUES ('148', '查看数据', '146', '', '', '2');
-INSERT INTO `sp_permission` VALUES ('149', '获取分类详情', '121', '', '', '2');
-INSERT INTO `sp_permission` VALUES ('150', '更新商品图片', '104', '', '', '2');
-INSERT INTO `sp_permission` VALUES ('151', '更新商品属性', '104', '', '', '2');
-INSERT INTO `sp_permission` VALUES ('152', '更新商品状态', '104', '', '', '2');
-INSERT INTO `sp_permission` VALUES ('153', '获取商品详情', '104', '', '', '2');
-INSERT INTO `sp_permission` VALUES ('154', '订单更新', '107', '', '', '2');
-INSERT INTO `sp_permission` VALUES ('155', '获取订单详情', '107', '', '', '2');
-INSERT INTO `sp_permission` VALUES ('156', '分类参数添加', '101', '', '', '2');
-INSERT INTO `sp_permission` VALUES ('157', '分类参数删除', '101', '', '', '2');
-INSERT INTO `sp_permission` VALUES ('158', '分类参数详情', '101', '', '', '2');
-INSERT INTO `sp_permission` VALUES ('159', '设置管理状态', '110', '', '', '2');
+INSERT INTO `sp_permission` VALUES ('101', '商品管理', '0', NULL, NULL, '0','1','category',null,1,1,'0');
+INSERT INTO `sp_permission` VALUES ('102', '订单管理', '0', '', 'order', '0','1','category',null,1,1,'0');
+INSERT INTO `sp_permission` VALUES ('103', '权限管理', '0', '', '', '0','1','category',null,1,1,'0');
+INSERT INTO `sp_permission` VALUES ('104', '商品列表', '101', 'Goods', 'index', '1','1','category',null,1,1,'0');
+INSERT INTO `sp_permission` VALUES ('105', '添加商品', '104', 'Goods', 'tianjia', '2','1','category',null,1,1,'0');
+INSERT INTO `sp_permission` VALUES ('107', '订单列表', '102', 'Order', 'index', '1','1','category',null,1,1,'0');
+
 
 -- ----------------------------
 -- Table structure for sp_permission_api
