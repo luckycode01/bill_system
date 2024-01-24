@@ -23,7 +23,6 @@ module.exports.getAllRights = function (type, cb) {
 					"level": permission.ps_level,
 					"pid": permission.ps_pid,
 					"path": permission.ps_api_path,
-					"limit": permission.ps_api_limit,
 				});
 			}
 			cb(null, result);
@@ -41,7 +40,6 @@ module.exports.getAllRights = function (type, cb) {
 						"id": permission.ps_id,
 						"authName": permission.ps_name,
 						"path": permission.ps_api_path,
-						"limit": permission.ps_api_limit,
 						"pid": permission.ps_pid,
 						"children": []
 					};
@@ -61,7 +59,6 @@ module.exports.getAllRights = function (type, cb) {
 							"id": permission.ps_id,
 							"authName": permission.ps_name,
 							"path": permission.ps_api_path,
-							"limit": permission.ps_api_limit,
 							"pid": permission.ps_pid,
 							"children": []
 						}
@@ -83,7 +80,6 @@ module.exports.getAllRights = function (type, cb) {
 							"id": permission.ps_id,
 							"authName": permission.ps_name,
 							"path": permission.ps_api_path,
-							"limit": permission.ps_api_limit,
 							"pid": permission.ps_pid + "," + keyCategories[permission.ps_pid].ps_pid
 						});
 					}
