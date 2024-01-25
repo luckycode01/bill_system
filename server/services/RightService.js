@@ -1,94 +1,47 @@
-var _ = require('lodash');
+var _ = require("lodash");
 var path = require("path");
 var dao = require(path.join(process.cwd(), "dao/PermissionAPIDAO"));
-
+// 初始化数据库模块
+var utils = require("../utils/index");
+const { util } = require("chai");
 
 // 获取所有权限
 module.exports.getAllRights = function (type, cb) {
 	if (!type || (type != "list" && type != "tree")) {
 		cb("参数类型错误");
 	}
-
-
 	dao.list(function (err, permissions) {
 		if (err) return cb("获取权限数据失败");
-
-		if (type == "list") {
-			var result = [];
-			for (idx in permissions) {
-				permission = permissions[idx];
-				result.push({
-					"id": permission.ps_id,
-					"authName": permission.ps_name,
-					"level": permission.ps_level,
-					"pid": permission.ps_pid,
-					"path": permission.ps_api_path,
-				});
-			}
-			cb(null, result);
-		} else {
-			var keyCategories = _.keyBy(permissions, 'ps_id');
-
-			// 显示一级
-			var permissionsResult = {};
-
-			// 处理一级菜单
-			for (idx in permissions) {
-				permission = permissions[idx];
-				if (permission && permission.ps_level == 0) {
-					permissionsResult[permission.ps_id] = {
-						"id": permission.ps_id,
-						"authName": permission.ps_name,
-						"path": permission.ps_api_path,
-						"pid": permission.ps_pid,
-						"children": []
-					};
-				}
-			}
-
-			// 临时存储二级返回结果
-			tmpResult = {};
-			// 处理二级菜单
-			for (idx in permissions) {
-				permission = permissions[idx];
-				if (permission && permission.ps_level == 1) {
-
-					parentPermissionResult = permissionsResult[permission.ps_pid];
-					if (parentPermissionResult) {
-						tmpResult[permission.ps_id] = {
-							"id": permission.ps_id,
-							"authName": permission.ps_name,
-							"path": permission.ps_api_path,
-							"pid": permission.ps_pid,
-							"children": []
-						}
-						parentPermissionResult.children.push(tmpResult[permission.ps_id]);
-					}
-				}
-			}
-
-			// 处理三级菜单
-			for (idx in permissions) {
-				permission = permissions[idx];
-				if (permission && permission.ps_level == 2) {
-
-					parentPermissionResult = tmpResult[permission.ps_pid];
-
-					if (parentPermissionResult) {
-
-						parentPermissionResult.children.push({
-							"id": permission.ps_id,
-							"authName": permission.ps_name,
-							"path": permission.ps_api_path,
-							"pid": permission.ps_pid + "," + keyCategories[permission.ps_pid].ps_pid
-						});
-					}
-				}
-			}
-
-			cb(null, _.values(permissionsResult));
-
+		let res = _.cloneDeep(permissions);
+		if (type == "tree") {
+			res = utils.listTransFormTree(permissions, "ps_id", "ps_pid");
 		}
+		cb(null, dataMap(res));
 	});
+};
 
+function dataMap(data) {
+	return (reslut = data.map((item) => {
+		const obj = {
+			id: item.ps_id,
+			pid: item.ps_pid,
+			authName: item.ps_name,
+			path: item.ps_api_path,
+			order: item.ps_api_order,
+			type: item.ps_type,
+			order: item.ps_order,
+			icon: item.ps_icon,
+			sign: item.ps_sign,
+			params: item.ps_params,
+			show: item.ps_show,
+			createTime: item.create_time,
+			serviceName: item.ps_api_service,
+			actionName: item.ps_api_action,
+			children: [],
+		};
+		if (item.children && item.children.length) {
+			obj.children = dataMap(item.children);
+		}
+		return obj;
+	}));
 }
