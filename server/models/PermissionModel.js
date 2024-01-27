@@ -4,8 +4,6 @@ module.exports = function(db,callback){
 		ps_id : {type: 'serial', key: true},
 		ps_name : String,
 		ps_pid : Number,
-		ps_c : String,
-		ps_a : String,
 		ps_level : String,
 		ps_type:Number,
 		ps_order:Number,

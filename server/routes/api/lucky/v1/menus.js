@@ -16,19 +16,38 @@ router.get("/getMenuList",
 		});
 	}
 );
+/**
+ * menuName:菜单名称
+ * pid:上级菜单Id
+ * level:菜单等级
+ * type:菜单类型
+ * icon:菜单图标
+ * menuParams:路由参数
+ * isShowMenu:是否显示菜单
+ * 
+ * serviceName:权限控制器名称
+ * actionName:权限方法名称
+ * menuPath:组件地址
+ * menuSign:权限标识
+ * order:排序
+ * 
+ */
 router.post(
-	"/addOrEditMenu",
+	"/addOrUpdateMenu",
 	// 参数验证
 	function (req, res, next) {
 		if (!req.body.menuName) return res.sendResult(null, 400, "菜单名称不能为空");
-		if (!req.body.parentld) return res.sendResult(null, 400, "上级Id不能为空");
-		if (!req.body.type) return res.sendResult(null, 400, "权限类型不能为空");
-		if(req.body.type == 1){//添加菜单
-
-		}else if(req.body.type == 2){ //添加按钮
-			
+		if (!req.body.pid) return res.sendResult(null, 400, "上级Id不能为空");
+		if (!req.body.level) return res.sendResult(null, 400, "等级不能为空");
+		if (!req.body.type) return res.sendResult(null, 400, "类型不能为空");
+		if (!req.body.serviceName) return res.sendResult(null, 400, "控制器名称不能为空");
+		if (!req.body.actionName) return res.sendResult(null, 400, "方法名称不能为空");
+		if (req.body.type == 1) {//添加菜单
+			if (!req.body.menuPath) return res.sendResult(null, 400, "组件地址不能为空");
+		} else if (req.body.type == 2) { //添加按钮
+			if (!req.body.menuSign) return res.sendResult(null, 400, "权限标识不能为空");
 		}
-		
+
 
 		next();
 	},

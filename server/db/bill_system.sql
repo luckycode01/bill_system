@@ -99,24 +99,23 @@ CREATE TABLE `sp_permission` (
 	`ps_id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
 	`ps_name` VARCHAR ( 20 ) NOT NULL COMMENT '权限名称',
 	`ps_pid` SMALLINT UNSIGNED NOT NULL COMMENT '父id',
-	`ps_c` VARCHAR ( 32 ) NULL DEFAULT NULL COMMENT '控制器',
-	`ps_a` VARCHAR ( 32 ) NULL DEFAULT NULL COMMENT '操作方法',
 	`ps_level` ENUM ( '0', '3','2', '1' ) NOT NULL DEFAULT '0' COMMENT '权限等级',
-	`ps_type` INT ( 2 ) NOT NULL COMMENT '菜单类型(菜单1,按钮2)',
+	`ps_type` INT ( 2 ) NOT NULL DEFAULT 1 COMMENT '菜单类型(菜单1,按钮2)',
 	`ps_icon` VARCHAR ( 32 ) NULL DEFAULT '' COMMENT '菜单icon',
 	`ps_params` VARCHAR ( 32 ) NULL DEFAULT NULL COMMENT '路由参数',
 	`ps_show` INT ( 2 ) NULL COMMENT '是否显示(否0，是1)',
 	`ps_delete` INT ( 2 ) NULL COMMENT '是否删除(删除0，未删除1)',
 	`create_time` INT UNSIGNED NOT NULL COMMENT '创建时间',
+	`update_time` INT UNSIGNED NOT NULL COMMENT '创建时间',
 	PRIMARY KEY ( `ps_id` ) 
 ) ENGINE = INNODB AUTO_INCREMENT = 50 DEFAULT CHARSET = utf8mb3 COMMENT = '权限表';
 
-INSERT INTO `sp_permission` VALUES ('101', '商品管理', '0', NULL, NULL, '0','1','category',null,1,1,'0');
-INSERT INTO `sp_permission` VALUES ('102', '订单管理', '0', '', 'order', '0','1','category',null,1,1,'0');
-INSERT INTO `sp_permission` VALUES ('103', '权限管理', '0', '', '', '0','1','category',null,1,1,'0');
-INSERT INTO `sp_permission` VALUES ('104', '商品列表', '101', 'Goods', 'index', '1','1','category',null,1,1,'0');
-INSERT INTO `sp_permission` VALUES ('105', '添加商品', '104', 'Goods', 'tianjia', '2','1','category',null,1,1,'0');
-INSERT INTO `sp_permission` VALUES ('107', '订单列表', '102', 'Order', 'index', '1','1','category',null,1,1,'0');
+INSERT INTO `sp_permission` VALUES ('101', '商品管理', '0',  '0','1','category',null,1,1,'0','0');
+INSERT INTO `sp_permission` VALUES ('102', '订单管理', '0',  '0','1','category',null,1,1,'0','0');
+INSERT INTO `sp_permission` VALUES ('103', '权限管理', '0',  '0','1','category',null,1,1,'0','0');
+INSERT INTO `sp_permission` VALUES ('104', '商品列表', '101', '1','1','category',null,1,1,'0','0');
+INSERT INTO `sp_permission` VALUES ('105', '添加商品', '104',  '2','1','category',null,1,1,'0','0');
+INSERT INTO `sp_permission` VALUES ('107', '订单列表', '102',  '1','1','category',null,1,1,'0','0');
 
 
 -- ----------------------------
@@ -127,24 +126,25 @@ CREATE TABLE `sp_permission_api` (
 	`id` INT ( 11 ) NOT NULL AUTO_INCREMENT,
 	`ps_id` INT ( 11 ) NOT NULL,
 	`ps_api_service` VARCHAR ( 255 ) DEFAULT NULL COMMENT '权限服务名称',
-	`ps_api_action` VARCHAR ( 255 ) DEFAULT NULL COMMENT '权限方法',
-	`ps_api_path` VARCHAR ( 100 ) DEFAULT NULL COMMENT '组件地址',
-	`ps_api_sign` VARCHAR ( 32 ) NULL DEFAULT NULL COMMENT '权限标识',
-	`ps_api_limit` VARCHAR ( 50 ) DEFAULT NULL COMMENT '按钮权限',
-	`ps_api_order` INT ( 4 ) DEFAULT NULL COMMENT '排序',
+	`ps_api_action` VARCHAR ( 255 )  DEFAULT NULL COMMENT '权限方法',
+	`ps_api_path` VARCHAR ( 100 ) NOT NULL DEFAULT '' COMMENT '组件地址',
+	`ps_api_sign` VARCHAR ( 32 ) NOT NULL DEFAULT '' COMMENT '权限标识',
+	`ps_api_order` INT ( 4 ) NOT NULL DEFAULT 0 COMMENT '排序',
 	PRIMARY KEY ( `id` ),
 KEY `ps_id` ( `ps_id` ) 
 ) ENGINE = INNODB AUTO_INCREMENT = 50 DEFAULT CHARSET = utf8;
 
-INSERT INTO `sp_permission_api` VALUES ('1', '101', null, null, 'goods',null,null, '3');
-INSERT INTO `sp_permission_api` VALUES ('2', '102', null, null, 'orders',null,null, '4');
-INSERT INTO `sp_permission_api` VALUES ('3', '103', null, null, 'rights',null,null, '2');
-INSERT INTO `sp_permission_api` VALUES ('4', '104', 'GoodService', 'getAllGoods', 'goods','sys:user:add',null, '1');
-INSERT INTO `sp_permission_api` VALUES ('5', '105', 'GoodService', 'createGood', 'goods','sys:user:delete', null,null);
-INSERT INTO `sp_permission_api` VALUES ('6', '107', 'OrderService', 'getAllOrders', 'orders','sys:user:get',null, null);
-INSERT INTO `sp_permission_api` VALUES ('9', '109', 'OrderService', 'createOrder', 'orders','sys:user:add', null,null);
-INSERT INTO `sp_permission_api` VALUES ('10', '110', 'ManagerService', 'getAllManagers','sys:user:list', 'users',null, null);
-INSERT INTO `sp_permission_api` VALUES ('11', '110', 'ManagerService', 'getInfoManager','sys:user:show', 'users',null, null);
+INSERT INTO `sp_permission_api` VALUES ('1', '101', null, null, 'goods','','', '3');
+INSERT INTO `sp_permission_api` VALUES ('2', '102', null, null, 'orders','','', '4');
+INSERT INTO `sp_permission_api` VALUES ('3', '103', null, null, 'rights','','', '2');
+INSERT INTO `sp_permission_api` VALUES ('4', '104', 'GoodService', 'getAllGoods', 'goods','sys:user:add','', '1');
+INSERT INTO `sp_permission_api` VALUES ('5', '105', 'GoodService', 'createGood', 'goods','sys:user:delete', '','');
+INSERT INTO `sp_permission_api` VALUES ('6', '107', 'OrderService', 'getAllOrders', 'orders','sys:user:get','', '');
+INSERT INTO `sp_permission_api` VALUES ('9', '109', 'OrderService', 'createOrder', 'orders','sys:user:add', '','');
+INSERT INTO `sp_permission_api` VALUES ('10', '110', 'ManagerService', 'getAllManagers','sys:user:list', 'users','', '');
+INSERT INTO `sp_permission_api` VALUES ('11', '110', 'ManagerService', 'getInfoManager','sys:user:show', 'users','', '');
+INSERT INTO `sp_permission_api` VALUES ('12', '107', 'RightService', 'getAllRights','sys:user:show', 'users','', '');
+INSERT INTO `sp_permission_api` VALUES ('13', '107', 'MenuService', 'getLeftMenus','sys:user:show', 'users','', '');
 
 
 /*==============================================================*/
