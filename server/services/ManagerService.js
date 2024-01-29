@@ -144,7 +144,6 @@ module.exports.updateManager = function (params, cb) {
       user_introduce: params.introduce,
     },
     function (err, manager) {
-      console.log(err);
       if (err) return cb(err);
       cb(null, {
         id: manager.id,

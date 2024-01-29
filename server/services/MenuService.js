@@ -55,3 +55,42 @@ module.exports.getLeftMenus = function (userInfo, cb) {
 	}
 
 }
+
+/**
+ * 
+ * @param {*} userInfo 
+ * @param {*} cb 
+ * @returns 
+ */
+module.exports.updateMenu = function (userInfo, cb) {
+	if (!userInfo) return cb("无权限访问");
+
+
+
+	var authFn = function (rid, keyRolePermissions, cb) {
+		permissionAPIDAO.list(function (err, permissions) {
+			if (err) return cb("获取权限数据失败");
+			let res = _.cloneDeep(permissions);
+			res = utils.listTransFormTree(permissions, "ps_id", "ps_pid", 1);
+			res = utils.dataMap(res).sort(utils.compare)
+			cb(null, res);
+		});
+	}
+
+	rid = userInfo.rids;
+	if (rid == 0) {
+		authFn(rid, null, cb);
+	} else {
+		menuDAO.getMenuList(userInfo, function (err, role) {
+			if (err || !role) return cb("无权限访问");
+			rolePermissions = role;
+			keyRolePermissions = {}
+			for (idx in rolePermissions) {
+				keyRolePermissions[rolePermissions[idx]] = true;
+			}
+
+			authFn(rid, keyRolePermissions, cb);
+		})
+	}
+
+}
