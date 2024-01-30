@@ -48,3 +48,41 @@ module.exports.create = function (obj, cb) {
     });
   });
 };
+
+/**
+ * 通过ID获取菜单对象数据
+ *
+ * @param  {[type]}   id 菜单主键ID
+ * @param  {Function} cb 回调函数
+ */
+module.exports.show = function (id, cb) {
+  daoModule.show("PermissionModel", id, cb);
+};
+
+/**
+ * 更新菜单
+ * @param {} obj  更新参数
+ * @param {*} cb  回调函数
+ * 
+ */
+module.exports.update = function (model, obj, cb) {
+  daoModule.update(model, obj.id, obj, cb);
+};
+/**
+ * 
+ * @param {*} 更新api 
+ * @param {*} obj 
+ * @param {*} cb 
+ */
+module.exports.updateApi = function (obj, cb) {
+  const { ps_api_path, ps_api_sign, ps_api_order, id } = obj;
+  const sql = `UPDATE sp_permission_api 
+              SET ps_api_path='${ps_api_path}', ps_api_sign='${ps_api_sign}', ps_api_order='${ps_api_order}'
+              WHERE ps_id=${id}`;
+  database.driver.execQuery(sql, [], (err, res) => {
+    if (err) {
+      return cb("Internal Server Error", false);
+    }
+    return cb(null,"更新成功")
+  });
+};

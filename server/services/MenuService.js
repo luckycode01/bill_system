@@ -19,7 +19,7 @@ module.exports.getLeftMenus = function (userInfo, cb) {
 		permissionAPIDAO.list(function (err, permissions) {
 			if (err) return cb("获取权限数据失败");
 			let res = _.cloneDeep(permissions);
-			res = utils.listTransFormTree(permissions, "ps_id", "ps_pid", 1,rid,rolePermissions);
+			res = utils.listTransFormTree(permissions, "ps_id", "ps_pid", 1, rid, rolePermissions);
 			res = utils.dataMap(res).sort(utils.compare)
 			cb(null, res);
 		});
@@ -83,23 +83,30 @@ module.exports.createMenu = function (params, cb) {
  */
 module.exports.updateMenu = function (params, cb) {
 	menuDAO.show(params.id, function (err, res) {
-		if (err || !res) cb("管理员ID不存在");
-		menuDAO.update(
-			{
-				mg_id: manager.mg_id,
-				role_id: rid
-			},
-			function (err, manager) {
-				if (err) return cb("设置失败");
-				cb(null, {
-					id: manager.mg_id,
-					rid: manager.role_id,
-					username: manager.mg_name,
-					mobile: manager.mg_mobile,
-					email: manager.mg_email,
-				});
-			}
-		);
+		if (err || !res) return cb(err.message);
+		const obj = {
+			id: params.id,
+			ps_name: params.menuName,
+			ps_pid: params.pid,
+			ps_level: params.level,
+			ps_type: params.type,
+			ps_icon: params.icon,
+			ps_params: params.menuParams,
+			ps_show: params.isShowMenu,
+			update_time: Date.parse(new Date()) / 1000,
+		}
+		menuDAO.update("PermissionModel", { ...obj }, function (err, updateRes) {
+			if (err) return cb(err);
+			menuDAO.updateApi({
+				id: params.id,
+				ps_api_path: params.menuPath,
+				ps_api_order: params.order,
+				ps_api_sign: params.menuSign,
+			}, function (err, updateRes) {
+				if (err) return cb(err);
+				return cb(null, updateRes);
+			});
+		});
 	});
 }
 

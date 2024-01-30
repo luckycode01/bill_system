@@ -69,14 +69,14 @@ router.post(
 		if (req.body.id) {
 			// id存在，修改菜单
 			params.id = req.body.id;
-			menuService.updateMenu(params, function (err, manager) {
+			menuService.updateMenu(params, function (err, result) {
 				if (err) return res.sendResult(null, 400, err);
-				res.sendResult(manager, 200, "更新成功");
+				res.sendResult(null, 200, "更新成功");
 			})(req, res, next);
 		} else {
-			menuService.createMenu(params, function (err, manager) {
+			menuService.createMenu(params, function (err, result) {
 				if (err) return res.sendResult(null, 400, err);
-				res.sendResult(manager, 200, "添加成功");
+				res.sendResult(result, 200, "添加成功");
 			})(req, res, next);
 		}
 	}
