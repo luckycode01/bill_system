@@ -6,14 +6,12 @@ module.exports = function(db,callback){
 		ps_pid : Number,
 		ps_level : String,
 		ps_type:Number,
-		ps_order:Number,
-		ps_path:String,
 		ps_icon:String,
-		ps_sign:String,
 		ps_params:String,
 		ps_show:Number,
 		ps_delete:Number,
 		create_time:Number,
+		update_time:Number,
 	},{
 		table : "sp_permission"
 	});

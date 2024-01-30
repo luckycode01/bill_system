@@ -103,10 +103,10 @@ CREATE TABLE `sp_permission` (
 	`ps_type` INT ( 2 ) NOT NULL DEFAULT 1 COMMENT '菜单类型(菜单1,按钮2)',
 	`ps_icon` VARCHAR ( 32 ) NULL DEFAULT NULL COMMENT '菜单icon',
 	`ps_params` VARCHAR ( 32 ) NULL DEFAULT NULL COMMENT '路由参数',
-	`ps_show` INT ( 2 ) NULL COMMENT  DEFAULT 1 '是否显示(否0，是1)',
-	`ps_delete` INT ( 2 ) NULL COMMENT '是否删除(删除0，未删除1)',
+	`ps_show` INT ( 2 ) NULL  DEFAULT 1 COMMENT  '是否显示(否0，是1)',
+	`ps_delete` INT ( 2 ) NULL DEFAULT 1 COMMENT '是否删除(删除0，未删除1)',
 	`create_time` INT UNSIGNED NOT NULL COMMENT '创建时间',
-	`update_time` INT UNSIGNED NOT NULL COMMENT '创建时间',
+	`update_time` INT UNSIGNED NOT NULL COMMENT '更新时间',
 	PRIMARY KEY ( `ps_id` ) 
 ) ENGINE = INNODB AUTO_INCREMENT = 50 DEFAULT CHARSET = utf8mb3 COMMENT = '权限表';
 
@@ -134,18 +134,19 @@ CREATE TABLE `sp_permission_api` (
 KEY `ps_id` ( `ps_id` ) 
 ) ENGINE = INNODB AUTO_INCREMENT = 50 DEFAULT CHARSET = utf8;
 
-INSERT INTO `sp_permission_api` VALUES ('1', '101', null, null, 'goods','','', '3');
-INSERT INTO `sp_permission_api` VALUES ('2', '102', null, null, 'orders','','', '4');
-INSERT INTO `sp_permission_api` VALUES ('3', '103', null, null, 'rights','','', '2');
-INSERT INTO `sp_permission_api` VALUES ('4', '104', 'GoodService', 'getAllGoods', 'goods','sys:user:add','', '1');
-INSERT INTO `sp_permission_api` VALUES ('5', '105', 'GoodService', 'createGood', 'goods','sys:user:delete', '','');
-INSERT INTO `sp_permission_api` VALUES ('6', '107', 'OrderService', 'getAllOrders', 'orders','sys:user:get','', '');
-INSERT INTO `sp_permission_api` VALUES ('9', '109', 'OrderService', 'createOrder', 'orders','sys:user:add', '','');
-INSERT INTO `sp_permission_api` VALUES ('10', '110', 'ManagerService', 'getAllManagers','sys:user:list', 'users','', '');
-INSERT INTO `sp_permission_api` VALUES ('11', '110', 'ManagerService', 'getInfoManager','sys:user:show', 'users','', '');
-INSERT INTO `sp_permission_api` VALUES ('12', '107', 'RightService', 'getAllRights','sys:user:show', 'users','', '');
-INSERT INTO `sp_permission_api` VALUES ('13', '107', 'MenuService', 'getLeftMenus','sys:user:show', 'users','', '');
-
+INSERT INTO `sp_permission_api` VALUES ('1', '101', null, null, 'goods','', '3');
+INSERT INTO `sp_permission_api` VALUES ('2', '102', null, null, 'orders','', '4');
+INSERT INTO `sp_permission_api` VALUES ('3', '103', null, null, 'rights','', '2');
+INSERT INTO `sp_permission_api` VALUES ('4', '104', 'GoodService', 'getAllGoods', 'goods','sys:user:add', '1');
+INSERT INTO `sp_permission_api` VALUES ('5', '105', 'GoodService', 'createGood', 'goods','sys:user:delete', 0);
+INSERT INTO `sp_permission_api` VALUES ('6', '107', 'OrderService', 'getAllOrders', 'orders','sys:user:get', 0);
+INSERT INTO `sp_permission_api` VALUES ('9', '109', 'OrderService', 'createOrder', 'orders','sys:user:add', 0);
+INSERT INTO `sp_permission_api` VALUES ('10', '110', 'ManagerService', 'getAllManagers','users','sys:user:list',  0);
+INSERT INTO `sp_permission_api` VALUES ('11', '110', 'ManagerService', 'getInfoManager','users','sys:user:show',  0);
+INSERT INTO `sp_permission_api` VALUES ('12', '107', 'RightService', 'getAllRights', 'users','sys:user:show', 0);
+INSERT INTO `sp_permission_api` VALUES ('13', '107', 'MenuService', 'getLeftMenus','users','sys:user:show',  0);
+INSERT INTO `sp_permission_api` VALUES ('14', '107', 'MenuService', 'createMenu','users','sys:user:show',  0);
+INSERT INTO `sp_permission_api` VALUES ('15', '107', 'MenuService', 'updateMenu','users','sys:user:show',  0);
 
 /*==============================================================*/
 /* Table bill_system for bill_daily_life  */ 

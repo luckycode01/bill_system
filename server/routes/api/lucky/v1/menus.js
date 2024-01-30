@@ -5,15 +5,18 @@ var path = require("path");
 // 获取验证模块
 var authorization = require(path.join(process.cwd(), "/modules/authorization"));
 
-// 通过验证模块获取菜单服务模块
-var menuService = require(path.join(process.cwd(), "/services/MenuService"));
+// // 通过验证模块获取菜单服务模块
+// var menuService = require(path.join(process.cwd(), "/services/MenuService"));
+
+// 通过验证模块获取用户管理服务
+var menuService = authorization.getService("MenuService");
 
 router.get("/getMenuList",
 	function (req, res, next) {
 		menuService.getLeftMenus(req.userInfo, function (err, result) {
 			if (err) return res.sendResult(null, 400, err);
 			res.sendResult(result, 200, "获取菜单列表成功");
-		});
+		})(req, res, next);
 	}
 );
 /**
@@ -73,7 +76,7 @@ router.post(
 		} else {
 			menuService.createMenu(params, function (err, manager) {
 				if (err) return res.sendResult(null, 400, err);
-				res.sendResult(manager, 200, "创建成功");
+				res.sendResult(manager, 200, "添加成功");
 			})(req, res, next);
 		}
 	}

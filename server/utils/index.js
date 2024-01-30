@@ -1,8 +1,18 @@
 //将根元素和根元素的第一个层子元素追加,在遍历到非根元素时,将其追加到它的父元素下.
-module.exports.listTransFormTree = function listTransFormTree(list, idName, pidName, type) {
+module.exports.listTransFormTree = function listTransFormTree(list, idName, pidName, type, rid, rolePermissions) {
   const arr = []
   if (type && type == 1) {
     list = list.filter(item => item.ps_type == type);
+  }
+  if (rid && rid != 0) {
+    let temp = [];
+    rolePermissions.forEach(r => {
+      const res = list.filter(item => item.ps_id == r);
+      if (res && res.length) {
+        temp = [...temp, ...res];
+      }
+    })
+    list = temp;
   }
   list.forEach((v) => {
     //获取一个不包含当前项的新数组
