@@ -11,7 +11,7 @@ module.exports = function(db,callback){
 		create_time : Number,
 		update_time : Number,
 		user_type : Number,
-		avator : String,
+		avatar : String,
 		user_sex : String,
 		user_edu : String,
 		user_edustr : String,

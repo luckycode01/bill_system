@@ -33,13 +33,13 @@ create table user_center (
    `avatar` varchar(100) NULL DEFAULT NULL comment '用户头像',
    `user_sex` enum( '0', '1') NULL DEFAULT null COMMENT '性别（0：男，1：女）',
    `user_edu` enum('10', '20', '30', '40', '50', '60', '70')  NULL DEFAULT null COMMENT '学历(70:博士, 60:硕士, 50:本科, 40:专科, 30:高中, 20:初中, 10:小学)',
-   `user_edustr` varchar(8) NULL DEFAULT COMMENT '学历',
+   `user_edustr` varchar(8) NULL DEFAULT NULL COMMENT '学历',
    `user_introduce` text COMMENT '简介',
    PRIMARY KEY (id),
-   UNIQUE (username,user_mobile,user_email),
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='管理员表';
+   UNIQUE (username,user_mobile,user_email)
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='管理员表';
 
-INSERT INTO `user_center` VALUES ('1', 'admin', '$2y$10$sZlpZNoLAnoD1DtYO9REAODCPkpMb5bwl4oMzrMvJa83k9BY3KRwq', '0,1,2', '13412344321', 'adsfad@qq.com', '1', '1486720211',  '1486720211', '1', '0',null,null,null,null,null);
+INSERT INTO `user_center` VALUES ('12', 'admin', '$2y$10$sZlpZNoLAnoD1DtYO9REAODCPkpMb5bwl4oMzrMvJa83k9BY3KRwq', '0', '13412344321', 'adsfad@qq.com', '1', '1486720211',  '1486720211', '1', '0',null,null,null,null,null);
 
 INSERT INTO `user_center` VALUES (510, 'lucky','$2y$10$sZlpZNoLAnoD1DtYO9REAODCPkpMb5bwl4oMzrMvJa83k9BY3KRwq','2,3', '13412341001', '13412341001@qq.com', 0, 1704326400, 1704326400, 1, 0, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `user_center` VALUES (511, '001', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123002', '13412123002@qq.com', 0, 1704326400, 1704326400, 2, 0, NULL, NULL, NULL, NULL, NULL);
@@ -65,7 +65,7 @@ CREATE TABLE `sp_role` (
   `create_time` int(10) unsigned NOT NULL COMMENT '创建时间',
   `update_time` int(10) unsigned NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
 
 INSERT INTO `sp_role` VALUES ('30', '主管', '101,0,104,116,115,142,143,144,121,122,123,149,102,107,109,103,111,129,130,134,135,138,139,140,141,112,147,125,110,131,132,133,136,137,145,146,148', 'Goods-index,Goods-tianjia,Category-index,Order-showlist,Brand-index', '技术负责人',1486720211,1486720211);
 INSERT INTO `sp_role` VALUES ('31', '测试角色', '101,0,104,105,116,117,115,142,143,144,121,122,123,149,103,111,129,134,138,112,147', 'Goods-showlist,Goods-tianjia,Category-showlist,Order-showlist,Order-dayin,Order-tianjia', '测试角色描述',1486720211,1486720211);
@@ -108,7 +108,7 @@ CREATE TABLE `sp_permission` (
 	`create_time` INT UNSIGNED NOT NULL COMMENT '创建时间',
 	`update_time` INT UNSIGNED NOT NULL COMMENT '更新时间',
 	PRIMARY KEY ( `ps_id` ) 
-) ENGINE = INNODB AUTO_INCREMENT = 50 DEFAULT CHARSET = utf8mb3 COMMENT = '权限表';
+) ENGINE = INNODB AUTO_INCREMENT = 100 DEFAULT CHARSET = utf8mb3 COMMENT = '权限表';
 
 INSERT INTO `sp_permission` VALUES ('101', '商品管理', '0',  '0','1','category',null,1,1,'0','0');
 INSERT INTO `sp_permission` VALUES ('102', '订单管理', '0',  '0','1','category',null,1,1,'0','0');
@@ -132,7 +132,7 @@ CREATE TABLE `sp_permission_api` (
 	`ps_api_order` INT ( 4 ) NOT NULL DEFAULT 0 COMMENT '排序',
 	PRIMARY KEY ( `id` ),
 KEY `ps_id` ( `ps_id` ) 
-) ENGINE = INNODB AUTO_INCREMENT = 50 DEFAULT CHARSET = utf8;
+) ENGINE = INNODB AUTO_INCREMENT = 100 DEFAULT CHARSET = utf8;
 
 INSERT INTO `sp_permission_api` VALUES ('1', '101', null, null, 'goods','', '3');
 INSERT INTO `sp_permission_api` VALUES ('2', '102', null, null, 'orders','', '4');
@@ -152,9 +152,9 @@ INSERT INTO `sp_permission_api` VALUES ('15', '107', 'MenuService', 'updateMenu'
 /* Table bill_system for bill_daily_life  */ 
 /*==============================================================*/
 
-DROP TABLE IF EXISTS bill_daily_life;
+DROP TABLE IF EXISTS sp_daily_life;
 
-CREATE TABLE bill_daily_life (
+CREATE TABLE sp_daily_life (
    id int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
    user_id bigint(20) NULL DEFAULT NULL COMMENT '用户ID',
    food_amount decimal(8, 2) NOT NULL COMMENT '快餐饮食',
@@ -172,12 +172,13 @@ CREATE TABLE bill_daily_life (
    dissipate_time datetime(0) NULL DEFAULT NULL COMMENT '消费时间',
    gmt_create datetime(0) NOT NULL COMMENT '创建时间',
    gmt_modified datetime(0) NOT NULL COMMENT '更新时间',
-   PRIMARY KEY (id)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='支出表';
+   PRIMARY KEY (id),
+   UNIQUE (dissipate_time,user_mobile,user_email),
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='支出表';
 
-DROP TABLE IF EXISTS bill_house_renting;
+DROP TABLE IF EXISTS sp_house_rent;
 
-CREATE TABLE bill_house_renting(
+CREATE TABLE sp_house_rent(
    id int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
    user_id int(11) NULL DEFAULT NULL COMMENT '用户ID',
    room_rent decimal(8, 2) NOT NULL COMMENT '房租',
@@ -193,4 +194,4 @@ CREATE TABLE bill_house_renting(
    gmt_create datetime(0) NOT NULL COMMENT '创建时间',
    gmt_modified datetime(0) NOT NULL COMMENT '更新时间',
    PRIMARY KEY (id)
-)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='房租表';
+)ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='房租表';
