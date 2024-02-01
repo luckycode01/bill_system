@@ -24,10 +24,10 @@ CREATE TABLE user_center (
    `user_mobile` CHAR(11) DEFAULT NULL COMMENT '手机号',
    `user_email` VARCHAR(64) DEFAULT NULL COMMENT '邮箱',
    `mg_state` TINYINT(2) DEFAULT '1' COMMENT '1：表示启用 0:表示禁用',
-   `create_time` INT(10) unsigned NOT NULL COMMENT '创建时间',
-   `update_time` INT(10) unsigned NOT NULL COMMENT '修改时间',
-   `user_type` INT(2) NOT NULL DEFAULT '1' COMMENT '用户类型(1:管理用户，2:普通用户)',
-   `deleted` TINYINT NOT NULL COMMENT '逻辑删除(0未删除；1删除)',
+   `create_time` INT(10) UNSIGNED NOT NULL COMMENT '创建时间',
+   `update_time` INT(10) UNSIGNED NOT NULL COMMENT '修改时间',
+   `user_type` TINYINT(2) NOT NULL DEFAULT '1' COMMENT '用户类型(1:管理用户，2:普通用户)',
+   `deleted` TINYINT(2) NOT NULL COMMENT '逻辑删除(0未删除；1删除)',
    `avatar` VARCHAR(100) NULL DEFAULT NULL comment '用户头像',
    `user_sex` enum( '0', '1') NULL DEFAULT NULL COMMENT '性别（0：男，1：女）',
    `user_edu` enum('10', '20', '30', '40', '50', '60', '70')  NULL DEFAULT NULL COMMENT '学历(70:博士, 60:硕士, 50:本科, 40:专科, 30:高中, 20:初中, 10:小学)',
@@ -60,8 +60,8 @@ CREATE TABLE `sp_role` (
   `ps_ids` VARCHAR(512) NOT NULL DEFAULT '' COMMENT '权限ids,1,2,5',
   `ps_ca` TEXT COMMENT '控制器-操作,控制器-操作,控制器-操作',
   `role_desc` TEXT,
-  `create_time` INT(10) unsigned NOT NULL COMMENT '创建时间',
-  `update_time` INT(10) unsigned NOT NULL COMMENT '修改时间',
+  `create_time` INT(10) UNSIGNED NOT NULL COMMENT '创建时间',
+  `update_time` INT(10) UNSIGNED NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`role_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
 
@@ -101,8 +101,8 @@ CREATE TABLE `sp_permission` (
 	`ps_type` INT ( 2 ) NOT NULL DEFAULT 1 COMMENT '菜单类型(菜单1,按钮2)',
 	`ps_icon` VARCHAR ( 32 ) NULL DEFAULT NULL COMMENT '菜单icon',
 	`ps_params` VARCHAR ( 32 ) NULL DEFAULT NULL COMMENT '路由参数',
-	`ps_show` INT ( 2 ) NULL  DEFAULT 1 COMMENT  '是否显示(否0，是1)',
-	`ps_delete` INT ( 2 ) NULL DEFAULT 1 COMMENT '是否删除(删除0，未删除1)',
+	`ps_show` TINYINT(2) NULL  DEFAULT 1 COMMENT  '是否显示(否0，是1)',
+	`ps_delete` TINYINT(2) NULL DEFAULT 1 COMMENT '是否删除(删除0，未删除1)',
 	`create_time` INT UNSIGNED NOT NULL COMMENT '创建时间',
 	`update_time` INT UNSIGNED NOT NULL COMMENT '更新时间',
 	PRIMARY KEY ( `ps_id` ) 
@@ -122,7 +122,7 @@ INSERT INTO `sp_permission` VALUES ('107', '订单列表', '102',  '1','1','cate
 DROP TABLE IF EXISTS `sp_permission_api`;
 CREATE TABLE `sp_permission_api` (
 	`id` INT ( 11 ) NOT NULL AUTO_INCREMENT,
-	`ps_id` INT ( 11 ) NOT NULL,
+	`ps_id` INT ( 11 ) NOT NULL COMMENT '权限服务名称',
 	`ps_api_service` VARCHAR ( 255 ) DEFAULT NULL COMMENT '权限服务名称',
 	`ps_api_action` VARCHAR ( 255 )  DEFAULT NULL COMMENT '权限方法',
 	`ps_api_path` VARCHAR ( 100 ) NOT NULL DEFAULT '' COMMENT '组件地址',
@@ -150,44 +150,40 @@ INSERT INTO `sp_permission_api` VALUES ('15', '107', 'MenuService', 'updateMenu'
 DROP TABLE IF EXISTS sp_category;
 CREATE TABLE sp_category (
    `category_id` INT(4) NOT NULL AUTO_INCREMENT COMMENT '分类id',
-   `user_id` INT(8) NULL DEFAULT NULL COMMENT '用户ID',
    `category_name` VARCHAR(32) NOT NULL COMMENT '分类名称',
-   `category_desc` VARCHAR(512) NULL DEFAULT '' COMMENT '分类描述',
-   `create_time` INT(10) unsigned NOT NULL COMMENT '创建时间',
-   `update_time` INT(10) unsigned NOT NULL COMMENT '修改时间',
+   `category_desc` VARCHAR(32) NULL DEFAULT '' COMMENT '分类描述',
+   `create_time` INT(10) UNSIGNED NOT NULL COMMENT '创建时间',
+   `update_time` INT(10) UNSIGNED NOT NULL COMMENT '修改时间',
+   `deleted` TINYINT(2) NOT NULL COMMENT '逻辑删除(0未删除；1删除)',
    PRIMARY KEY (category_id),
    UNIQUE (category_name)
-) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='支出表';
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='分类表';
 
+INSERT INTO `sp_category` VALUES (100, '快餐饮食','',1704326400, 1704326400,1);
+INSERT INTO `sp_category` VALUES (101, '生活买菜','',1704326400, 1704326400,1);
 
--- TABLE bill_system for bill_daily_life  
-
-DROP TABLE IF EXISTS sp_daily_life;
-CREATE TABLE sp_daily_life (
-   id INT(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
-   user_id bigINT(20) NULL DEFAULT NULL COMMENT '用户ID',
-   food_amount decimal(8, 2) NOT NULL COMMENT '快餐饮食',
-   life_amount decimal(8, 2) NOT NULL COMMENT '生活买菜',
-   traffic_amount decimal(8, 2) NOT NULL COMMENT '交通出行',
-   merchandise_amount decimal(8, 2) NOT NULL COMMENT '日用百货',
-   phone_bill decimal(8, 2) NOT NULL COMMENT '话费充值',
-   vehicle_maINTenance decimal(8, 2) NOT NULL COMMENT '车辆保养',
-   Clothing_amount decimal(8, 2) NOT NULL COMMENT '服装服饰',
-   fruit_snacks decimal(8, 2) NOT NULL COMMENT '水果零食',
-   medical_health decimal(8, 2) NOT NULL COMMENT '医药健康',
-   medical_remarks VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '医药备注',
-   other_amount decimal(8, 2) NOT NULL COMMENT '其他消费',
-   other_remarks VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '其他备注',
-   dissipate_time datetime(0) NULL DEFAULT NULL COMMENT '消费时间',
-   gmt_CREATE datetime(0) NOT NULL COMMENT '创建时间',
-   gmt_modified datetime(0) NOT NULL COMMENT '更新时间',
+-- TABLE bill_system for sp_category
+DROP TABLE IF EXISTS sp_life_expend;
+CREATE TABLE sp_life_expend (
+   `id` INT(8) NOT NULL AUTO_INCREMENT COMMENT '账单id',
+   `user_id` INT(8) NOT NULL COMMENT '用户ID',
+   `category_id` INT(4) NOT NULL COMMENT '分类id',
+   `bill_date` INT(10) UNSIGNED NOT NULL COMMENT '账单日期',
+   `bill_amount` decimal(8, 2) NOT NULL COMMENT '账单金额',
+   `bill_desc` VARCHAR(32) NULL DEFAULT '' COMMENT '账单描述',
+   `create_time` INT(10) UNSIGNED NOT NULL COMMENT '创建时间',
+   `update_time` INT(10) UNSIGNED NOT NULL COMMENT '修改时间',
    PRIMARY KEY (id),
-   UNIQUE (dissipate_time,user_mobile,user_email),
 ) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='支出表';
 
-DROP TABLE IF EXISTS sp_house_rent;
+INSERT INTO `sp_category` VALUES (100,1,101, '1704326400',15.6,'',1704326400, 1704326400);
+INSERT INTO `sp_category` VALUES (101,1,100, '1704326400',11.4,'',1704326400, 1704326400);
 
-CREATE TABLE sp_house_rent(
+
+-- -- TABLE bill_system for bill_house_rent
+DROP TABLE IF EXISTS bill_house_rent;
+
+CREATE TABLE bill_house_rent(
    id INT(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
    user_id INT(11) NULL DEFAULT NULL COMMENT '用户ID',
    room_rent decimal(8, 2) NOT NULL COMMENT '房租',
@@ -200,7 +196,7 @@ CREATE TABLE sp_house_rent(
    network_amount decimal(8, 2) NOT NULL COMMENT '宽带网费',
    deposit decimal(8, 2) NOT NULL COMMENT '押金',
    pay_time datetime(0) NULL DEFAULT NULL COMMENT '交租时间',
-   gmt_CREATE datetime(0) NOT NULL COMMENT '创建时间',
-   gmt_modified datetime(0) NOT NULL COMMENT '更新时间',
+   `create_time` INT(10) UNSIGNED NOT NULL COMMENT '创建时间',
+   `update_time` INT(10) UNSIGNED NOT NULL COMMENT '修改时间',
    PRIMARY KEY (id)
 )ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='房租表';
