@@ -103,7 +103,7 @@ export default {
   },
   filters: {
     handleTime(val) {
-      return val ? dayjs(val * 1000).format('YYYY-MM-DD HH:mm:ss') : ''
+      return val ? dayjs(val).format('YYYY-MM-DD HH:mm:ss') : ''
     }
   },
   methods: {

@@ -95,8 +95,8 @@ module.exports.createManager = function (params, cb) {
         user_mobile: params.mobile,
         user_email: params.email,
         mg_state: "1",
-        create_time: Date.parse(new Date()) / 1000,
-        update_time: Date.parse(new Date()) / 1000,
+        create_time: new Date(),
+        update_time: new Date(),
         user_type: params.userType,
         deleted: "0",
         avator: params.avator,
@@ -135,16 +135,16 @@ module.exports.updateManager = function (params, cb) {
       user_email: params.email,
       username: params.username,
       role_ids: params.rids,
-      update_time: Date.parse(new Date()) / 1000,
+      update_time: new Date(),
       user_type: params.userType,
       avator: params.avator,
       user_sex: params.sex || null,
       user_edu: params.edu || null,
-      user_edustr: params.edustr,
+      user_edustr: params.edustr || '',
       user_introduce: params.introduce,
     },
     function (err, manager) {
-      if (err) return cb(err);
+      if (err) return cb('更新失败');
       cb(null, {
         id: manager.id,
       });
@@ -262,16 +262,6 @@ module.exports.login = function (username, password, cb) {
       cb(null, {
         id: manager.id || null,
         username: manager.username || null,
-        // mobile: manager.user_mobile || null,
-        // email: manager.user_email || null,
-        // sex: manager.user_sex || null,
-        // edu: manager.user_edu || null,
-        // edustr: manager.user_edustr || null,
-        // introduce: manager.user_introduce || null,
-        // avatar: manager.avatar || null,
-        // createTime: manager.create_time || null,
-        // updateTime: manager.update_time || null,
-        // userType: manager.user_type || null,
         rids: manager.role_ids || null,
       });
     } else {

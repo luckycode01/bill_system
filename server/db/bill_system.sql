@@ -24,8 +24,8 @@ CREATE TABLE user_center (
    `user_mobile` CHAR(11) DEFAULT NULL COMMENT '手机号',
    `user_email` VARCHAR(64) DEFAULT NULL COMMENT '邮箱',
    `mg_state` TINYINT(2) DEFAULT '1' COMMENT '1：表示启用 0:表示禁用',
-   `create_time` INT(10) UNSIGNED NOT NULL COMMENT '创建时间',
-   `update_time` INT(10) UNSIGNED NOT NULL COMMENT '修改时间',
+   `create_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+   `update_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  COMMENT '修改时间',
    `user_type` TINYINT(2) NOT NULL DEFAULT '1' COMMENT '用户类型(1:管理用户，2:普通用户)',
    `deleted` TINYINT(2) NOT NULL COMMENT '逻辑删除(0未删除；1删除)',
    `avatar` VARCHAR(100) NULL DEFAULT NULL comment '用户头像',
@@ -37,19 +37,19 @@ CREATE TABLE user_center (
    UNIQUE (username,user_mobile,user_email)
 ) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='管理员表';
 
-INSERT INTO `user_center` VALUES ('12', 'admin', '$2y$10$sZlpZNoLAnoD1DtYO9REAODCPkpMb5bwl4oMzrMvJa83k9BY3KRwq', '0', '13412344321', 'adsfad@qq.com', '1', '1486720211',  '1486720211', '1', '0',NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `user_center` VALUES ('12', 'admin', '$2y$10$sZlpZNoLAnoD1DtYO9REAODCPkpMb5bwl4oMzrMvJa83k9BY3KRwq', '0', '13412344321', 'adsfad@qq.com', '1', '2024-01-01 12:31:00',  '2024-01-01 12:31:00', '1', '0',NULL,NULL,NULL,NULL,NULL);
 
-INSERT INTO `user_center` VALUES (510, 'lucky','$2y$10$sZlpZNoLAnoD1DtYO9REAODCPkpMb5bwl4oMzrMvJa83k9BY3KRwq','2,3', '13412341001', '13412341001@qq.com', 0, 1704326400, 1704326400, 1, 0, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user_center` VALUES (511, '001', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123002', '13412123002@qq.com', 0, 1704326400, 1704326400, 2, 0, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user_center` VALUES (512, '002', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123003', '13412123003@qq.com', 0, 1704326400, 1704326400, 2, 0, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user_center` VALUES (513, '003', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123004', '13412123004@qq.com', 0, 1704326400, 1704326400, 2, 0, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user_center` VALUES (514, '004', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123005', '13412123005@qq.com', 0, 1704441451, 1704441451, 2, 0, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user_center` VALUES (515, '005', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123006', '13412123006@qq.com', 0, 1704441451, 1704441451, 2, 0, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user_center` VALUES (516, '006', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123007', '13412123007@qq.com', 0, 1704441451, 1704441451, 2, 0, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user_center` VALUES (517, '007', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123008', '13412123008@qq.com', 0, 1704441451, 1704441451, 2, 0, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user_center` VALUES (518, '008', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123009', '13412123009@qq.com', 0, 1704441451, 1704441451, 2, 0, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user_center` VALUES (519, '009', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123010', '13412123010@qq.com', 0, 1704441451, 1704441451, 2, 0, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user_center` VALUES (520, '010', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123011', '13412123011@qq.com', 0, 1704441451, 1704441451, 2, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user_center` VALUES (510, 'lucky','$2y$10$sZlpZNoLAnoD1DtYO9REAODCPkpMb5bwl4oMzrMvJa83k9BY3KRwq','2,3', '13412341001', '13412341001@qq.com', 0, '2024-02-02 12:31:00', '2024-02-02 12:31:00', 1, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user_center` VALUES (511, '001', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123002', '13412123002@qq.com', 0, '2024-02-02 12:31:00', '2024-02-02 12:31:00', 2, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user_center` VALUES (512, '002', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123003', '13412123003@qq.com', 0, '2024-02-02 12:31:00', '2024-02-02 12:31:00', 2, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user_center` VALUES (513, '003', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123004', '13412123004@qq.com', 0, '2024-02-02 12:31:00', '2024-02-02 12:31:00', 2, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user_center` VALUES (514, '004', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123005', '13412123005@qq.com', 0, '2024-02-02 12:31:00', '2024-02-02 12:31:00', 2, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user_center` VALUES (515, '005', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123006', '13412123006@qq.com', 0, '2024-02-02 12:31:00', '2024-02-02 12:31:00', 2, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user_center` VALUES (516, '006', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123007', '13412123007@qq.com', 0, '2024-02-02 12:31:00', '2024-02-02 12:31:00', 2, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user_center` VALUES (517, '007', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123008', '13412123008@qq.com', 0, '2024-02-02 12:31:00', '2024-02-02 12:31:00', 2, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user_center` VALUES (518, '008', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123009', '13412123009@qq.com', 0, '2024-02-02 12:31:00', '2024-02-02 12:31:00', 2, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user_center` VALUES (519, '009', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123010', '13412123010@qq.com', 0, '2024-02-02 12:31:00', '2024-02-02 12:31:00', 2, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user_center` VALUES (520, '010', '$2y$10$7ehedDkrToNRAAoqLO55euVplsJV.k0IfMjdZhnP0NiuIFZkiLV/O', '2,3', '13412123011', '13412123011@qq.com', 0, '2024-02-02 12:31:00', '2024-02-02 12:31:00', 2, 0, NULL, NULL, NULL, NULL, NULL);
 -- ----------------------------
 -- TABLE structure for sp_role
 -- ----------------------------
@@ -60,32 +60,32 @@ CREATE TABLE `sp_role` (
   `ps_ids` VARCHAR(512) NOT NULL DEFAULT '' COMMENT '权限ids,1,2,5',
   `ps_ca` TEXT COMMENT '控制器-操作,控制器-操作,控制器-操作',
   `role_desc` TEXT,
-  `create_time` INT(10) UNSIGNED NOT NULL COMMENT '创建时间',
-  `update_time` INT(10) UNSIGNED NOT NULL COMMENT '修改时间',
+  `create_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`role_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
 
-INSERT INTO `sp_role` VALUES ('30', '主管', '101,0,104,116,115,142,143,144,121,122,123,149,102,107,109,103,111,129,130,134,135,138,139,140,141,112,147,125,110,131,132,133,136,137,145,146,148', 'Goods-index,Goods-tianjia,Category-index,Order-showlist,Brand-index', '技术负责人',1486720211,1486720211);
-INSERT INTO `sp_role` VALUES ('31', '测试角色', '101,0,104,105,116,117,115,142,143,144,121,122,123,149,103,111,129,134,138,112,147', 'Goods-showlist,Goods-tianjia,Category-showlist,Order-showlist,Order-dayin,Order-tianjia', '测试角色描述',1486720211,1486720211);
-INSERT INTO `sp_role` VALUES ('34', '测试角色2', '0,105,116,142,143,122', NULL, '测试描述12',1486720211,1486720211);
+INSERT INTO `sp_role` VALUES ('30', '主管', '101,0,104,116,115,142,143,144,121,122,123,149,102,107,109,103,111,129,130,134,135,138,139,140,141,112,147,125,110,131,132,133,136,137,145,146,148', 'Goods-index,Goods-tianjia,Category-index,Order-showlist,Brand-index', '技术负责人','2024-02-02 12:31:00','2024-02-02 12:31:00');
+INSERT INTO `sp_role` VALUES ('31', '测试角色', '101,0,104,105,116,117,115,142,143,144,121,122,123,149,103,111,129,134,138,112,147', 'Goods-showlist,Goods-tianjia,Category-showlist,Order-showlist,Order-dayin,Order-tianjia', '测试角色描述','2024-02-02 12:31:00','2024-02-02 12:31:00');
+INSERT INTO `sp_role` VALUES ('34', '测试角色2', '0,105,116,142,143,122', NULL, '测试描述12','2024-02-02 12:31:00','2024-02-02 12:31:00');
 
-INSERT INTO `sp_role` VALUES ('35', '主管1', '101,0,148', 'Order-showlist,Brand-index', '技术111111',1704441451,1704441451);
-INSERT INTO `sp_role` VALUES ('36', '主管2', '101,0,148', 'Order-showlist,Brand-index', '技术222222',1704441451,1704441451);
-INSERT INTO `sp_role` VALUES ('37', '主管3', '101,0,148', 'Order-showlist,Brand-index', '技术1704326400',1704326400,1704326400);
-INSERT INTO `sp_role` VALUES ('38', '主管4', '101,0,148', 'Order-showlist,Brand-index', '技术1704326400',1704326400,1704326400);
-INSERT INTO `sp_role` VALUES ('39', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术1704326400',1704326400,1704326400);
-INSERT INTO `sp_role` VALUES ('40', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术1704326400',1704326400,1704326400);
-INSERT INTO `sp_role` VALUES ('41', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术1704326400',1704326400,1704326400);
-INSERT INTO `sp_role` VALUES ('42', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术1704326400',1704326400,1704326400);
-INSERT INTO `sp_role` VALUES ('43', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术1704326400',1704326400,1704326400);
-INSERT INTO `sp_role` VALUES ('44', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术1704326400',1704326400,1704326400);
-INSERT INTO `sp_role` VALUES ('45', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术1704326400',1704326400,1704326400);
-INSERT INTO `sp_role` VALUES ('46', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术1704326400',1704326400,1704326400);
-INSERT INTO `sp_role` VALUES ('47', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术1704326400',1704326400,1704326400);
-INSERT INTO `sp_role` VALUES ('48', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术1704326400',1704326400,1704326400);
-INSERT INTO `sp_role` VALUES ('49', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术1704326400',1704326400,1704326400);
-INSERT INTO `sp_role` VALUES ('50', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术1704326400',1704326400,1704326400);
-INSERT INTO `sp_role` VALUES ('51', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术1704326400',1704326400,1704326400);
+INSERT INTO `sp_role` VALUES ('35', '主管1', '101,0,148', 'Order-showlist,Brand-index', '技术111111','2024-02-02 12:31:00','2024-02-02 12:31:00');
+INSERT INTO `sp_role` VALUES ('36', '主管2', '101,0,148', 'Order-showlist,Brand-index', '技术222222','2024-02-02 12:31:00','2024-02-02 12:31:00');
+INSERT INTO `sp_role` VALUES ('37', '主管3', '101,0,148', 'Order-showlist,Brand-index', '技术170432640','2024-02-02 12:31:00','2024-02-02 12:31:00');
+INSERT INTO `sp_role` VALUES ('38', '主管4', '101,0,148', 'Order-showlist,Brand-index', '技术170432640','2024-02-02 12:31:00','2024-02-02 12:31:00');
+INSERT INTO `sp_role` VALUES ('39', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术170432640','2024-02-02 12:31:00','2024-02-02 12:31:00');
+INSERT INTO `sp_role` VALUES ('40', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术170432640','2024-02-02 12:31:00','2024-02-02 12:31:00');
+INSERT INTO `sp_role` VALUES ('41', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术170432640','2024-02-02 12:31:00','2024-02-02 12:31:00');
+INSERT INTO `sp_role` VALUES ('42', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术170432640','2024-02-02 12:31:00','2024-02-02 12:31:00');
+INSERT INTO `sp_role` VALUES ('43', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术170432640','2024-02-02 12:31:00','2024-02-02 12:31:00');
+INSERT INTO `sp_role` VALUES ('44', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术170432640','2024-02-02 12:31:00','2024-02-02 12:31:00');
+INSERT INTO `sp_role` VALUES ('45', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术170432640','2024-02-02 12:31:00','2024-02-02 12:31:00');
+INSERT INTO `sp_role` VALUES ('46', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术170432640','2024-02-02 12:31:00','2024-02-02 12:31:00');
+INSERT INTO `sp_role` VALUES ('47', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术170432640','2024-02-02 12:31:00','2024-02-02 12:31:00');
+INSERT INTO `sp_role` VALUES ('48', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术170432640','2024-02-02 12:31:00','2024-02-02 12:31:00');
+INSERT INTO `sp_role` VALUES ('49', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术170432640','2024-02-02 12:31:00','2024-02-02 12:31:00');
+INSERT INTO `sp_role` VALUES ('50', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术170432640','2024-02-02 12:31:00','2024-02-02 12:31:00');
+INSERT INTO `sp_role` VALUES ('51', '员工1', '101,0,148', 'Order-showlist,Brand-index', '技术170432640','2024-02-02 12:31:00','2024-02-02 12:31:00');
 
 
 -- ----------------------------
@@ -103,17 +103,17 @@ CREATE TABLE `sp_permission` (
 	`ps_params` VARCHAR ( 32 ) NULL DEFAULT NULL COMMENT '路由参数',
 	`ps_show` TINYINT(2) NULL  DEFAULT 1 COMMENT  '是否显示(否0，是1)',
 	`ps_delete` TINYINT(2) NULL DEFAULT 1 COMMENT '是否删除(删除0，未删除1)',
-	`create_time` INT UNSIGNED NOT NULL COMMENT '创建时间',
-	`update_time` INT UNSIGNED NOT NULL COMMENT '更新时间',
+   `create_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+   `update_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
 	PRIMARY KEY ( `ps_id` ) 
 ) ENGINE = INNODB AUTO_INCREMENT = 100 DEFAULT CHARSET = utf8mb3 COMMENT = '权限表';
 
-INSERT INTO `sp_permission` VALUES ('101', '商品管理', '0',  '0','1','category',NULL,1,1,'0','0');
-INSERT INTO `sp_permission` VALUES ('102', '订单管理', '0',  '0','1','category',NULL,1,1,'0','0');
-INSERT INTO `sp_permission` VALUES ('103', '权限管理', '0',  '0','1','category',NULL,1,1,'0','0');
-INSERT INTO `sp_permission` VALUES ('104', '商品列表', '101', '1','1','category',NULL,1,1,'0','0');
-INSERT INTO `sp_permission` VALUES ('105', '添加商品', '104',  '2','1','category',NULL,1,1,'0','0');
-INSERT INTO `sp_permission` VALUES ('107', '订单列表', '102',  '1','1','category',NULL,1,1,'0','0');
+INSERT INTO `sp_permission` VALUES ('101', '商品管理', '0',  '0','1','category',NULL,1,1,'2024-02-02 12:31:00','2024-02-02 12:31:00');
+INSERT INTO `sp_permission` VALUES ('102', '订单管理', '0',  '0','1','category',NULL,1,1,'2024-02-02 12:31:00','2024-02-02 12:31:00');
+INSERT INTO `sp_permission` VALUES ('103', '权限管理', '0',  '0','1','category',NULL,1,1,'2024-02-02 12:31:00','2024-02-02 12:31:00');
+INSERT INTO `sp_permission` VALUES ('104', '商品列表', '101', '1','1','category',NULL,1,1,'2024-02-02 12:31:00','2024-02-02 12:31:00');
+INSERT INTO `sp_permission` VALUES ('105', '添加商品', '104',  '2','1','category',NULL,1,1,'2024-02-02 12:31:00','2024-02-02 12:31:00');
+INSERT INTO `sp_permission` VALUES ('107', '订单列表', '102',  '1','1','category',NULL,1,1,'2024-02-02 12:31:00','2024-02-02 12:31:00');
 
 
 -- ----------------------------
@@ -152,15 +152,15 @@ CREATE TABLE sp_category (
    `category_id` INT(4) NOT NULL AUTO_INCREMENT COMMENT '分类id',
    `category_name` VARCHAR(32) NOT NULL COMMENT '分类名称',
    `category_desc` VARCHAR(32) NULL DEFAULT '' COMMENT '分类描述',
-   `create_time` INT(10) UNSIGNED NOT NULL COMMENT '创建时间',
-   `update_time` INT(10) UNSIGNED NOT NULL COMMENT '修改时间',
+   `create_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+   `update_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
    `deleted` TINYINT(2) NOT NULL COMMENT '逻辑删除(0未删除；1删除)',
    PRIMARY KEY (category_id),
    UNIQUE (category_name)
 ) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='分类表';
 
-INSERT INTO `sp_category` VALUES (100, '快餐饮食','',1704326400, 1704326400,1);
-INSERT INTO `sp_category` VALUES (101, '生活买菜','',1704326400, 1704326400,1);
+INSERT INTO `sp_category` VALUES (100, '快餐饮食','','2024-02-02 12:31:00', '2024-02-02 12:31:00',1);
+INSERT INTO `sp_category` VALUES (101, '生活买菜','','2024-02-02 12:31:00', '2024-02-02 12:31:00',1);
 
 -- TABLE bill_system for sp_category
 DROP TABLE IF EXISTS sp_life_expend;
@@ -168,16 +168,16 @@ CREATE TABLE sp_life_expend (
    `id` INT(8) NOT NULL AUTO_INCREMENT COMMENT '账单id',
    `user_id` INT(8) NOT NULL COMMENT '用户ID',
    `category_id` INT(4) NOT NULL COMMENT '分类id',
-   `bill_date` INT(10) UNSIGNED NOT NULL COMMENT '账单日期',
+   `bill_date` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '账单日期',
    `bill_amount` decimal(8, 2) NOT NULL COMMENT '账单金额',
    `bill_desc` VARCHAR(32) NULL DEFAULT '' COMMENT '账单描述',
-   `create_time` INT(10) UNSIGNED NOT NULL COMMENT '创建时间',
-   `update_time` INT(10) UNSIGNED NOT NULL COMMENT '修改时间',
-   PRIMARY KEY (id),
+   `create_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+   `update_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+   PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='支出表';
 
-INSERT INTO `sp_category` VALUES (100,1,101, '1704326400',15.6,'',1704326400, 1704326400);
-INSERT INTO `sp_category` VALUES (101,1,100, '1704326400',11.4,'',1704326400, 1704326400);
+INSERT INTO `sp_life_expend` VALUES (100, 1, 101, '2024-02-02', 15.6, '', '2024-02-02 12:31:00', '2024-02-02 12:31:00');
+INSERT INTO `sp_life_expend` VALUES (101, 1, 100, '2024-02-02', 11.4, '', '2024-02-02 12:31:00', '2024-02-02 12:31:00');
 
 
 -- -- TABLE bill_system for bill_house_rent

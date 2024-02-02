@@ -58,8 +58,8 @@ module.exports.createMenu = function (params, cb) {
 			ps_icon: params.icon,
 			ps_params: params.menuParams,
 			ps_show: params.isShowMenu,
-			create_time: Date.parse(new Date()) / 1000,
-			update_time: Date.parse(new Date()) / 1000,
+			create_time: new Date(),
+			update_time: new Date(),
 			ps_api_path: params.menuPath,
 			ps_api_sign: params.menuSign,
 			ps_api_order: params.order,
@@ -93,7 +93,7 @@ module.exports.updateMenu = function (params, cb) {
 			ps_icon: params.icon,
 			ps_params: params.menuParams,
 			ps_show: params.isShowMenu,
-			update_time: Date.parse(new Date()) / 1000,
+			update_time: new Date(),
 		}
 		menuDAO.update("PermissionModel", { ...obj }, function (err, updateRes) {
 			if (err) return cb(err);
