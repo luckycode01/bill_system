@@ -147,8 +147,8 @@ INSERT INTO `sp_permission_api` VALUES ('14', '107', 'MenuService', 'CREATEMenu'
 INSERT INTO `sp_permission_api` VALUES ('15', '107', 'MenuService', 'updateMenu','users','sys:user:show',  0);
 
 -- TABLE bill_system for sp_category
-DROP TABLE IF EXISTS sp_category;
-CREATE TABLE sp_category (
+DROP TABLE IF EXISTS bill_category;
+CREATE TABLE bill_category (
    `category_id` INT(4) NOT NULL AUTO_INCREMENT COMMENT '分类id',
    `category_name` VARCHAR(32) NOT NULL COMMENT '分类名称',
    `category_desc` VARCHAR(32) NULL DEFAULT '' COMMENT '分类描述',
@@ -159,12 +159,12 @@ CREATE TABLE sp_category (
    UNIQUE (category_name)
 ) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='分类表';
 
-INSERT INTO `sp_category` VALUES (100, '快餐饮食','','2024-02-02 12:31:00', '2024-02-02 12:31:00',1);
-INSERT INTO `sp_category` VALUES (101, '生活买菜','','2024-02-02 12:31:00', '2024-02-02 12:31:00',1);
+INSERT INTO `bill_category` VALUES (100, '快餐饮食','','2024-02-02 12:31:00', '2024-02-02 12:31:00',1);
+INSERT INTO `bill_category` VALUES (101, '生活买菜','','2024-02-02 12:31:00', '2024-02-02 12:31:00',1);
 
 -- TABLE bill_system for sp_category
-DROP TABLE IF EXISTS sp_life_expend;
-CREATE TABLE sp_life_expend (
+DROP TABLE IF EXISTS bill_life_expend;
+CREATE TABLE bill_life_expend (
    `id` INT(8) NOT NULL AUTO_INCREMENT COMMENT '账单id',
    `user_id` INT(8) NOT NULL COMMENT '用户ID',
    `category_id` INT(4) NOT NULL COMMENT '分类id',
@@ -173,30 +173,49 @@ CREATE TABLE sp_life_expend (
    `bill_desc` VARCHAR(32) NULL DEFAULT '' COMMENT '账单描述',
    `create_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
    `update_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-   PRIMARY KEY (id)
+   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='支出表';
 
-INSERT INTO `sp_life_expend` VALUES (100, 1, 101, '2024-02-02', 15.6, '', '2024-02-02 12:31:00', '2024-02-02 12:31:00');
-INSERT INTO `sp_life_expend` VALUES (101, 1, 100, '2024-02-02', 11.4, '', '2024-02-02 12:31:00', '2024-02-02 12:31:00');
+INSERT INTO `bill_life_expend` VALUES (100, 1, 101, '2024-02-02', 15.6, '', '2024-02-02 12:31:00', '2024-02-02 12:31:00');
+INSERT INTO `bill_life_expend` VALUES (101, 1, 100, '2024-02-02', 11.4, '', '2024-02-02 12:31:00', '2024-02-02 12:31:00');
 
 
 -- -- TABLE bill_system for bill_house_rent
 DROP TABLE IF EXISTS bill_house_rent;
 
 CREATE TABLE bill_house_rent(
-   id INT(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
-   user_id INT(11) NULL DEFAULT NULL COMMENT '用户ID',
-   room_rent decimal(8, 2) NOT NULL COMMENT '房租',
-   water_start decimal(8, 2) NOT NULL COMMENT '水表起码',
-   water_end decimal(8, 2) NOT NULL COMMENT '水表止码',
-   water_amount decimal(8, 2) NOT NULL COMMENT '水费',
-   electricity_start decimal(8, 2) NOT NULL COMMENT '电表起码',
-   electricity_end decimal(8, 2) NOT NULL COMMENT '电表止码',
-   electricity_amount decimal(8, 2) NOT NULL COMMENT '电费',
-   network_amount decimal(8, 2) NOT NULL COMMENT '宽带网费',
-   deposit decimal(8, 2) NOT NULL COMMENT '押金',
-   pay_time datetime(0) NULL DEFAULT NULL COMMENT '交租时间',
-   `create_time` INT(10) UNSIGNED NOT NULL COMMENT '创建时间',
-   `update_time` INT(10) UNSIGNED NOT NULL COMMENT '修改时间',
-   PRIMARY KEY (id)
+   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+   `user_id` INT(11) NULL DEFAULT NULL COMMENT '用户ID',
+   `room_rent` decimal(8, 2) NOT NULL COMMENT '房租',
+   `water_start` decimal(8, 2) NOT NULL COMMENT '水表起码',
+   `water_end` decimal(8, 2) NOT NULL COMMENT '水表止码',
+   `water_amount` decimal(8, 2) NOT NULL COMMENT '水费',
+   `electricity_start` decimal(8, 2) NOT NULL COMMENT '电表起码',
+   `electricity_end` decimal(8, 2) NOT NULL COMMENT '电表止码',
+   `electricity_amount` decimal(8, 2) NOT NULL COMMENT '电费',
+   `network_amount` decimal(8, 2) NOT NULL COMMENT '宽带网费',
+   `preferential` decimal(8, 2) NOT NULL COMMENT '优惠',
+   `rent_deposit` decimal(8, 2) NOT NULL COMMENT '押金',
+   `rent_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '账单时间',
+   `create_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+   `update_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+   PRIMARY KEY (`id`)
+)ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='房租表';
+
+
+-- -- TABLE bill_system for bill_salary
+DROP TABLE IF EXISTS bill_salary;
+
+CREATE TABLE bill_salary (
+   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+   `user_id` INT(11) NULL DEFAULT NULL COMMENT '用户ID',
+   `salary_income` decimal(8, 2) NOT NULL COMMENT '薪资收入',
+   `project_bonus` decimal(8, 2) NOT NULL COMMENT '项目奖金',
+   `travel_allowance` decimal(8, 2) NOT NULL COMMENT '出差补贴',
+   `tax_refund` decimal(8, 2) NOT NULL COMMENT '纳税退税',
+   `salary_desc` VARCHAR(8) NULL DEFAULT NULL COMMENT '备注',
+   `salary_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '账单时间',
+   `create_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+   `update_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+   PRIMARY KEY (`id`)
 )ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='房租表';
