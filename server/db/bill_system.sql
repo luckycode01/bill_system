@@ -170,14 +170,15 @@ CREATE TABLE bill_life_expend (
    `category_id` INT(4) NOT NULL COMMENT '分类id',
    `bill_date` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '账单日期',
    `bill_amount` decimal(8, 2) NOT NULL COMMENT '账单金额',
-   `bill_desc` VARCHAR(32) NULL DEFAULT '' COMMENT '账单描述',
+   `bill_out_desc` VARCHAR(32) NULL DEFAULT '' COMMENT '支出备注',
+   `bill_in_desc` VARCHAR(32) NULL DEFAULT '' COMMENT '收入备注',
    `create_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
    `update_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='支出表';
 
-INSERT INTO `bill_life_expend` VALUES (100, 1, 101, '2024-02-02', 15.6, '', '2024-02-02 12:31:00', '2024-02-02 12:31:00');
-INSERT INTO `bill_life_expend` VALUES (101, 1, 100, '2024-02-02', 11.4, '', '2024-02-02 12:31:00', '2024-02-02 12:31:00');
+INSERT INTO `bill_life_expend` VALUES (100, 1, 101, '2024-02-02', 15.6, '','', '2024-02-02 12:31:00', '2024-02-02 12:31:00');
+INSERT INTO `bill_life_expend` VALUES (101, 1, 100, '2024-02-02', 11.4, '', '','2024-02-02 12:31:00', '2024-02-02 12:31:00');
 
 
 -- -- TABLE bill_system for bill_house_rent
