@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 // 初始化数据库模块
 var database = require('./modules/database')
-database.initialize(app, function(err) {
+database.initialize(app, function (err) {
   if (err) {
     console.error('连接数据库失败失败 %s', err)
   }
@@ -35,7 +35,7 @@ var managerService = require(path.join(process.cwd(), 'services/ManagerService')
 var roleService = require(path.join(process.cwd(), 'services/RoleService'))
 
 // 设置跨域和相应数据格式
-app.all('/api/*', function(req, res, next) {
+app.all('/api/*', function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Headers', 'X-Requested-With, mytoken')
   res.header('Access-Control-Allow-Headers', 'X-Requested-With, Authorization')
@@ -56,19 +56,19 @@ admin_passport = require('./modules/passport')
 // 设置登录模块的登录函数衔接 passport 策略
 admin_passport.setup(app, managerService.login)
 // 设置 passport 登录入口点
-app.use('/api/lucky/v1/login', admin_passport.login)
+app.use('/api/lucky/admin/login', admin_passport.login)
 // 设置 passport 验证路径
-app.use('/api/lucky/v1/*', admin_passport.tokenAuth)
+app.use('/api/lucky/admin/*', admin_passport.tokenAuth)
 
 // 获取验证模块
 var authorization = require(path.join(process.cwd(), '/modules/authorization'))
 
 // 设置全局权限
-authorization.setAuthFn(function(req, res, next, serviceName, actionName, passFn) {
+authorization.setAuthFn(function (req, res, next, serviceName, actionName, passFn) {
   if (!req.userInfo || !req.userInfo.rids) return res.sendResult('无角色ID分配')
-  console.log("setAuthFn===>req.userInfo",req.userInfo);
+  console.log("setAuthFn===>req.userInfo", req.userInfo);
   // 验证权限
-  roleService.authRight(req.userInfo, serviceName, actionName, function(err, pass) {
+  roleService.authRight(req.userInfo, serviceName, actionName, function (err, pass) {
     passFn(pass)
   })
 })
@@ -81,7 +81,7 @@ authorization.setAuthFn(function(req, res, next, serviceName, actionName, passFn
 // 带路径的用法并且可以打印出路有表
 mount(app, path.join(process.cwd(), '/routes'), true)
 
-app.all('/ueditor/ue', function(req, res, next) {
+app.all('/ueditor/ue', function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Headers', 'X-Requested-With, mytoken')
   res.header('Access-Control-Allow-Headers', 'X-Requested-With, Authorization')
@@ -107,7 +107,7 @@ var upload_config = require('config').get('upload_config')
 app.use('/' + upload_config.get('upload_ueditor'), express.static(upload_config.get('upload_ueditor')))
 
 const logistics = require('./modules/Logistics.js')
-app.get('/api/private/v1/kuaidi/:orderno', logistics.getLogisticsInfo)
+app.get('/api/private/admin/kuaidi/:orderno', logistics.getLogisticsInfo)
 
 // 定义日志
 // var log4js = require('./modules/logger');
@@ -119,7 +119,7 @@ app.get('/api/private/v1/kuaidi/:orderno', logistics.getLogisticsInfo)
  *
  */
 // 如果没有路径处理就返回 Not Found
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.sendResult(null, 404, 'Not Found')
 })
 

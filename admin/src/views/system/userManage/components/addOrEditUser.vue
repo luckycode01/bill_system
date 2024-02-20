@@ -1,5 +1,6 @@
 <template>
-  <el-dialog :title="dataForm.id?'编辑用户':'添加用户'" :visible.sync="addOrEditUserDialog" center width="700px" :before-close="dialogBeforeClose">
+  <el-dialog :title="dataForm.id ? '编辑用户' : '添加用户'" :visible.sync="addOrEditUserDialog" center width="700px"
+    :before-close="dialogBeforeClose">
     <el-form ref="addOrEditFormRef" :model="dataForm" :rules="addOrEditRules" label-width="80px">
       <el-row :gutter="10">
         <el-col :span="12">
@@ -29,7 +30,8 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="角色" prop="rids">
-            <el-select v-model="dataForm.rids" multiple filterable remote :remote-method="getRoleList" placeholder="请选择角色">
+            <el-select v-model="dataForm.rids" multiple filterable remote :remote-method="getRoleList"
+              placeholder="请选择角色">
               <el-option v-for="item in roleList" :key="item.id" :label="item.roleName" :value="item.id"></el-option>
             </el-select>
           </el-form-item>
@@ -152,7 +154,8 @@ export default {
             this.dataForm[item] = row[item] ? row[item] : '';
           }
         })
-        this.dataForm.rids = (Array.isArray(row.rids) && row.rids.split(",").map(item => +item)) || [];
+        this.dataForm.rids = row.rids.split(",").map(item => +item) || [];
+        console.log(this.dataForm);
       }
       this.getRoleList();
       this.addOrEditUserDialog = true;
@@ -206,7 +209,7 @@ export default {
 ::v-deep .el-dialog__body {
   padding: 24px 48px;
 }
+
 ::v-deep .el-dialog__footer {
   padding: 0 32px 32px;
-}
-</style>
+}</style>

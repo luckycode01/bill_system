@@ -34,7 +34,7 @@
     </el-row>
     <el-table v-loading="loading" :data="usersList" style="width: 100%" :height="tableHeight" border stripe>
       <el-table-column type="index" label="序号" width="50"></el-table-column>
-      <el-table-column prop="username" align="center" label="用户名"></el-table-column>
+      <el-table-column prop="username" align="center" label="用户名" width="80"></el-table-column>
       <el-table-column align="center" label="用户类型" width="80">
         <template slot-scope="{row}">
           <span>{{row.userType==1?'管理用户':'普通用户'}}</span>

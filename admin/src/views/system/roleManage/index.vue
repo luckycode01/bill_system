@@ -147,9 +147,17 @@ export default {
         console.log(this.addorEditroleForm);
 
       }
+      this.getMenuList();
 
       this.addOrEditRoleDialog = true;
 
+    },
+   async  getMenuList(){
+      const res = await getMenuList()
+          if (res.meta.status == 200) {
+          } else {
+            this.$message.error(res.meta.msg);
+          }
     },
     deleteRole(row) {
       if (!row) {
