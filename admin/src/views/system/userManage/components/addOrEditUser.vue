@@ -29,7 +29,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="角色" prop="rids">
-            <el-select v-model="dataForm.rids" multiple collapse-tags filterable remote :remote-method="getRoleList" placeholder="请选择角色">
+            <el-select v-model="dataForm.rids" multiple filterable remote :remote-method="getRoleList" placeholder="请选择角色">
               <el-option v-for="item in roleList" :key="item.id" :label="item.roleName" :value="item.id"></el-option>
             </el-select>
           </el-form-item>
@@ -176,10 +176,15 @@ export default {
       })
     },
 
-    async getRoleList() {
-      const res = await getRoleslistReq();
+    async getRoleList(val) {
+      const params = {
+        roleName: val,
+        pageNum: 1,
+        pageSize: 100,
+      }
+      const res = await getRoleslistReq(params);
       if (res.meta.status == 200) {
-        this.roleList = res.data || [];
+        this.roleList = res.data.data || [];
       } else {
         this.message.error(res.meta.msg);
       }

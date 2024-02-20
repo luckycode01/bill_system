@@ -3,17 +3,17 @@ import { proxy } from "@/api/index";
 
 // 获取用户列表
 export const getUserlistReq = (params) => {
-  return request.reqGet(`${proxy}/v1/users/getUserlist`, params);
+  return request.reqGet(`${proxy}/admin/users/getUserlist`, params);
 };
 // 修改用户状态
 export const changeUsersStateReq = (params) => {
-  return request.reqPost(`${proxy}/v1/users/updateUserState`, params);
+  return request.reqPost(`${proxy}/admin/users/updateUserState`, params);
 };
 // 更新用户
 export const addOrUpdateUser = (params) => {
-  return request.reqPost(`${proxy}/v1/users/addOrUpdateUser`, params);
+  return request.reqPost(`${proxy}/admin/users/addOrUpdateUser`, params);
 };
 // 删除用户
 export const deleteUser = (params) => {
-  return request.reqPost(`${proxy}/v1/users/deleteUser`, params);
+  return request.reqPost(`${proxy}/admin/users/deleteUser`, params);
 };

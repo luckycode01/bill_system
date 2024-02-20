@@ -95,6 +95,43 @@ export const constantRoutes = [
       },
     ],
   },
+  {
+    path: "/bill-manage",
+    component: Layout,
+    meta: { title: "账单管理", icon: "bill", affix: false },
+    children: [
+      {
+        path: "expend-list",
+        component: () => import("@/views/billManage/expendList/index"),
+        name: "expend-list",
+        meta: { title: "支出管理", icon: "pay", affix: false },
+      },
+      {
+        path: "income-list",
+        component: () => import("@/views/billManage/incomeList/index"),
+        name: "income-list",
+        meta: { title: "收入管理", icon: "shouru", affix: false },
+      },
+      {
+        path: "rent-list",
+        component: () => import("@/views/billManage/rentList/index"),
+        name: "rent-list",
+        meta: { title: "房租管理", icon: "home", affix: false },
+      },
+      {
+        path: "other-income",
+        component: () => import("@/views/billManage/otherIncome/index"),
+        name: "other-income",
+        meta: { title: "其他收入", icon: "shouru", affix: false },
+      },
+      {
+        path: "category",
+        component: () => import("@/views/billManage/category/index"),
+        name: "category",
+        meta: { title: "分类管理", icon: "category", affix: false },
+      },
+    ],
+  },
 ];
 
 // 动态路由，基于用户权限动态去加载
