@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { getMenuList } from "@/api/user/menus";
+import { getRightList } from "@/api/user/menus";
 import tableHeight from '@/mixin/tableHeight';
 import addOrEdit from '@/views/system/menuManage/components/addOrEdit'
 
@@ -85,11 +85,9 @@ export default {
     async getDataList() {
       try {
         const params = {
-          menuName: this.menuName,
-          pageNum: this.pageInfo.pageNum,
-          pageSize: this.pageInfo.pageSize,
+          type: "tree"
         }
-        const res = await getMenuList(params);
+        const res = await getRightList(params);
         if (res.meta.status == 200) {
           this.menuList = res.data || [];
           this.pageInfo.total = res.data.total;

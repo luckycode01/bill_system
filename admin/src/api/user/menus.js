@@ -6,3 +6,8 @@ export const getMenuList = (params) => {
   return request.reqGet(`${proxy}/admin/menus/getMenuList`, params);
 };
 // 添加或修改菜单
+
+// 获取所有权限（菜单）
+export const getRightList = (params) => {
+  return request.reqGet(`${proxy}/admin/rights/getRightList`, params);
+};

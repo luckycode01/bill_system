@@ -42,7 +42,7 @@
         </el-form-item>
         <el-form-item label="菜单权限">
           <el-card class="role-list">
-            <el-tree :data="menuList" :props="treeProps" show-checkbox default-expand-all @node-click="handleNodeClick"></el-tree>
+            <el-tree :data="menuList" node-key="id" ref="menuTreeRef" :props="treeProps" show-checkbox default-expand-all></el-tree>
           </el-card>
         </el-form-item>
       </el-form>
@@ -61,7 +61,7 @@ import {
   deleteRolesReq
 } from "@/api/user/role";
 import {
-  getMenuList
+  getRightList
 } from "@/api/user/menus";
 import tableHeight from '@/mixin/tableHeight';
 
@@ -93,7 +93,7 @@ export default {
       },
       treeProps: {
         children: 'children',
-        label: 'label'
+        label: 'authName',
       },
     }
   },
@@ -109,12 +109,10 @@ export default {
     submitAddOrEdit() {
       this.$refs.addorEditroleFormRef.validate(val => {
         if (val) {
-
+          let menuKeys = this.$refs.menuTreeRef.getCheckedKeys();
+          console.log(menuKeys);
         }
       })
-    },
-    handleNodeClick(data) {
-      console.log(data);
     },
     handleSearch() {
       this.pageInfo.pageNum = 1;
@@ -131,8 +129,9 @@ export default {
         if (res.meta.status == 200) {
           this.roleList = res.data.data || [];
           this.pageInfo.total = res.data.total;
+        } else {
+          this.$message.error(res.meta.msg)
         }
-
       } catch (err) {
         console.log(err);
       }
@@ -144,20 +143,22 @@ export default {
         this.addorEditroleForm.roleName = row.roleName;
         this.addorEditroleForm.roleDesc = row.roleDesc;
         this.addorEditroleForm.menuIdList = row.menuIdList;
+        this.$nextTick(() => { this.$refs.menuTreeRef.setCheckedKeys(this.addorEditroleForm.menuIdList); })
         console.log(this.addorEditroleForm);
 
       }
-      this.getMenuList();
+      this.getRightList();
 
       this.addOrEditRoleDialog = true;
 
     },
-   async  getMenuList(){
-      const res = await getMenuList()
-          if (res.meta.status == 200) {
-          } else {
-            this.$message.error(res.meta.msg);
-          }
+    async getRightList() {
+      const res = await getRightList({ type: "tree" })
+      if (res.meta.status == 200) {
+        this.menuList = res.data || [];
+      } else {
+        this.$message.error(res.meta.msg);
+      }
     },
     deleteRole(row) {
       if (!row) {
@@ -197,14 +198,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::v-deep .el-dialog {
+  margin-top: 12vh !important;
+}
 .el-range-editor--mini.el-input__inner {
   width: 100%;
 }
 ::v-deep .el-dialog__body {
-  padding: 30px 20px 0;
+  padding: 12px 20px 0;
 }
 .role-list {
-  height: 240px;
+  height: 340px;
   overflow: hidden;
   overflow-y: auto;
 }

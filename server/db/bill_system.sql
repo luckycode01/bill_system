@@ -136,14 +136,14 @@ INSERT INTO `sp_permission_api` VALUES ('1', '101', NULL, NULL, 'goods','', '3')
 INSERT INTO `sp_permission_api` VALUES ('2', '102', NULL, NULL, 'orders','', '4');
 INSERT INTO `sp_permission_api` VALUES ('3', '103', NULL, NULL, 'rights','', '2');
 INSERT INTO `sp_permission_api` VALUES ('4', '104', 'GoodService', 'getAllGoods', 'goods','sys:user:add', '1');
-INSERT INTO `sp_permission_api` VALUES ('5', '105', 'GoodService', 'CREATEGood', 'goods','sys:user:delete', 0);
+INSERT INTO `sp_permission_api` VALUES ('5', '105', 'GoodService', 'createGood', 'goods','sys:user:delete', 0);
 INSERT INTO `sp_permission_api` VALUES ('6', '107', 'OrderService', 'getAllOrders', 'orders','sys:user:get', 0);
-INSERT INTO `sp_permission_api` VALUES ('9', '109', 'OrderService', 'CREATEOrder', 'orders','sys:user:add', 0);
+INSERT INTO `sp_permission_api` VALUES ('9', '109', 'OrderService', 'Order', 'orders','sys:user:add', 0);
 INSERT INTO `sp_permission_api` VALUES ('10', '110', 'ManagerService', 'getAllManagers','users','sys:user:list',  0);
 INSERT INTO `sp_permission_api` VALUES ('11', '110', 'ManagerService', 'getInfoManager','users','sys:user:show',  0);
 INSERT INTO `sp_permission_api` VALUES ('12', '107', 'RightService', 'getAllRights', 'users','sys:user:show', 0);
 INSERT INTO `sp_permission_api` VALUES ('13', '107', 'MenuService', 'getLeftMenus','users','sys:user:show',  0);
-INSERT INTO `sp_permission_api` VALUES ('14', '107', 'MenuService', 'CREATEMenu','users','sys:user:show',  0);
+INSERT INTO `sp_permission_api` VALUES ('14', '107', 'MenuService', 'createMenu','users','sys:user:show',  0);
 INSERT INTO `sp_permission_api` VALUES ('15', '107', 'MenuService', 'updateMenu','users','sys:user:show',  0);
 
 -- TABLE bill_system for sp_category

@@ -11,6 +11,7 @@ var authorization = require(path.join(process.cwd(), "/modules/authorization"));
 // 通过验证模块获取用户管理服务
 var menuService = authorization.getService("MenuService");
 
+// /获取用户菜单
 router.get("/getMenuList",
 	function (req, res, next) {
 		menuService.getLeftMenus(req.userInfo, function (err, result) {
