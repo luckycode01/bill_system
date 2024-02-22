@@ -6,8 +6,8 @@ module.exports = function(db,callback){
 		ps_ids : String,
 		ps_ca : String,
 		role_desc : String,
-		create_time : Number,
-		update_time : Number,
+		create_time : String,
+		update_time : String,
 	},{
 		table : "sp_role"
 	});

@@ -22,7 +22,7 @@ module.exports.findByKey = function (conditions, cb) {
 };
 
 /**
- * 模糊查询用户数量
+ * 模糊查询角色数量
  *
  * @param  {[type]}   key 关键词
  * @param  {Function} cb  回调函数

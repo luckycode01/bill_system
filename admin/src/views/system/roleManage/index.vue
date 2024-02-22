@@ -6,43 +6,51 @@
       </el-input>
     </el-row>
     <el-row :gutter="10" class="mg-b12">
-      <el-button type="primary" size="mini" icon="el-icon-plus" @click="($event)=>openAddOrEditRole()">添加角色</el-button>
-      <el-button type="danger" size="mini" icon="el-icon-delete" @click="($event)=>deleteRole()">批量删除</el-button>
+      <el-button type="primary" size="mini" icon="el-icon-plus" @click="($event) => openAddOrEditRole()">添加角色</el-button>
+      <el-button type="danger" size="mini" icon="el-icon-delete" @click="($event) => deleteRole()">批量删除</el-button>
     </el-row>
     <el-table v-loading="loading" :data="roleList" style="width: 100%" :height="tableHeight" border stripe>
       <el-table-column type="index" label="序号" width="50"></el-table-column>
       <el-table-column prop="roleName" align="center" label="角色名"></el-table-column>
-      <el-table-column prop="roleDesc" align="center" label="角色描述" show-overflow-tooltip min-width="width"></el-table-column>
+      <el-table-column prop="roleDesc" align="center" label="角色描述" show-overflow-tooltip
+        min-width="width"></el-table-column>
       <el-table-column prop="createTime" align="center" label="创建时间" show-overflow-tooltip>
         <template slot-scope="{row}">
-          <span>{{row.createTime | handleTime}}</span>
+          <span>{{ row.createTime | handleTime }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="createTime" align="center" label="修改时间" show-overflow-tooltip>
         <template slot-scope="{row}">
-          <span>{{row.updateTime | handleTime}}</span>
+          <span>{{ row.updateTime | handleTime }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="200">
         <template slot-scope="{row}">
-          <el-button @click="openAddOrEditRole(row,'detail')" type='text' icon="el-icon-more-outline" size='mini'>详情</el-button>
-          <el-button @click="($event)=>openAddOrEditRole(row)" type='text' icon="el-icon-edit" size='mini'>编辑</el-button>
-          <el-button @click="deleteRole(row)" type='text' icon="el-icon-delete" size='mini' style="color:red">删除</el-button>
+          <el-button @click="openAddOrEditRole(row, 'detail')" type='text' icon="el-icon-more-outline"
+            size='mini'>详情</el-button>
+          <el-button @click="($event) => openAddOrEditRole(row)" type='text' icon="el-icon-edit"
+            size='mini'>编辑</el-button>
+          <el-button @click="deleteRole(row)" type='text' icon="el-icon-delete" size='mini'
+            style="color:red">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <pagination :total="pageInfo.total" :page.sync="pageInfo.pageNum" :limit.sync="pageInfo.pageSize" @pagination="getDataList" />
+    <pagination :total="pageInfo.total" :page.sync="pageInfo.pageNum" :limit.sync="pageInfo.pageSize"
+      @pagination="getDataList" />
     <el-dialog title="" :visible.sync="addOrEditRoleDialog" width="500px" :before-close="dialogBeforeClose">
       <el-form ref="addorEditroleFormRef" :rules="addorEditRules" :model="addorEditroleForm" label-width="80px">
         <el-form-item label="角色名称" prop="roleName">
-          <el-input v-model="addorEditroleForm.roleName" :disabled="isDisabled" required placeholder="请输入角色名称" size="mini"></el-input>
+          <el-input v-model="addorEditroleForm.roleName" :disabled="isDisabled" required placeholder="请输入角色名称"
+            size="mini"></el-input>
         </el-form-item>
         <el-form-item label="角色描述">
-          <el-input v-model="addorEditroleForm.roleDesc" :disabled="isDisabled" type="textarea" placeholder="请输入角色描述"></el-input>
+          <el-input v-model="addorEditroleForm.roleDesc" :disabled="isDisabled" type="textarea"
+            placeholder="请输入角色描述"></el-input>
         </el-form-item>
         <el-form-item label="菜单权限">
           <el-card class="role-list">
-            <el-tree :data="menuList" node-key="id" ref="menuTreeRef" :props="treeProps" show-checkbox default-expand-all></el-tree>
+            <el-tree :data="menuList" node-key="id" ref="menuTreeRef" :props="treeProps" show-checkbox
+              default-expand-all></el-tree>
           </el-card>
         </el-form-item>
       </el-form>
@@ -86,7 +94,7 @@ export default {
       addorEditroleForm: {
         roleName: '',
         roleDesc: '',
-        menuIdList: [],
+        roleIds: [],
       },
       addorEditRules: {
         roleName: [{ required: true, message: "请输入角色名称", tigger: 'blue' }]
@@ -107,10 +115,23 @@ export default {
   },
   methods: {
     submitAddOrEdit() {
-      this.$refs.addorEditroleFormRef.validate(val => {
+      this.$refs.addorEditroleFormRef.validate(async val => {
         if (val) {
-          let menuKeys = this.$refs.menuTreeRef.getCheckedKeys();
-          console.log(menuKeys);
+          try {
+            let menuKeys = this.$refs.menuTreeRef.getCheckedKeys();
+            const params = JSON.parse(JSON.stringify(this.addorEditroleForm));
+
+            params.roleIds = menuKeys.join(",");
+            const res = await addOrUpdateRoleReq(params);
+            if (res.meta.status == 200 || res.meta.status == 201) {
+              this.getDataList();
+              this.dialogBeforeClose();
+              this.$message.success(res.meta.msg);
+            } else {
+              this.$message.error(res.meta.msg);
+            }
+          } catch (err) {
+          }
         }
       })
     },
@@ -142,22 +163,29 @@ export default {
         this.addorEditroleForm.id = row.id;
         this.addorEditroleForm.roleName = row.roleName;
         this.addorEditroleForm.roleDesc = row.roleDesc;
-        this.addorEditroleForm.menuIdList = row.menuIdList;
-        this.$nextTick(() => { this.$refs.menuTreeRef.setCheckedKeys(this.addorEditroleForm.menuIdList); })
-        console.log(this.addorEditroleForm);
-
+        this.addorEditroleForm.roleIds = row.menuIdList;
+        this.$nextTick(() => { this.$refs.menuTreeRef.setCheckedKeys(this.addorEditroleForm.roleIds); })
       }
       this.getRightList();
 
       this.addOrEditRoleDialog = true;
 
     },
+    handleDisableTree(data) {
+      this.menuList = data.map(item => {
+        if (item.children && item.children.length) {
+          this.handleDisableTree(item.children);
+        }
+        item.disabled = true;
+        return item;
+      })
+    },
     async getRightList() {
       const res = await getRightList({ type: "tree" })
-      if (res.meta.status == 200) {
-        this.menuList = res.data || [];
-      } else {
-        this.$message.error(res.meta.msg);
+      if (res.meta.status != 200) return this.$message.error(res.meta.msg);
+      this.menuList = res.data || [];
+      if (this.isDisabled) {
+        this.handleDisableTree(this.menuList);
       }
     },
     deleteRole(row) {
@@ -190,7 +218,7 @@ export default {
       keys.forEach(item => {
         this.addorEditroleForm[item] = '';
       })
-      this.addorEditroleForm.menuIdList = [];
+      this.addorEditroleForm.roleIds = [];
       done instanceof Function ? done() : this.addOrEditRoleDialog = false;
     },
   }
@@ -201,12 +229,15 @@ export default {
 ::v-deep .el-dialog {
   margin-top: 12vh !important;
 }
+
 .el-range-editor--mini.el-input__inner {
   width: 100%;
 }
+
 ::v-deep .el-dialog__body {
   padding: 12px 20px 0;
 }
+
 .role-list {
   height: 340px;
   overflow: hidden;
