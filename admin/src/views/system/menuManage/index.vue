@@ -38,7 +38,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <addOrEdit ref="addOrEditRef"></addOrEdit>
+    <addOrEdit ref="addOrEditRef" :menuList="menuList"></addOrEdit>
   </div>
 </template>
 

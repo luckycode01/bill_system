@@ -4,7 +4,7 @@
       <el-row :gutter="10">
         <el-col :span="12">
           <el-form-item label="上级菜单" prop="pid">
-            <el-input v-model="dataForm.pid" :disabled="dataForm.id ? true : false" placeholder="请输入用户名" />
+            <el-input v-model="dataForm.pid" :disabled="dataForm.id ? true : false" placeholder="请选择上级菜单" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -13,6 +13,11 @@
               <el-radio :label="1">菜单</el-radio>
               <el-radio :label="2">按钮</el-radio>
             </el-radio-group>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item v-if="!dataForm.id" :label="dataForm.type==1?'菜单名称':'按钮名称'" prop="passwordRepead">
+            <el-input v-model="dataForm.passwordRepead" type="password" show-password placeholder="请输入确认密码" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -27,24 +32,24 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item v-if="!dataForm.id" label="确认密码" prop="passwordRepead">
-            <el-input v-model="dataForm.passwordRepead" type="password" show-password placeholder="请输入确认密码" />
+          <el-form-item label="路由标识" prop="email">
+            <el-input v-model="dataForm.menuPath"  placeholder="请输入路由标识" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="邮箱地址" prop="email">
-            <el-input v-model="dataForm.email" placeholder="请输入邮箱地址" />
+          <el-form-item label="排序" prop="email">
+            <el-input v-model="dataForm.order" type="number" placeholder="请输入数字" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="用户类型" prop="userType">
+          <el-form-item label="是否显示" prop="userType">
             <el-radio-group v-model="dataForm.userType">
               <el-radio :label="1">管理用户</el-radio>
               <el-radio :label="2">普通用户</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <!-- <el-col :span="12">
           <el-form-item label="性别" prop="sex">
             <el-radio-group v-model="dataForm.sex">
               <el-radio :label="0">男</el-radio>
@@ -52,12 +57,12 @@
               <el-radio :label="2">未知</el-radio>
             </el-radio-group>
           </el-form-item>
-        </el-col>
-        <el-col :span="20">
+        </el-col> -->
+        <!-- <el-col :span="20">
           <el-form-item label="用户简介" prop="introduce">
             <el-input v-model="dataForm.introduce" type="textarea" :row="2" placeholder="请输入用户简介" />
           </el-form-item>
-        </el-col>
+        </el-col> -->
       </el-row>
     </el-form>
     <div slot="footer">
@@ -74,74 +79,29 @@ export default {
   components: {
     IconSelect,
   },
+  props: {
+    menuList: {
+      type: Array,
+      default: () => { return [] }
+    }
+  },
   data() {
-    const checkUserName = (rule, value, callback) => {
-      if (!value) {
-        callback(new Error("请输入用户名"));
-      }
-      if (value.length > 15 || value.length < 3) {
-        callback(new Error("用户名长度不超过3-15个字符"));
-      } else {
-        callback();
-      }
-    };
-    const checkPassword = (rule, value, callback) => {
-      if (!value) {
-        callback(new Error("请输入用户密码"));
-      }
-      if (value.length > 15 || value.length < 6) {
-        callback(new Error("密码长度应该在6到15个字之间"));
-      } else {
-        callback();
-      }
-    };
-    const checkRePassword = (rule, value, callback) => {
-      if (!this.dataForm.id && !/\S/.test(value)) {
-        callback(new Error("确认密码不能为空"));
-      } else if (this.dataForm.password !== value) {
-        callback(new Error("确认密码与密码输入不一致"));
-      } else {
-        callback();
-      }
-    };
-    const checkEmail = (rule, value, callback) => {
-      const reg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
-      if (value && !reg.test(value)) {
-        callback(new Error("邮箱地址格式有误，请重新输入"));
-      } else {
-        callback();
-      }
-    };
-    const checkMobile = (rule, value, callback) => {
-      const reg = /^1[34578]\d{9}/;
-      if (!value)
-        callback(new Error("请输入手机号"));
-      if (!reg.test(value)) {
-        callback(new Error("手机号格式有误，请重新输入"));
-      } else {
-        callback();
-      }
-    };
     return {
       addOrEditUserDialog: false,
       dataForm: {
-        pid: '',
-        type: '',
-        icon: '',
-        passwordRepead: '',
-        email: '',
-        mobile: '',
-        rids: [],
-        sex: '',
-        introduce: '',
+        menuName: '菜单管理1111111',
+        pid: 0,
+        level: 0,
+        type: 1,
+        menuPath: '/user-list111111',
+        menuSign: 'sys - user - 1111111',
+        icon: 'category',
+        menuParams: 111111,
+        isShowMenu: 1,
+        order: 0,
       },
       addOrEditRules: {
-        userType: [{ required: true, message: "请选择用户类型", trigger: 'blur' }],
-        username: [{ required: true, validator: checkUserName, trigger: 'blur' }],
-        password: [{ required: true, validator: checkPassword, trigger: 'blur' }],
-        passwordRepead: [{ required: true, validator: checkRePassword, trigger: 'blur' }],
-        email: [{ required: false, validator: checkEmail, trigger: 'blur' }],
-        mobile: [{ required: true, validator: checkMobile, trigger: 'blur' }],
+        mobile: [{ required: true, message: '', trigger: 'blur' }],
       },
       roleList: [],
     }
