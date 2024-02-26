@@ -1,23 +1,23 @@
 <template>
   <el-dialog :title="dataForm.id?'编辑用户':'添加用户'" :visible.sync="addOrEditUserDialog" center width="700px" :before-close="dialogBeforeClose">
     <el-form ref="addOrEditFormRef" :model="dataForm" :rules="addOrEditRules" label-width="80px">
-      <el-row :gutter="10">
-        <el-col :span="12">
-          <el-form-item label="上级菜单" prop="pid">
-            <el-input v-model="dataForm.pid" :disabled="dataForm.id ? true : false" placeholder="请选择上级菜单" />
+      <el-row>
+        <el-col :span="24">
+          <el-form-item label="上级菜单" prop="parentId">
+            <el-select v-model="dataForm.parentId" :options="menuOptions" placeholder="选择上级菜单" />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item label="菜单类型" prop="type">
-            <el-radio-group v-model="dataForm.type">
+        <el-col :span="24">
+          <el-form-item label="菜单类型" prop="menuType">
+            <el-radio-group v-model="dataForm.menuType">
               <el-radio :label="1">菜单</el-radio>
               <el-radio :label="2">按钮</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item v-if="!dataForm.id" :label="dataForm.type==1?'菜单名称':'按钮名称'" prop="passwordRepead">
-            <el-input v-model="dataForm.passwordRepead" type="password" show-password placeholder="请输入确认密码" />
+          <el-form-item v-if="!dataForm.id" :label="dataForm.menuType==1?'菜单名称':'按钮名称'" prop="menuName">
+            <el-input v-model="dataForm.menuName" placeholder="请输入菜单/钮名称" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -32,37 +32,33 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="路由标识" prop="email">
-            <el-input v-model="dataForm.menuPath"  placeholder="请输入路由标识" />
+          <el-form-item label="显示排序" prop="order">
+            <el-input v-model="dataForm.order" type="number" :min="0" placeholder="请输入数字" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12" v-if="dataForm.menuType == '1'">
+          <el-form-item label="路由地址" prop="menuPath">
+            <el-input v-model="dataForm.menuPath" placeholder="请输入路由地址" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="排序" prop="email">
-            <el-input v-model="dataForm.order" type="number" placeholder="请输入数字" />
+          <el-form-item label="权限标识" prop="menuSign">
+            <el-input v-model="dataForm.menuSign" placeholder="请输入权限标识" maxlength="100" />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item label="是否显示" prop="userType">
-            <el-radio-group v-model="dataForm.userType">
-              <el-radio :label="1">管理用户</el-radio>
-              <el-radio :label="2">普通用户</el-radio>
+        <el-col :span="12" v-if="dataForm.menuType == '1'">
+          <el-form-item label="路由参数" prop="menuParams">
+            <el-input v-model="dataForm.menuParams" placeholder="请输入路由参数`{'id': 1, 'name': 'ry'}`" maxlength="255" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12"  v-if="dataForm.menuType == '1'">
+          <el-form-item label="显示状态" prop="isShowMenu">
+            <el-radio-group v-model="dataForm.isShowMenu">
+              <el-radio label="1">是</el-radio>
+              <el-radio label="2">否</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
-        <!-- <el-col :span="12">
-          <el-form-item label="性别" prop="sex">
-            <el-radio-group v-model="dataForm.sex">
-              <el-radio :label="0">男</el-radio>
-              <el-radio :label="1">女</el-radio>
-              <el-radio :label="2">未知</el-radio>
-            </el-radio-group>
-          </el-form-item>
-        </el-col> -->
-        <!-- <el-col :span="20">
-          <el-form-item label="用户简介" prop="introduce">
-            <el-input v-model="dataForm.introduce" type="textarea" :row="2" placeholder="请输入用户简介" />
-          </el-form-item>
-        </el-col> -->
       </el-row>
     </el-form>
     <div slot="footer">
@@ -88,20 +84,29 @@ export default {
   data() {
     return {
       addOrEditUserDialog: false,
+      menuOptions: [],
       dataForm: {
-        menuName: '菜单管理1111111',
-        pid: 0,
+        menuName: '',
+        parentId: 0,
         level: 0,
-        type: 1,
-        menuPath: '/user-list111111',
-        menuSign: 'sys - user - 1111111',
-        icon: 'category',
-        menuParams: 111111,
-        isShowMenu: 1,
-        order: 0,
+        menuType: 1,
+        menuPath: '',
+        menuSign: '',
+        icon: '',
+        menuParams: '',
+        isShowMenu: '',
+        order: '',
       },
       addOrEditRules: {
-        mobile: [{ required: true, message: '', trigger: 'blur' }],
+        menuName: [
+          { required: true, message: "菜单名称不能为空", trigger: "blur" }
+        ],
+        orderNum: [
+          { required: true, message: "菜单顺序不能为空", trigger: "blur" }
+        ],
+        path: [
+          { required: true, message: "路由地址不能为空", trigger: "blur" }
+        ]
       },
       roleList: [],
     }
