@@ -41,12 +41,11 @@ router.post(
 	// 参数验证
 	function (req, res, next) {
 		if (!req.body.menuName) return res.sendResult(null, 400, "菜单名称不能为空");
-		if (!req.body.pid) return res.sendResult(null, 400, "上级Id不能为空");
-		if (!req.body.level) return res.sendResult(null, 400, "等级不能为空");
-		if (!req.body.type) return res.sendResult(null, 400, "类型不能为空");
-		if (req.body.type == 1) {//添加菜单
+		if (req.body.parentId != 0 && !req.body.parentId) return res.sendResult(null, 400, "上级Id不能为空");
+		if (!req.body.menuType) return res.sendResult(null, 400, "类型不能为空");
+		if (req.body.menuType == 1) {//添加菜单
 			if (!req.body.menuPath) return res.sendResult(null, 400, "组件地址不能为空");
-		} else if (req.body.type == 2) { //添加按钮
+		} else if (req.body.menuType == 2) { //添加按钮
 			if (!req.body.menuSign) return res.sendResult(null, 400, "权限标识不能为空");
 		}
 
@@ -57,9 +56,8 @@ router.post(
 	function (req, res, next) {
 		params = {
 			menuName: req.body.menuName,
-			pid: req.body.pid,
-			level: req.body.level || 0,
-			type: req.body.type || 1,
+			parentId: req.body.parentId,
+			type: req.body.menuType || 1,
 			menuPath: req.body.menuPath || '',
 			menuSign: req.body.menuSign || '',
 			icon: req.body.icon || null,
@@ -82,4 +80,21 @@ router.post(
 		}
 	}
 )
+
+// 根据ID查询菜单
+router.get(
+	"/getMenuInfoById",
+	function (req, res, next) {
+		if (!req.query.menuId)
+			return res.sendResult(null, 400, "菜单ID不能为空");
+		next();
+	},
+	// 处理业务逻辑
+	function (req, res, next) {
+		menuService.getMenuInfoById(req.query.menuId, function (err, menu) {
+			if (err) return res.sendResult(null, 400, err);
+			res.sendResult(menu, 200, "获取成功");
+		})(req, res, next);
+	}
+);
 module.exports = router;

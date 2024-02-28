@@ -1,13 +1,14 @@
 <template>
   <el-dialog :title="dataForm.id?'编辑用户':'添加用户'" :visible.sync="addOrEditUserDialog" center width="700px" :before-close="dialogBeforeClose">
-    <el-form ref="addOrEditFormRef" :model="dataForm" :rules="addOrEditRules" label-width="80px">
-      <el-row>
+    <el-form v-loading="loading" ref="addOrEditFormRef" :model="dataForm" :rules="addOrEditRules" label-width="80px">
+      <el-row :gutter="24">
         <el-col :span="24">
           <el-form-item label="上级菜单" prop="parentId">
-            <el-select v-model="dataForm.parentId" :options="menuOptions" placeholder="选择上级菜单" />
+            <!-- <el-cascader v-model="dataForm.parentId" :options="menuList" :props="menuProp" placeholder="选择上级菜单" /> -->
+            <Treeselect v-model="dataForm.parentId" :options="menuOptions" :normalizer="normalizer" :show-count="true" placeholder="选择上级菜单" />
           </el-form-item>
         </el-col>
-        <el-col :span="24">
+        <el-col :span="12">
           <el-form-item label="菜单类型" prop="menuType">
             <el-radio-group v-model="dataForm.menuType">
               <el-radio :label="1">菜单</el-radio>
@@ -16,11 +17,11 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item v-if="!dataForm.id" :label="dataForm.menuType==1?'菜单名称':'按钮名称'" prop="menuName">
+          <el-form-item :label="dataForm.menuType==1?'菜单名称':'按钮名称'" prop="menuName">
             <el-input v-model="dataForm.menuName" placeholder="请输入菜单/钮名称" />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12" v-if="dataForm.menuType == '1'">
           <el-form-item label="菜单图标" prop="icon">
             <el-popover placement="bottom-start" width="460" trigger="click" @show="$refs['iconSelect'].reset()">
               <IconSelect ref="iconSelect" :isSearch="false" @selected="selected" :active-icon="dataForm.icon" />
@@ -43,7 +44,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="权限标识" prop="menuSign">
-            <el-input v-model="dataForm.menuSign" placeholder="请输入权限标识" maxlength="100" />
+            <el-input v-model="dataForm.menuSign" placeholder="xxx:xxx:xxx" maxlength="100" />
           </el-form-item>
         </el-col>
         <el-col :span="12" v-if="dataForm.menuType == '1'">
@@ -51,11 +52,21 @@
             <el-input v-model="dataForm.menuParams" placeholder="请输入路由参数`{'id': 1, 'name': 'ry'}`" maxlength="255" />
           </el-form-item>
         </el-col>
-        <el-col :span="12"  v-if="dataForm.menuType == '1'">
+        <el-col :span="12">
+          <el-form-item label="接口服务" prop="serviceName">
+            <el-input v-model="dataForm.serviceName" placeholder="请输入接口服务名称" maxlength="255" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="接口方法" prop="actionName">
+            <el-input v-model="dataForm.actionName" placeholder="请输入接口服务方法" maxlength="255" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12" v-if="dataForm.menuType == '1'">
           <el-form-item label="显示状态" prop="isShowMenu">
             <el-radio-group v-model="dataForm.isShowMenu">
-              <el-radio label="1">是</el-radio>
-              <el-radio label="2">否</el-radio>
+              <el-radio :label="1">是</el-radio>
+              <el-radio :label="2">否</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
@@ -70,10 +81,13 @@
 
 <script>
 import IconSelect from "@/components/IconSelect";
-
+import Treeselect from "@riophae/vue-treeselect";
+import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+import { getMenuInfoById, addOrUpdateMenu } from "@/api/user/menus"
 export default {
   components: {
     IconSelect,
+    Treeselect
   },
   props: {
     menuList: {
@@ -88,47 +102,87 @@ export default {
       dataForm: {
         menuName: '',
         parentId: 0,
-        level: 0,
         menuType: 1,
         menuPath: '',
         menuSign: '',
         icon: '',
         menuParams: '',
-        isShowMenu: '',
-        order: '',
+        isShowMenu: '1',
+        order: 0,
+        serviceName: '',
+        actionName: '',
       },
       addOrEditRules: {
+        parentId: [
+          { required: true, message: "上级菜单不能为空", trigger: "blur" }
+        ],
         menuName: [
           { required: true, message: "菜单名称不能为空", trigger: "blur" }
         ],
-        orderNum: [
+        order: [
           { required: true, message: "菜单顺序不能为空", trigger: "blur" }
         ],
-        path: [
+        menuPath: [
           { required: true, message: "路由地址不能为空", trigger: "blur" }
+        ],
+        menuType: [
+          { required: true, message: "菜单类型不能为空", trigger: "blur" }
         ]
       },
       roleList: [],
+      loading: false,
     }
   },
+  created() {
+
+  },
   methods: {
-    init(row) {
+    init(row, type) {
       if (row) {
-        this.dataForm.id = row.id;
-        const keys = Object.keys(this.dataForm);
-        keys.forEach(item => {
-          if (item !== 'password' && item !== 'passwordRepead') {
-            this.dataForm[item] = row[item] ? row[item] : '';
-          }
-        })
-        this.dataForm.rids = (Array.isArray(row.rids) && row.rids.split(",").map(item => +item)) || [];
+        if (type == 'add') {
+          this.dataForm.parentId = row.id;
+          this.dataForm.menuType = 1;
+          this.dataForm.isShowMenu = 1;
+          this.dataForm.order = 0;
+        } else if (type == 'edit') {
+          // 编辑菜单，获取菜单详情
+          this.dataForm.id = row.id;
+          this.getMenuInfoById(row.id);
+        }
       }
+      this.menuOptions = [{ id: 0, authName: '一级菜单', children: JSON.parse(JSON.stringify(this.menuList)) }];
       this.addOrEditUserDialog = true;
     },
+    async getMenuInfoById(id) {
+      try {
+        this.loading = true;
+        const res = await getMenuInfoById({ menuId: id });
+        if (res.meta.status == 200) {
+          const keys = Object.keys(this.dataForm);
+          keys.forEach(item => {
+            this.dataForm[item] = res.data[item];
+          })
+          this.dataForm.parentId = +this.dataForm.parentId;
+        } else {
+          this.$message.error(res.meta.msg)
+        }
+        this.loading = false;
+      } catch (err) {
+      }
+    },
     submitAddOrMenu() {
-      this.$refs.addOrEditMenuFormRef.validate(val => {
+      console.log(this.dataForm);
+      this.$refs.addOrEditFormRef.validate(async val => {
         if (val) {
-
+          const params = JSON.parse(JSON.stringify(this.dataForm))
+          const res = await addOrUpdateMenu(params);
+          if (res.meta.status == 200) {
+            this.$message.success(res.meta.msg);
+            this.dialogBeforeClose();
+            this.$emit('refresh');
+          } else {
+            this.$message.error(res.meta.msg)
+          }
         }
       })
     },
@@ -142,8 +196,23 @@ export default {
       keys.forEach(item => {
         this.dataForm[item] = '';
       })
-      this.dataForm.rids = [];
+      this.dataForm.menuType = 1;
+      this.dataForm.parentId = 0;
+      this.dataForm.order = 0;
+      this.dataForm.isShowMenu = '1';
+      delete this.dataForm.id;
       done instanceof Function ? done() : this.addOrEditUserDialog = false;
+    },
+    normalizer(node) {
+      if (node.children && !node.children.length) {
+        delete node.children;
+      }
+      return {
+        id: node.id,
+        label: node.authName,
+        children: node.children,
+        isDefaultExpanded: true
+      };
     },
   }
 }
@@ -155,5 +224,8 @@ export default {
 }
 ::v-deep .el-dialog__footer {
   padding: 0 32px 32px;
+}
+::v-deep .el-cascader--medium {
+  width: 100%;
 }
 </style>

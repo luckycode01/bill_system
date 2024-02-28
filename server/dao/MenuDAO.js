@@ -27,12 +27,12 @@ module.exports.getMenuList = function (userInfo, cb) {
  * @param {*} cb 回调函数
  */
 module.exports.create = function (obj, cb) {
-  const { ps_name, ps_pid, ps_level, ps_type, ps_icon, ps_params, ps_show, create_time, update_time, ps_api_path, ps_api_sign, ps_api_order } = obj;
-  const sqlPer = `INSERT INTO sp_permission (ps_name, ps_pid, ps_level, ps_type, ps_icon, ps_params, ps_show, create_time, update_time) 
-                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+  const { ps_name, ps_pid, ps_type, ps_icon, ps_params, ps_show, create_time, update_time, ps_api_path, ps_api_sign, ps_api_order } = obj;
+  const sqlPer = `INSERT INTO sp_permission (ps_name, ps_pid, ps_type, ps_icon, ps_params, ps_show, create_time, update_time) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
   const sqlPerApi = `INSERT INTO sp_permission_api (ps_id, ps_api_path, ps_api_sign, ps_api_order) 
                     VALUES (?, ?, ?, ?)`;
-  database.driver.execQuery(sqlPer, [ps_name, ps_pid, ps_level, ps_type, ps_icon, ps_params, ps_show, create_time, update_time], (perErr, perRes) => {
+  database.driver.execQuery(sqlPer, [ps_name, ps_pid, ps_type, ps_icon, ps_params, ps_show, create_time, update_time], (perErr, perRes) => {
     if (perErr) return cb("Internal Server Error", false);
     const psId = perRes.insertId;
     database.driver.execQuery(sqlPerApi, [psId, ps_api_path, ps_api_sign, ps_api_order], (err, apiRes) => {
@@ -84,5 +84,16 @@ module.exports.updateApi = function (obj, cb) {
       return cb("Internal Server Error", false);
     }
     return cb(null,"更新成功")
+  });
+};
+module.exports.query = function (id, cb) {
+  const sql = `SELECT * FROM sp_permission 
+              LEFT JOIN sp_permission_api ON sp_permission.ps_id = sp_permission_api.ps_id
+              WHERE sp_permission.ps_id = ${id};`;
+  database.driver.execQuery(sql, [], (err, res) => {
+    if (err) {
+      return cb("Internal Server Error", false);
+    }
+    return cb(null,res)
   });
 };

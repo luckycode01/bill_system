@@ -52,8 +52,7 @@ module.exports.createMenu = function (params, cb) {
 	menuDAO.create(
 		{
 			ps_name: params.menuName,
-			ps_pid: params.pid,
-			ps_level: params.level,
+			ps_pid: params.parentId,
 			ps_type: params.type,
 			ps_icon: params.icon,
 			ps_params: params.menuParams,
@@ -87,8 +86,7 @@ module.exports.updateMenu = function (params, cb) {
 		const obj = {
 			id: params.id,
 			ps_name: params.menuName,
-			ps_pid: params.pid,
-			ps_level: params.level,
+			ps_pid: params.parentId,
 			ps_type: params.type,
 			ps_icon: params.icon,
 			ps_params: params.menuParams,
@@ -110,3 +108,31 @@ module.exports.updateMenu = function (params, cb) {
 	});
 }
 
+
+// 根据ID查询菜单
+module.exports.getMenuInfoById = function (params, cb) {
+	if (!params) {
+		cb("参数错误");
+	}
+	menuDAO.query(params, function (err, menuInfo) {
+		if (err) return cb("获取菜单失败");
+		let res = _.cloneDeep(menuInfo);
+		res = res.length ? res[0] : [];
+		cb(null, {
+			id: res.ps_id,
+			menuName: res.ps_name,
+			parentId: res.ps_pid,
+			menuType: res.ps_type,
+			menuPath: res.ps_api_path,
+			menuSign: res.ps_api_sign,
+			icon: res.ps_icon,
+			menuParams: res.ps_params,
+			isShowMenu: res.ps_show,
+			order: res.ps_api_order,
+			serviceName: res.ps_api_service,
+			actionName: res.ps_api_action,
+			createTime: res.create_time,
+			updateTime: res.update_time
+		});
+	});
+};

@@ -39,7 +39,7 @@ module.exports.dataMap = function dataMap(data) {
   return (reslut = data.map((item) => {
     const obj = {
       id: item.ps_id,
-      pid: item.ps_pid,
+      parentId: item.ps_pid,
       authName: item.ps_name,
       path: item.ps_api_path,
       order: item.ps_api_order,
@@ -56,6 +56,8 @@ module.exports.dataMap = function dataMap(data) {
     };
     if (item.children && item.children.length) {
       obj.children = dataMap(item.children);
+    }else{
+      delete obj.children
     }
     return obj;
   }));

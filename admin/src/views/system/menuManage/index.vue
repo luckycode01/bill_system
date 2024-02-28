@@ -1,12 +1,12 @@
 <template>
   <div class="container">
     <el-row :gutter="10" class="mg-b12">
-      <el-input class="mr-24" v-model="searchForm.menuName" placeholder="请输入菜单名称" size="mini" style="width:210px;" clearable @change="handleSearch"></el-input>
-      <el-select class="mr-24" v-model="searchForm.menuState" @change="handleSearch" clearable placeholder="请选择菜单状态" prefix-icon="el-icon-search" size="mini">
+      <el-input class="mr-24" v-model="searchForm.menuName" placeholder="请输入菜单名称" size="mini" style="width:210px;" clearable @change="getDataList"></el-input>
+      <el-select class="mr-24" v-model="searchForm.menuState" @change="getDataList" clearable placeholder="请选择菜单状态" prefix-icon="el-icon-search" size="mini">
         <el-option label="正常" value="1"></el-option>
         <el-option label="停用" value="2"></el-option>
       </el-select>
-      <el-button type="primary" size="mini" icon="el-icon-search" @click="handleSearch">搜索</el-button>
+      <el-button type="primary" size="mini" icon="el-icon-search" @click="getDataList">搜索</el-button>
       <el-button type="primary" size="mini" icon="el-icon-refresh" plain @click="reset">重置</el-button>
     </el-row>
     <el-row :gutter="10" class="mg-b12">
@@ -17,14 +17,17 @@
       <el-table-column prop="authName" align="center" label="菜单名称" width="140"></el-table-column>
       <el-table-column prop="icon" align="center" label="图标" width="80">
         <template slot-scope="{row}">
-          <svg-icon :icon-class="row.icon" class-name="icon" />
+          <svg-icon v-if="row.icon" :icon-class="row.icon" class-name="icon" />
         </template>
       </el-table-column>
       <el-table-column prop="order" align="center" label="排序" width="80"></el-table-column>
       <el-table-column prop="sign" align="center" label="权限标识" show-overflow-tooltip width="width"></el-table-column>
-      <el-table-column prop="path" align="center" label="组件路径" show-overflow-tooltip width="width"></el-table-column>
-      <el-table-column prop="serviceName" align="center" label="服务名称" show-overflow-tooltip width="width"></el-table-column>
-      <el-table-column prop="actionName" align="center" label="方法名称" show-overflow-tooltip width="width"></el-table-column>
+      <el-table-column prop="path" align="center" label="路由地址" show-overflow-tooltip width="width"></el-table-column>
+      <el-table-column align="center" label="接口权限" show-overflow-tooltip width="width">
+        <template slot-scope="{row}">
+          <span>{{row.serviceName}}-{{row.actionName}}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="createTime" align="center" label="创建时间" width="150">
         <template slot-scope="{row}">
           <span>{{row.createTime | handleTime}}</span>
@@ -32,13 +35,13 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="200">
         <template slot-scope="{row}">
-          <el-button @click="openAddOrEditMenu(row,'add')" type='text' icon="el-icon-plus" size='mini'>添加</el-button>
+          <el-button v-if="row.type != 2" @click="openAddOrEditMenu(row,'add')" type='text' icon="el-icon-plus" size='mini'>添加</el-button>
           <el-button @click="openAddOrEditMenu(row,'edit')" type='text' icon="el-icon-edit" size='mini'>编辑</el-button>
           <el-button @click="deleteMenu(row)" type='text' icon="el-icon-delete" size='mini' style="color:red">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <addOrEdit ref="addOrEditRef" :menuList="menuList"></addOrEdit>
+    <addOrEdit ref="addOrEditRef" :menuList="menuList" @refresh="getDataList"></addOrEdit>
   </div>
 </template>
 
@@ -61,11 +64,6 @@ export default {
       },
       loading: false,
       menuList: [],
-      pageInfo: {
-        pageNum: 1,
-        pageSize: 10,
-        total: 0,
-      },
     }
   },
   created() {
@@ -77,11 +75,6 @@ export default {
     }
   },
   methods: {
-
-    handleSearch() {
-      this.pageInfo.pageNum = 1;
-      this.getDataList();
-    },
     async getDataList() {
       try {
         const params = {
@@ -90,15 +83,13 @@ export default {
         const res = await getRightList(params);
         if (res.meta.status == 200) {
           this.menuList = res.data || [];
-          this.pageInfo.total = res.data.total;
         }
-
       } catch (err) {
         console.log(err);
       }
     },
     openAddOrEditMenu(row, type) {
-      this.$refs.addOrEditRef.init(row);
+      this.$refs.addOrEditRef.init(row,type);
     },
     deleteMenu(row) {
       if (!row) {
@@ -117,8 +108,9 @@ export default {
 
     reset() {
       this.searchData = {
+
       };
-      this.handleSearch();
+      this.getDataList();
     },
   }
 }
