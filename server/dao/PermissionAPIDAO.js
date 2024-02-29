@@ -7,10 +7,14 @@ databaseModule = require(path.join(process.cwd(), "modules/database"));
  * 
  * @param  {Function} cb 回调函数
  */
-module.exports.list = function (cb) {
+module.exports.list = function (params, cb) {
 	db = databaseModule.getDatabase();
-	sql = "SELECT * FROM sp_permission_api as api LEFT JOIN sp_permission as main ON main.ps_id = api.ps_id WHERE main.ps_id is not null";
-	database.driver.execQuery(sql, function (err, result) {
+	const { menuName } = params;
+	sql = `SELECT * FROM sp_permission_api as api ` +
+		`LEFT JOIN sp_permission as main ON main.ps_id = api.ps_id ` +
+		`WHERE main.ps_id is not null ` +
+		`AND (? is NUll OR main.ps_name LIKE ?);`;
+	database.driver.execQuery(sql, [menuName, `%${menuName}%`], function (err, result) {
 		if (err) return cb("获取权限列表失败", null);
 		cb(null, result);
 	});

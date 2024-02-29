@@ -31,7 +31,7 @@ module.exports.getAllRoles = function (conditions, cb) {
     // dao.list("RoleModel", conditions, function (err, roles) {
     roleDAO.findByKey(conditions, function (err, roles) {
       if (err) return cb("获取角色数据失败");
-      permissionAPIDAO.list(function (err, permissions) {
+      permissionAPIDAO.list({},function (err, permissions) {
         if (err) return cb("获取权限数据失败");
         var permissionKeys = _.keyBy(permissions, "ps_id");
         var perData = [];

@@ -16,10 +16,11 @@ module.exports.getLeftMenus = function (userInfo, cb) {
 
 
 	var authFn = function (rid, rolePermissions, cb) {
-		permissionAPIDAO.list(function (err, permissions) {
+		permissionAPIDAO.list({},function (err, permissions) {
 			if (err) return cb("获取权限数据失败");
 			let res = _.cloneDeep(permissions);
-			res = utils.listTransFormTree(permissions, "ps_id", "ps_pid", 1, rid, rolePermissions);
+			res = res.filter(item=>item.ps_delete == 1);
+			res = utils.listTransFormTree(res, "ps_id", "ps_pid", 1, rid, rolePermissions);
 			res = utils.dataMap(res).sort(utils.compare)
 			cb(null, res);
 		});
@@ -134,5 +135,17 @@ module.exports.getMenuInfoById = function (params, cb) {
 			createTime: res.create_time,
 			updateTime: res.update_time
 		});
+	});
+};
+// 删除菜单
+module.exports.deleteMenu = function (params, cb) {
+	if (!params) {
+		cb("参数错误");
+	}
+	menuDAO.destroy(params, function (err, menuInfo) {
+		if (err) return cb("获取菜单失败");
+		let res = _.cloneDeep(menuInfo);
+		res = res.length ? res[0] : [];
+		cb(null, {});
 	});
 };

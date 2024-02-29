@@ -21,7 +21,7 @@
             <el-input v-model="dataForm.menuName" placeholder="请输入菜单/钮名称" />
           </el-form-item>
         </el-col>
-        <el-col :span="12" v-if="dataForm.menuType == '1'">
+        <el-col :span="12">
           <el-form-item label="菜单图标" prop="icon">
             <el-popover placement="bottom-start" width="460" trigger="click" @show="$refs['iconSelect'].reset()">
               <IconSelect ref="iconSelect" :isSearch="false" @selected="selected" :active-icon="dataForm.icon" />
@@ -127,6 +127,9 @@ export default {
         ],
         menuType: [
           { required: true, message: "菜单类型不能为空", trigger: "blur" }
+        ],
+        menuSign: [
+          { required: true, message: "权限标识不能为空", trigger: "blur" }
         ]
       },
       roleList: [],

@@ -19,3 +19,7 @@ export const getMenuInfoById = (params) => {
 export const addOrUpdateMenu = (params) => {
   return request.reqPost(`${proxy}/admin/menus/addOrUpdateMenu`, params);
 };
+// 添加或修改菜单
+export const deleteMenu = (params) => {
+  return request.reqPost(`${proxy}/admin/menus/deleteMenu`, params);
+};

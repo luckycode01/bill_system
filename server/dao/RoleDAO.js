@@ -10,8 +10,8 @@ databaseModule = require(path.join(process.cwd(), "modules/database"));
 module.exports.findByKey = function (conditions, cb) {
   const { roleName, offset, limit } = conditions;
   sql = `SELECT role.* FROM sp_role as role`;
-  sql += ` WHERE (? is NUll OR role.role_name LIKE ?)  
-          ORDER by role.create_time DESC  LIMIT ?,?`;
+  sql += ` WHERE (? is NUll OR role.role_name LIKE ?) ` +
+    `ORDER by role.create_time DESC  LIMIT ?,?`;
   database.driver.execQuery(sql,
     [roleName, `%${roleName}%`, offset, limit],
     function (err, managers) {

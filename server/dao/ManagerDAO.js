@@ -46,18 +46,16 @@ module.exports.findOne = function (conditions, cb) {
 module.exports.findByKey = function (conditions, cb) {
   const { userName, offset, limit, mobile, userType, startTime, endTime, state } = conditions;
   // sql = "SELECT * FROM user_center as user LEFT JOIN sp_role as role ON FIND_IN_SET(role.role_id, user.role_ids) > 0";
-  sql = `
-    SELECT user.*,GROUP_CONCAT(role.role_name) as role_names FROM user_center as user 
-    LEFT JOIN sp_role as role ON FIND_IN_SET(role.role_id, user.role_ids) > 0 `;
-  sql += `
-    WHERE (? is NUll OR user.username LIKE ?) 
-    AND (? is NUll OR user.user_mobile LIKE ?) 
-    AND (? is NUll OR user.mg_state = ?) 
-    AND (? is NUll OR user.user_type = ?) 
-    AND (? is NUll OR user.create_time > ?) 
-    AND (? is NUll OR user.create_time < ?) 
-    GROUP BY user.id 
-    ORDER by user.create_time DESC  LIMIT ?,?`;
+  sql = `SELECT user.*,GROUP_CONCAT(role.role_name) as role_names FROM user_center as user LEFT JOIN sp_role as role ON FIND_IN_SET(role.role_id, user.role_ids) > 0 `;
+  sql +=
+    `WHERE (? is NUll OR user.username LIKE ?)` +
+    `AND (? is NUll OR user.user_mobile LIKE ?) ` +
+    `AND (? is NUll OR user.mg_state = ?) ` +
+    `AND (? is NUll OR user.user_type = ?) ` +
+    `AND (? is NUll OR user.create_time > ?) ` +
+    `AND (? is NUll OR user.create_time < ?) ` +
+    `GROUP BY user.id ` +
+    `ORDER by user.create_time DESC  LIMIT ?,?;`;
   database.driver.execQuery(sql,
     [userName, `%${userName}%`, mobile, `%${mobile}%`, state, state, userType, userType, startTime, startTime, endTime, endTime, offset, limit],
     function (err, managers) {
@@ -104,13 +102,12 @@ module.exports.countByKey = function (conditions, cb) {
   const { userName, mobile, userType, startTime, endTime, state } = conditions;
   db = databaseModule.getDatabase();
   sql = "SELECT count(*) as count FROM user_center as user";
-  sql += `
-    WHERE (? is NUll OR user.username LIKE ?) 
-    AND (? is NUll OR user.user_mobile LIKE ?) 
-    AND (? is NUll OR user.mg_state = ?) 
-    AND (? is NUll OR user.user_type = ?) 
-    AND (? is NUll OR user.create_time > ?) 
-    AND (? is NUll OR user.create_time < ?)`;
+  sql += 'WHERE (? is NUll OR user.username LIKE ?) ' +
+    "AND (? is NUll OR user.user_mobile LIKE ?) " +
+    "AND (? is NUll OR user.mg_state = ?) " +
+    "AND (? is NUll OR user.user_type = ?) " +
+    "AND (? is NUll OR user.create_time > ?) " +
+    "AND (? is NUll OR user.create_time < ?)`;"
   database.driver.execQuery(sql, [userName, `%${userName}%`, mobile, `%${mobile}%`, state, state, userType, userType, startTime, startTime, endTime, endTime], function (err, result) {
     if (err) return cb("查询执行出错");
     cb(null, result[0]["count"]);

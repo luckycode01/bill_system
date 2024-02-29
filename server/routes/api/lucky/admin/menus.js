@@ -97,4 +97,20 @@ router.get(
 		})(req, res, next);
 	}
 );
+// 删除
+router.post(
+	"/deleteMenu",
+	function (req, res, next) {
+		if (!req.body.menuId)
+			return res.sendResult(null, 400, "菜单ID不能为空");
+		next();
+	},
+	// 处理业务逻辑
+	function (req, res, next) {
+		menuService.deleteMenu(req.body.menuId, function (err, menu) {
+			if (err) return res.sendResult(null, 400, err);
+			res.sendResult(menu, 200, "删除成功");
+		})(req, res, next);
+	}
+);
 module.exports = router;

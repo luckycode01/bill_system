@@ -2,22 +2,17 @@
   <div class="container">
     <el-row :gutter="10" class="mg-b12">
       <el-input class="mr-24" v-model="searchForm.menuName" placeholder="请输入菜单名称" size="mini" style="width:210px;" clearable @change="getDataList"></el-input>
-      <el-select class="mr-24" v-model="searchForm.menuState" @change="getDataList" clearable placeholder="请选择菜单状态" prefix-icon="el-icon-search" size="mini">
-        <el-option label="正常" value="1"></el-option>
-        <el-option label="停用" value="2"></el-option>
-      </el-select>
       <el-button type="primary" size="mini" icon="el-icon-search" @click="getDataList">搜索</el-button>
-      <el-button type="primary" size="mini" icon="el-icon-refresh" plain @click="reset">重置</el-button>
     </el-row>
     <el-row :gutter="10" class="mg-b12">
       <el-button type="primary" size="mini" icon="el-icon-plus" @click="($event)=>openAddOrEditMenu()">添加菜单</el-button>
       <el-button type="danger" size="mini" icon="el-icon-delete" @click="($event)=>deleteMenu()">批量删除</el-button>
     </el-row>
     <el-table v-loading="loading" :data="menuList" style="width: 100%" :height="tableHeight" row-key="id" default-expand-all :tree-props="{children: 'children', hasChildren: 'hasChildren'}" border stripe>
-      <el-table-column prop="authName" align="center" label="菜单名称" width="140"></el-table-column>
-      <el-table-column prop="icon" align="center" label="图标" width="80">
+      <el-table-column prop="authName" align="center" label="菜单名称" width="200">
         <template slot-scope="{row}">
           <svg-icon v-if="row.icon" :icon-class="row.icon" class-name="icon" />
+          <span style="margin-left:12px">{{row.authName}}</span>
         </template>
       </el-table-column>
       <el-table-column prop="order" align="center" label="排序" width="80"></el-table-column>
@@ -46,7 +41,7 @@
 </template>
 
 <script>
-import { getRightList } from "@/api/user/menus";
+import { getRightList, deleteMenu } from "@/api/user/menus";
 import tableHeight from '@/mixin/tableHeight';
 import addOrEdit from '@/views/system/menuManage/components/addOrEdit'
 
@@ -59,7 +54,6 @@ export default {
   data() {
     return {
       searchForm: {
-        menuState: '',
         menuName: '',
       },
       loading: false,
@@ -78,43 +72,44 @@ export default {
     async getDataList() {
       try {
         const params = {
-          type: "tree"
+          type: "tree",
+          ...this.searchForm,
         }
         const res = await getRightList(params);
         if (res.meta.status == 200) {
           this.menuList = res.data || [];
+        } else {
+          this.menuList = res.data;
         }
       } catch (err) {
-        console.log(err);
+        this.menuList = []
       }
     },
     openAddOrEditMenu(row, type) {
-      this.$refs.addOrEditRef.init(row,type);
+      this.$refs.addOrEditRef.init(row, type);
     },
     deleteMenu(row) {
       if (!row) {
         this.$message.info("功能开发中")
       } else {
-        this.$confirm(`是否删除菜单< ${row.menuName} >?`, '提示', {
+        this.$confirm(`是否删除菜单< ${row.authName} >?`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(async () => {
-
+          const res = await deleteMenu({ menuId: row.id });
+          this.getDataList();
         }).catch(() => { });
       }
-    },
-
-
-    reset() {
-      this.searchData = {
-
-      };
-      this.getDataList();
     },
   }
 }
 </script>
 
 <style lang="scss" scoped>
+::v-deep .el-table--border .el-table__cell:first-child .cell {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
 </style>

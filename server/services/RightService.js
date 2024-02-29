@@ -5,15 +5,20 @@ var dao = require(path.join(process.cwd(), "dao/PermissionAPIDAO"));
 var utils = require("../utils/index");
 
 // 获取所有权限
-module.exports.getAllRights = function (type, cb) {
-	if (!type || (type != "list" && type != "tree")) {
+module.exports.getAllRights = function (query, cb) {
+	if (!query.type || (query.type != "list" && query.type != "tree")) {
 		cb("参数类型错误");
 	}
-	dao.list(function (err, permissions) {
+	const params = {
+		menuName: query.menuName || null,
+	}
+	dao.list(params, function (err, permissions) {
 		if (err) return cb("获取权限数据失败");
 		let res = _.cloneDeep(permissions);
-		if (type == "tree") {
-			res = utils.listTransFormTree(permissions, "ps_id", "ps_pid");
+		res = res.filter(item => item.ps_delete == 1);
+		console.log(111111, res);
+		if (query.type == "tree") {
+			res = utils.listTransFormTree(res, "ps_id", "ps_pid");
 		}
 		cb(null, utils.dataMap(res).sort(utils.compare));
 	});
