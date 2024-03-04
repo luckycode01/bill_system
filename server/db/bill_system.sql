@@ -149,18 +149,21 @@ INSERT INTO `sp_permission_api` VALUES ('15', '107', 'MenuService', 'updateMenu'
 -- TABLE bill_system for sp_category
 DROP TABLE IF EXISTS bill_category;
 CREATE TABLE bill_category (
-   `category_id` INT(4) NOT NULL AUTO_INCREMENT COMMENT '分类id',
-   `category_name` VARCHAR(32) NOT NULL COMMENT '分类名称',
-   `category_desc` VARCHAR(32) NULL DEFAULT '' COMMENT '分类描述',
+   `cate_id` INT(4) NOT NULL AUTO_INCREMENT COMMENT '分类id',
+   `cate_name` VARCHAR(32) NOT NULL COMMENT '分类名称',
+   `cate_image` VARCHAR(32) NOT NULL COMMENT '分类图标',
+   `cate_desc` VARCHAR(32) NULL DEFAULT '' COMMENT '分类描述',
+   `categ_order` VARCHAR(32) NULL DEFAULT '' COMMENT '排序',
+   `cate_width` VARCHAR(32) NULL DEFAULT '' COMMENT '支出或收入分类的表头显示宽度',
    `create_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
    `update_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
    `deleted` TINYINT(2) NOT NULL COMMENT '逻辑删除(0未删除；1删除)',
-   PRIMARY KEY (category_id),
-   UNIQUE (category_name)
+   PRIMARY KEY (cate_id),
+   UNIQUE (cate_name)
 ) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='分类表';
 
-INSERT INTO `bill_category` VALUES (100, '快餐饮食','','2024-02-02 12:31:00', '2024-02-02 12:31:00',1);
-INSERT INTO `bill_category` VALUES (101, '生活买菜','','2024-02-02 12:31:00', '2024-02-02 12:31:00',1);
+INSERT INTO `bill_category` VALUES (100, '快餐饮食','','',1,100,'2024-02-02 12:31:00', '2024-02-02 12:31:00',1);
+INSERT INTO `bill_category` VALUES (101, '生活买菜','','',1,100,'2024-02-02 12:31:00', '2024-02-02 12:31:00',1);
 
 -- TABLE bill_system for sp_category
 DROP TABLE IF EXISTS bill_life_expend;

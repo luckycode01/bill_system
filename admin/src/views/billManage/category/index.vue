@@ -12,6 +12,8 @@
           <img class="cate-icon" src="@/assets/images/png/weixin.png" alt="" srcset="">
         </template>
       </el-table-column>
+      <el-table-column prop="prop" label="排序" align="center" width="width"></el-table-column>
+      <el-table-column prop="prop" label="显示宽度" align="center" width="width"></el-table-column>
       <el-table-column label="操作" align="center" width="120">
         <template>
           <el-button type='text' icon="el-icon-edit" size='mini'>编辑</el-button>
