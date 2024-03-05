@@ -14,7 +14,6 @@ var permissionAPIDAO = require(path.join(
  */
 module.exports.getAllRoles = function (conditions, cb) {
   //获取所有角色数量
-  // dao.countByConditions("RoleModel", conditions, function (err, count) {
   roleDAO.countByKey(conditions, function (err, count) {
     const pageNum = parseInt(conditions["pageNum"]);
     const pageSize = parseInt(conditions["pageSize"]);
@@ -28,7 +27,6 @@ module.exports.getAllRoles = function (conditions, cb) {
     conditions["offset"] = offset;
     conditions["limit"] = limit;
 
-    // dao.list("RoleModel", conditions, function (err, roles) {
     roleDAO.findByKey(conditions, function (err, roles) {
       if (err) return cb("获取角色数据失败");
       permissionAPIDAO.list({},function (err, permissions) {

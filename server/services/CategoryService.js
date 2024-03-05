@@ -57,7 +57,7 @@ function getTreeResult(keyCategories,categories,type) {
  * @param  {[type]}   type    描述显示层级
  * @param  {Function} cb      回调函数
  */
-module.exports.getAllCategories = function(type,conditions,cb) {
+module.exports.getAllCategories = function(conditions,cb) {
 	dao.list("CategoryModel",{"cat_deleted":false},function(err,categories) {
 		var keyCategories = _.keyBy(categories,'cat_id');
 		if(!type) type = 3;
