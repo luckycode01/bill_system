@@ -56,9 +56,9 @@ admin_passport = require('./modules/passport')
 // 设置登录模块的登录函数衔接 passport 策略
 admin_passport.setup(app, managerService.login)
 // 设置 passport 登录入口点
-app.use('/api/lucky/admin/login', admin_passport.login)
+app.use('/api/lucky/system/login', admin_passport.login)
 // 设置 passport 验证路径
-app.use('/api/lucky/admin/*', admin_passport.tokenAuth)
+app.use('/api/lucky/system/*', admin_passport.tokenAuth)
 
 // 获取验证模块
 var authorization = require(path.join(process.cwd(), '/modules/authorization'))
