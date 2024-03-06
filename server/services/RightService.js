@@ -16,7 +16,6 @@ module.exports.getAllRights = function (query, cb) {
 		if (err) return cb("获取权限数据失败");
 		let res = _.cloneDeep(permissions);
 		res = res.filter(item => item.ps_delete == 1);
-		console.log(111111, res);
 		if (query.type == "tree") {
 			res = utils.listTransFormTree(res, "ps_id", "ps_pid");
 		}

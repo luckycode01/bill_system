@@ -16,10 +16,10 @@ module.exports.getLeftMenus = function (userInfo, cb) {
 
 
 	var authFn = function (rid, rolePermissions, cb) {
-		permissionAPIDAO.list({},function (err, permissions) {
+		permissionAPIDAO.list({}, function (err, permissions) {
 			if (err) return cb("获取权限数据失败");
 			let res = _.cloneDeep(permissions);
-			res = res.filter(item=>item.ps_delete == 1);
+			res = res.filter(item => item.ps_delete == 1);
 			res = utils.listTransFormTree(res, "ps_id", "ps_pid", 1, rid, rolePermissions);
 			res = utils.dataMap(res).sort(utils.compare)
 			cb(null, res);
@@ -63,6 +63,8 @@ module.exports.createMenu = function (params, cb) {
 			ps_api_path: params.menuPath,
 			ps_api_sign: params.menuSign,
 			ps_api_order: params.order,
+			ps_api_service: params.serviceName,
+			ps_api_action: params.actionName,
 		},
 		function (err, manager) {
 			if (err) return cb("创建失败");
@@ -101,6 +103,8 @@ module.exports.updateMenu = function (params, cb) {
 				ps_api_path: params.menuPath,
 				ps_api_order: params.order,
 				ps_api_sign: params.menuSign,
+				ps_api_service: params.serviceName,
+				ps_api_action: params.actionName,
 			}, function (err, updateRes) {
 				if (err) return cb(err);
 				return cb(null, updateRes);

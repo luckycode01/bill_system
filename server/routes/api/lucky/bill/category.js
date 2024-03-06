@@ -27,7 +27,7 @@ router.get(
       pageSize: req.query.pageSize,
     };
     if (req.query.catename) {
-      conditions["catename"] = req.query.catename;
+      conditions["catename"] = req.query.catename || '';
     }
     categoryServ.getAllCategories(conditions, function (err, result) {
       if (err) return res.sendResult(null, 400, err);

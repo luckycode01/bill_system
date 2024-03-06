@@ -64,6 +64,8 @@ router.post(
 			menuParams: req.body.menuParams || null,
 			isShowMenu: req.body.isShowMenu || 1,
 			order: req.body.order || 0,
+			actionName: req.body.actionName || null,
+			serviceName: req.body.serviceName || null,
 		};
 		if (req.body.id) {
 			// id存在，修改菜单

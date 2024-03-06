@@ -59,6 +59,7 @@ admin_passport.setup(app, managerService.login)
 app.use('/api/lucky/system/login', admin_passport.login)
 // 设置 passport 验证路径
 app.use('/api/lucky/system/*', admin_passport.tokenAuth)
+app.use('/api/lucky/bill/*', admin_passport.tokenAuth)
 
 // 获取验证模块
 var authorization = require(path.join(process.cwd(), '/modules/authorization'))

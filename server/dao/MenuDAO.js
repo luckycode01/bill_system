@@ -26,15 +26,16 @@ module.exports.getMenuList = function (userInfo, cb) {
  * @param {*} obj 菜单信息
  * @param {*} cb 回调函数
  */
+
 module.exports.create = function (obj, cb) {
-  const { ps_name, ps_pid, ps_type, ps_icon, ps_params, ps_show, create_time, update_time, ps_api_path, ps_api_sign, ps_api_order } = obj;
-  const sqlPer = `INSERT INTO sp_permission (ps_name, ps_pid, ps_type, ps_icon, ps_params, ps_show, create_time, update_time) ` +
-    `VALUES (?, ?, ?, ?, ?, ?, ?, ?);`;
-  const sqlPerApi = `INSERT INTO sp_permission_api (ps_id, ps_api_path, ps_api_sign, ps_api_order) VALUES(?, ?, ?, ?)`;
+  const { ps_name, ps_pid, ps_type, ps_icon, ps_params, ps_show, create_time, update_time, ps_api_path, ps_api_sign, ps_api_order, ps_api_service, ps_api_action } = obj;
+  const sqlPer = `INSERT INTO sp_permission (ps_name, ps_pid, ps_type, ps_icon, ps_params, ps_show, create_time, update_time) `
+    + `VALUES (?, ?, ?, ?, ?, ?, ?, ?);`;
+  const sqlPerApi = `INSERT INTO sp_permission_api (ps_id, ps_api_path, ps_api_sign, ps_api_order,ps_api_service,ps_api_action) VALUES(?, ?, ?, ?, ?, ?)`;
   database.driver.execQuery(sqlPer, [ps_name, ps_pid, ps_type, ps_icon, ps_params, ps_show, create_time, update_time], (perErr, perRes) => {
     if (perErr) return cb("Internal Server Error", false);
     const psId = perRes.insertId;
-    database.driver.execQuery(sqlPerApi, [psId, ps_api_path, ps_api_sign, ps_api_order], (err, apiRes) => {
+    database.driver.execQuery(sqlPerApi, [psId, ps_api_path, ps_api_sign, ps_api_order, ps_api_service, ps_api_action], (err, apiRes) => {
       if (err) {
         database.driver.execQuery(`delete from sp_permission where ps_id = ${psId} `, [], (err, delRes) => {
           if (err) {
@@ -74,8 +75,8 @@ module.exports.update = function (model, obj, cb) {
  * @param {*} cb 
  */
 module.exports.updateApi = function (obj, cb) {
-  const { ps_api_path, ps_api_sign, ps_api_order, id } = obj;
-  const sql = `UPDATE sp_permission_api SET ps_api_path = '${ps_api_path}', ps_api_sign = '${ps_api_sign}', ps_api_order = '${ps_api_order}' WHERE ps_id = ${id} `;
+  const { ps_api_path, ps_api_sign, ps_api_order, id, ps_api_service, ps_api_action } = obj;
+  const sql = `UPDATE sp_permission_api SET ps_api_path = '${ps_api_path}', ps_api_service = '${ps_api_service}', ps_api_action = '${ps_api_action}', ps_api_sign = '${ps_api_sign}', ps_api_order = '${ps_api_order}' WHERE ps_id = ${id}`;
   database.driver.execQuery(sql, [], (err, res) => {
     if (err) {
       return cb("Internal Server Error", false);
