@@ -5,7 +5,7 @@ module.exports = function(db,callback){
 		cate_name : String,
 		cate_image : String,
 		cate_desc : String,
-		categ_order: String,
+		cate_order: String,
 		cate_width: Number,
 		create_time: Number,
 		update_time: String,

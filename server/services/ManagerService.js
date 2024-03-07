@@ -62,10 +62,10 @@ module.exports.getAllManagers = function (conditions, cb) {
         });
       }
       var resultDta = {};
-      resultDta["total"] = count;
       resultDta["pageInfo"] = {
         pageNum,
         pageSize,
+        total:count
       };
       resultDta["data"] = retManagers;
       cb(err, resultDta);

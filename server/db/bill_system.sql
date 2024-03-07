@@ -153,17 +153,17 @@ CREATE TABLE bill_category (
    `cate_name` VARCHAR(32) NOT NULL COMMENT '分类名称',
    `cate_image` VARCHAR(32) NOT NULL COMMENT '分类图标',
    `cate_desc` VARCHAR(32) NULL DEFAULT '' COMMENT '分类描述',
-   `categ_order` INT(4) NULL DEFAULT 1 COMMENT '排序',
+   `cate_order` INT(4) NULL DEFAULT 1 COMMENT '排序',
    `cate_width` INT(4) NULL DEFAULT 0 COMMENT '支出或收入分类的表头显示宽度',
    `create_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
    `update_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-   `deleted` TINYINT(2) NOT NULL COMMENT '逻辑删除(0未删除；1删除)',
+   `deleted` TINYINT(2) NOT NULL DEFAULT 1 COMMENT '逻辑删除(1未删除；0删除)',
    PRIMARY KEY (cate_id),
    UNIQUE (cate_name)
 ) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='分类表';
 
 INSERT INTO `bill_category` VALUES (100, '快餐饮食','','',1,100,'2024-02-02 12:31:00', '2024-02-02 12:31:00',1);
-INSERT INTO `bill_category` VALUES (101, '生活买菜','','',1,100,'2024-02-02 12:31:00', '2024-02-02 12:31:00',1);
+INSERT INTO `bill_category` VALUES (101, '生活买菜','','',2,100,'2024-02-02 12:31:00', '2024-02-02 12:31:00',1);
 
 -- TABLE bill_system for sp_category
 DROP TABLE IF EXISTS bill_life_expend;

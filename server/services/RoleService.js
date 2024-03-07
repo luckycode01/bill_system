@@ -49,10 +49,10 @@ module.exports.getAllRoles = function (conditions, cb) {
         }
         var rolesResult = {
           data: perData,
-          total: count,
           pageInfo: {
             pageNum,
             pageSize,
+            total: count,
           },
         };
         cb(null, rolesResult);
