@@ -2,10 +2,12 @@
   <div class="container">
     <el-row :gutter="10" class="mg-b12">
       <el-col :span="3">
-        <el-input v-model="searchData.userName" @change="handleSearch" clearable placeholder="请输入用户名" prefix-icon="el-icon-search" size="mini" @keyup.native.enter="getDataList(1)"></el-input>
+        <el-input v-model="searchData.userName" @change="handleSearch" clearable placeholder="请输入用户名" prefix-icon="el-icon-search" size="mini"
+          @keyup.native.enter="getDataList(1)"></el-input>
       </el-col>
       <el-col :span="3">
-        <el-input v-model="searchData.mobile" @change="handleSearch" clearable placeholder="请输入手机号" prefix-icon="el-icon-search" size="mini"></el-input>
+        <el-input v-model="searchData.mobile" @change="handleSearch" clearable placeholder="请输入手机号" prefix-icon="el-icon-search"
+          size="mini"></el-input>
       </el-col>
       <el-col :span="3">
         <el-select v-model="searchData.userType" @change="handleSearch" clearable placeholder="请选择用户类型" prefix-icon="el-icon-search" size="mini">
@@ -20,7 +22,8 @@
         </el-select>
       </el-col>
       <el-col :span="5">
-        <el-date-picker v-model="searchData.timeArr" value-format="yyyy-MM-dd HH:mm:ss" :default-time="['00:00:00','23:59:59']" @change="handleSearch" clearable type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" size="mini">
+        <el-date-picker v-model="searchData.timeArr" value-format="yyyy-MM-dd HH:mm:ss" :default-time="['00:00:00','23:59:59']" @change="handleSearch"
+          clearable type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" size="mini">
         </el-date-picker>
       </el-col>
       <el-col :span="5" style="text-align:right">
@@ -66,7 +69,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <pagination  :total="total" :page.sync="searchData.pageNum" :limit.sync="searchData.pageSize" @pagination="getDataList" />
+    <pagination :total="pageInfo.total" :page.sync="pageInfo.pageNum" :limit.sync="pageInfo.pageSize" @pagination="getDataList" />
     <addOrEditUser ref="addOrEditUserRef" @getDataList="getDataList"></addOrEditUser>
   </div>
 </template>
@@ -89,10 +92,12 @@ export default {
         state: '',
         userType: '',
         timeArr: [],
+      },
+      pageInfo: {
         pageNum: 1,
         pageSize: 10,
+        total: 0
       },
-      total: 0,
       loading: false,
       usersList: [],
       dataForm: {},
@@ -108,7 +113,7 @@ export default {
   },
   methods: {
     handleSearch() {
-      this.searchData.pageNum = 1;
+      this.pageInfo.pageNum = 1;
       const timeArr = this.searchData.timeArr;
       if (timeArr && timeArr.length) {
         this.searchData.startTime = timeArr[0] ? timeArr[0] : '';
@@ -131,10 +136,10 @@ export default {
           const res = await deleteUser({ id: row.id })
           if (res.meta.status == 200) {
             this.$message.success(res.meta.msg);
-            if (this.usersList.length == 1 && this.searchData.pageNum > 1) {
-              this.searchData.pageNum--;
+            if (this.usersList.length == 1 && this.pageInfo.pageNum > 1) {
+              this.pageInfo.pageNum--;
             }
-            this.getDataList(this.searchData.pageNum);
+            this.getDataList(this.pageInfo.pageNum);
           } else {
             this.$message.error(res.meta.msg);
           }
@@ -145,12 +150,14 @@ export default {
     async getDataList() {
       try {
         const params = { ...this.searchData };
+        params.pageNum = this.pageInfo.pageNum;
+        params.pageSize = this.pageInfo.pageSize;
         delete params.timeArr;
         this.loading = true;
         const res = await getUserlistReq(params);
         if (res.meta.status == 200) {
           this.usersList = res.data && res.data.data;
-          this.total = res.data.total;
+          this.pageInfo.total = res.data.pageInfo.total;
         } else {
           this.$message.error(res.meta.msg)
         }
@@ -165,7 +172,7 @@ export default {
       } else {
         this.$message.error(res.meta.msg);
       }
-      this.getDataList(this.searchData.pageNum);
+      this.getDataList(this.pageInfo.pageNum);
     },
     openAddOrEditUser(row) {
       this.$refs.addOrEditUserRef.init(row);
@@ -177,9 +184,12 @@ export default {
         state: '',
         userType: '',
         timeArr: [],
+      };
+      this.pageInfo = {
         pageNum: 1,
         pageSize: 10,
-      };
+        total: 0,
+      }
       this.getDataList();
     },
   }

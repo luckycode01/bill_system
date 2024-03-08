@@ -149,7 +149,7 @@ export default {
         const res = await getRoleslistReq(params);
         if (res.meta.status == 200) {
           this.roleList = res.data.data || [];
-          this.pageInfo.total = res.data.total;
+          this.pageInfo.total = res.data.pageInfo.total;
         } else {
           this.$message.error(res.meta.msg)
         }
