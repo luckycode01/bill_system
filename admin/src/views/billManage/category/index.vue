@@ -1,17 +1,20 @@
 <template>
   <div class="container">
     <el-row :gutter="10" class="mg-b12">
-      <el-col :span="5">
-        <el-input placeholder="请输入分类名" v-model="catename" size="small" @change="handleSearchData" class="input-with-select">
-          <el-button slot="append" icon="el-icon-search"></el-button>
+      <el-col :span="6">
+        <el-input placeholder="请输入分类名" v-model="catename" size="small" @keyup.native.enter="handleSearchData" class="input-with-select">
+          <el-button slot="append" icon="el-icon-search" @click="handleSearchData"></el-button>
         </el-input>
       </el-col>
-      <el-button type="primary" size="small" icon="el-icon-plus" @click="($event)=>openAddOrEditCate()">添加分类</el-button>
+      <el-col :span="18" style="text-align:right">
+        <el-button type="primary" size="small" icon="el-icon-plus" @click="($event)=>openAddOrEditCate()">添加分类</el-button>
+      </el-col>
     </el-row>
-    <el-table v-loading="loading" :data="categoryList" style="width: 100%" border>
+    <el-table v-loading="loading" :data="categoryList" style="width: 100%" border :height="tableHeight">
       <el-table-column type="index" label="序号" align="center" width="60"></el-table-column>
       <el-table-column prop="cateId" label="分类id" align="center" width="80"></el-table-column>
       <el-table-column prop="cateName" label="分类名称" align="center" width="width"></el-table-column>
+      <el-table-column prop="fieldName" label="字段名" align="center" width="width"></el-table-column>
       <el-table-column label="分类图标" align="center" width="80">
         <template slot-scope="{row}">
           <svg-icon v-if="row.imgUrl" :icon-class="row.imgUrl" :iconWidth="'30px'" :iconHeight="'30px'" class-name="icon" />
@@ -57,12 +60,12 @@
               <el-input type="number" v-model="dataForm.showWidth"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="24">
-            <el-form-item label="分类描述" prop="cateDesc">
-              <el-input type="textarea" rows="2" v-model="dataForm.cateDesc"></el-input>
+          <el-col :span="12">
+            <el-form-item label="字段名称" prop="fieldName">
+              <el-input v-model="dataForm.fieldName"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="24">
+          <el-col :span="12">
             <el-form-item label="分类图标" prop="imgUrl">
               <el-popover placement="bottom-start" width="460" trigger="click" @show="$refs['iconSelect'].reset()">
                 <IconSelect ref="iconSelect" :isSearch="false" @selected="selected" :active-icon="dataForm.imgUrl" />
@@ -71,6 +74,11 @@
                   <i v-else slot="prefix" class="el-icon-search el-input__icon" />
                 </el-input>
               </el-popover>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="分类描述" prop="cateDesc">
+              <el-input type="textarea" rows="2" v-model="dataForm.cateDesc"></el-input>
             </el-form-item>
           </el-col>
         </el-form>
@@ -87,12 +95,15 @@
 import dayjs from "dayjs";
 import IconSelect from "@/components/IconSelect";
 import { getCategoryList, addorEditCategory, deleteCategory } from "@/api/bill/category"
+import tableHeight from '@/mixin/tableHeight';
 export default {
   components: {
     IconSelect,
   },
+  mixins: [tableHeight],
   data() {
     return {
+      defaultHeight: 90,
       loading: false,
       catename: '',
       pageInfo: {
@@ -107,8 +118,9 @@ export default {
         cateName: '',
         imgUrl: '',
         order: 1,
-        showWidth: '',
-        cateDesc: ''
+        showWidth: 0,
+        cateDesc: '',
+        fieldName:''
       },
       dataFormRules: {
         cateName: [{ required: true, message: '请输入分类名', trigger: 'blur' }],
@@ -116,6 +128,7 @@ export default {
         showWidth: [],
         cateDesc: [],
         imgUrl: [],
+        fieldName: [],
       }
     }
   },
@@ -202,6 +215,7 @@ export default {
         this.dataForm.order = row.order;
         this.dataForm.showWidth = row.width;
         this.dataForm.cateDesc = row.desc;
+        this.dataForm.fieldName = row.fieldName;
         this.dialogTitle = "编辑分类"
       }
       this.dialogVisible = true;
