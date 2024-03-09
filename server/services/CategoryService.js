@@ -4,52 +4,6 @@ var dao = require(path.join(process.cwd(), "dao/DAO"));
 var orm = require("orm");
 
 /**
- * 判断是否删除
- *
- * @param  {[type]}  keyCategories 所有数据
- * @param  {[type]}  cat           [description]
- * @return {Boolean}               [description]
- */
-function isDelete(keyCategories, cat) {
-	if (cat.cat_pid == 0) {
-		return cat.cat_deleted;
-	} else if (cat.cat_deleted) {
-		return true;
-	} else {
-		parentCat = keyCategories[cat.cat_pid];
-		if (!parentCat) return true;
-		return isDelete(keyCategories, parentCat);
-	}
-}
-
-/**
- * 获取树状结果
- * @param  {[type]} keyCategories [description]
- * @return {[type]}               [description]
- */
-function getTreeResult(keyCategories, categories, type) {
-	var result = [];
-	for (idx in categories) {
-		var cat = categories[idx];
-		// 判断是否被删除
-		if (isDelete(keyCategories, cat)) continue;
-		if (cat.cat_pid == 0) {
-			result.push(cat);
-		} else {
-			if (cat.cat_level >= type) continue;
-			var parantCat = keyCategories[cat.cat_pid];
-			if (!parantCat) continue;
-			if (!parantCat.children) {
-				parantCat["children"] = [];
-			}
-			parantCat.children.push(cat);
-		}
-	}
-
-	return result;
-}
-
-/**
  * 获取所有分类
  *
  * @param  {[type]}   type    描述显示层级
@@ -58,7 +12,6 @@ function getTreeResult(keyCategories, categories, type) {
 module.exports.getAllCategories = function (params, cb) {
 	var conditions = {};
 	if (!params.pageNum || params.pageNum <= 0) return cb("pageNum 参数错误");
-	if (!params.pageSize || params.pageSize <= 0) return cb("pageSize 参数错误");
 	conditions["columns"] = {};
 	if (params.catename) {
 		conditions["columns"]["cate_name"] = orm.like("%" + params.catename + "%");
@@ -67,9 +20,12 @@ module.exports.getAllCategories = function (params, cb) {
 
 	dao.countByConditions("CategoryModel", conditions, function (err, count) {
 		if (err) return cb(err);
-		pageSize = params.pageSize;
+		if (params.pageSize && params.pageSize != 0) {
+			pageSize = params.pageSize;
+		} else {
+			pageSize = count;
+		}
 		pageNum = params.pageNum;
-		pageCount = Math.ceil(count / pageSize);
 		offset = (pageNum - 1) * pageSize;
 		if (offset >= count) {
 			offset = count;
@@ -88,9 +44,10 @@ module.exports.getAllCategories = function (params, cb) {
 			"cate_width",
 			"create_time",
 			"update_time",
+			"field_name",
 			"deleted",
 		];
-		conditions["order"] = "-cate_order";
+		conditions["order"] = "cate_order";
 
 		dao.list("CategoryModel", conditions, function (err, res) {
 			if (err) return cb(err);
@@ -107,25 +64,13 @@ module.exports.getAllCategories = function (params, cb) {
 				desc: item.cate_desc,
 				order: item.cate_order,
 				width: item.cate_width,
+				fieldName: item.field_name,
 				createdTime: item.create_time,
 				updateTime: item.update_time,
 				isSelete: item.deleted,
 			}));
 			cb(err, resultDta);
 		});
-	});
-};
-
-/**
- * 获取具体分类对象
- *
- * @param  {[type]}   id 分类ID
- * @param  {Function} cb 回调函数
- */
-module.exports.getCategoryById = function (id, cb) {
-	dao.show("CategoryModel", id, function (err, category) {
-		if (err) return cb("获取分类对象失败");
-		cb(null, category);
 	});
 };
 
@@ -150,6 +95,7 @@ module.exports.addCategory = function (params, cb) {
 			cate_desc: params.cateDesc,
 			cate_order: params.order,
 			cate_width: params.showWidth,
+			field_name: params.fieldName,
 			create_time: new Date(),
 			update_time: new Date(),
 			deleted: 1,
@@ -181,6 +127,7 @@ module.exports.updateCategory = function (cateId, params, cb) {
 			cate_desc: params.cateDesc,
 			cate_order: params.order,
 			cate_width: params.showWidth,
+			field_name: params.fieldName,
 			update_time: new Date(),
 			deleted: 1,
 		}
@@ -211,7 +158,7 @@ module.exports.deleteCategory = function (cateId, cb) {
 		{ deleted: 0 },
 		function (err, newCat) {
 			if (err) return cb("删除失败");
-			cb(null,"删除成功");
+			cb(null, "删除成功");
 		}
 	);
 };

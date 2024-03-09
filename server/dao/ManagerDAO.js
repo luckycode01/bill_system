@@ -102,12 +102,12 @@ module.exports.countByKey = function (conditions, cb) {
   const { userName, mobile, userType, startTime, endTime, state } = conditions;
   db = databaseModule.getDatabase();
   sql = "SELECT count(*) as count FROM user_center as user";
-  sql += 'WHERE (? is NUll OR user.username LIKE ?) ' +
+  sql += ' WHERE (? is NUll OR user.username LIKE ?) ' +
     "AND (? is NUll OR user.user_mobile LIKE ?) " +
     "AND (? is NUll OR user.mg_state = ?) " +
     "AND (? is NUll OR user.user_type = ?) " +
     "AND (? is NUll OR user.create_time > ?) " +
-    "AND (? is NUll OR user.create_time < ?)`;"
+    "AND (? is NUll OR user.create_time < ?);"
   database.driver.execQuery(sql, [userName, `%${userName}%`, mobile, `%${mobile}%`, state, state, userType, userType, startTime, startTime, endTime, endTime], function (err, result) {
     if (err) return cb("查询执行出错");
     cb(null, result[0]["count"]);

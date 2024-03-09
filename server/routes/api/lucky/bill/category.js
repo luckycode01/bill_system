@@ -16,8 +16,6 @@ router.get(
     // 参数验证
     if (!req.query.pageNum || req.query.pageNum <= 0)
       return res.sendResult(null, 400, "pageNum 参数错误");
-    if (!req.query.pageSize || req.query.pageSize <= 0)
-      return res.sendResult(null, 400, "pageSize 参数错误");
     next();
   },
   // 业务逻辑
@@ -38,7 +36,7 @@ router.get(
 
 // 添加分类
 router.post(
-  "/addCategory",
+  "/addorEditCategory",
   // 参数验证
   function (req, res, next) {
     // 参数验证
@@ -57,7 +55,8 @@ router.post(
       imgUrl: req.body.imgUrl,
       cateDesc: req.body.cateDesc,
       order: req.body.order,
-      showWidth: req.body.showWidth
+      showWidth: req.body.showWidth,
+      fieldName: req.body.fieldName,
     };
     if (req.body.cateId) {
       categoryServ.updateCategory(req.body.cateId, params, function (err, result) {

@@ -151,6 +151,7 @@ DROP TABLE IF EXISTS bill_category;
 CREATE TABLE bill_category (
    `cate_id` INT(4) NOT NULL AUTO_INCREMENT COMMENT '分类id',
    `cate_name` VARCHAR(32) NOT NULL COMMENT '分类名称',
+   `field_name` VARCHAR(32) NULL COMMENT '字段名称',
    `cate_image` VARCHAR(32) NOT NULL COMMENT '分类图标',
    `cate_desc` VARCHAR(32) NULL DEFAULT '' COMMENT '分类描述',
    `cate_order` INT(4) NULL DEFAULT 1 COMMENT '排序',
@@ -159,11 +160,35 @@ CREATE TABLE bill_category (
    `update_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
    `deleted` TINYINT(2) NOT NULL DEFAULT 1 COMMENT '逻辑删除(1未删除；0删除)',
    PRIMARY KEY (cate_id),
-   UNIQUE (cate_name)
+   UNIQUE (cate_name,field_name)
 ) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COMMENT='分类表';
 
-INSERT INTO `bill_category` VALUES (100, '快餐饮食','','',1,100,'2024-02-02 12:31:00', '2024-02-02 12:31:00',1);
-INSERT INTO `bill_category` VALUES (101, '生活买菜','','',2,100,'2024-02-02 12:31:00', '2024-02-02 12:31:00',1);
+INSERT INTO `bill_category` (`cate_name`, `cate_image`,`field_name`, `cate_desc`, `cate_order`, `cate_width`, `create_time`, `update_time`, `deleted`) 
+VALUES ('快餐饮食', 'meishi', null, '', 1, 0, '2024-03-09 23:49:19.152', '2024-03-09 23:49:19.152', 1);
+INSERT INTO `bill_category` (`cate_name`, `cate_image`,`field_name`, `cate_desc`, `cate_order`, `cate_width`, `create_time`, `update_time`, `deleted`) 
+VALUES ('生活买菜', 'vegetables', null, '', 2, 0, '2024-03-09 23:49:19.152', '2024-03-09 23:49:19.152', 1);
+INSERT INTO `bill_category` (`cate_name`, `cate_image`,`field_name`, `cate_desc`, `cate_order`, `cate_width`, `create_time`, `update_time`, `deleted`) 
+VALUES ('交通出行', 'bus', null, '', 3, 0, '2024-03-09 23:49:19.152', '2024-03-09 23:49:19.152', 1);
+INSERT INTO `bill_category` (`cate_name`, `cate_image`,`field_name`, `cate_desc`, `cate_order`, `cate_width`, `create_time`, `update_time`, `deleted`) 
+VALUES ('日用百货', 'icon-baihuo', null, '', 4, 0, '2024-03-09 23:49:19.152', '2024-03-09 23:49:19.152', 1);
+INSERT INTO `bill_category` (`cate_name`, `cate_image`,`field_name`, `cate_desc`, `cate_order`, `cate_width`, `create_time`, `update_time`, `deleted`) 
+VALUES ('话费充值', 'Recharge', null, '', 5, 0, '2024-03-09 23:49:19.152', '2024-03-09 23:49:19.152', 1);
+INSERT INTO `bill_category` (`cate_name`, `cate_image`,`field_name`, `cate_desc`, `cate_order`, `cate_width`, `create_time`, `update_time`, `deleted`) 
+VALUES ('车辆保养', 'qichebaoyang', null, '', 6, 0, '2024-03-09 23:49:19.152', '2024-03-09 23:49:19.152', 1);
+INSERT INTO `bill_category` (`cate_name`, `cate_image`,`field_name`, `cate_desc`, `cate_order`, `cate_width`, `create_time`, `update_time`, `deleted`) 
+VALUES ('服装服饰', 'fuzhuang', null, '', 7, 0, '2024-03-09 23:49:19.152', '2024-03-09 23:49:19.152', 1);
+INSERT INTO `bill_category` (`cate_name`, `cate_image`,`field_name`, `cate_desc`, `cate_order`, `cate_width`, `create_time`, `update_time`, `deleted`) 
+VALUES ('水果零食', 'fruit', null, '', 8, 0, '2024-03-09 23:49:19.152', '2024-03-09 23:49:19.152', 1);
+INSERT INTO `bill_category` (`cate_name`, `cate_image`,`field_name`, `cate_desc`, `cate_order`, `cate_width`, `create_time`, `update_time`, `deleted`) 
+VALUES ('医药健康', 'yiyaojiankang', null, '', 9, 0, '2024-03-09 23:49:19.152', '2024-03-09 23:49:19.152', 1);
+INSERT INTO `bill_category` (`cate_name`, `cate_image`,`field_name`, `cate_desc`, `cate_order`, `cate_width`, `create_time`, `update_time`, `deleted`) 
+VALUES ('旅游住宿', 'lvyouzhusu', null, '', 10, 0, '2024-03-09 23:49:19.152', '2024-03-09 23:49:19.152', 1);
+INSERT INTO `bill_category` (`cate_name`, `cate_image`,`field_name`, `cate_desc`, `cate_order`, `cate_width`, `create_time`, `update_time`, `deleted`) 
+VALUES ('棋牌娱乐', 'qipai', null, '', 11, 0, '2024-03-09 23:49:19.152', '2024-03-09 23:49:19.152', 1);
+INSERT INTO `bill_category` (`cate_name`, `cate_image`,`field_name`, `cate_desc`, `cate_order`, `cate_width`, `create_time`, `update_time`, `deleted`) 
+VALUES ('其他', 'other', null, '', 12, 0, '2024-03-09 23:49:19.152', '2024-03-09 23:49:19.152', 1);
+INSERT INTO `bill_category` (`cate_name`, `cate_image`,`field_name`, `cate_desc`, `cate_order`, `cate_width`, `create_time`, `update_time`, `deleted`) 
+VALUES ('零散收入', 'kcj', null, '', 13, 0, '2024-03-09 23:49:19.152', '2024-03-09 23:49:19.152', 1);
 
 -- TABLE bill_system for sp_category
 DROP TABLE IF EXISTS bill_life_expend;

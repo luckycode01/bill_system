@@ -9,6 +9,7 @@ module.exports = function(db,callback){
 		cate_width: Number,
 		create_time: Number,
 		update_time: String,
+		field_name: String,
 		deleted: String,
 	},{
 		table : "bill_category"
