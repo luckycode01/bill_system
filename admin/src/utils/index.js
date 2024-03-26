@@ -44,3 +44,17 @@ export const handleSummaries = (param, noCountList = []) => {
   });
   return sums;
 };
+
+// 重置表单
+export const resetFormData = (form) => {
+  const keys = Object.keys(form);
+  keys.forEach((item) => {
+    if (Array.isArray(form[item])) {
+      form[item] = [];
+    } else if (typeof item == "object") {
+      form[item] = {};
+    } else {
+      form[item] = "";
+    }
+  });
+};

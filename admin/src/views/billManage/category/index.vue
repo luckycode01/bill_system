@@ -228,6 +228,7 @@ export default {
         this.dataForm[item] = '';
       })
       this.dataForm.order = 1;
+      this.dataForm.showWidth = 0;
 
       done instanceof Function ? done() : this.dialogVisible = false;
     },

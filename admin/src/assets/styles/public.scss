@@ -34,3 +34,10 @@
 .mr-24{
 	margin-right:24px
 }
+
+.el-dialog__body {
+  max-height: calc(100vh - 300px);
+  overflow: hidden;
+  overflow-y: auto;
+	padding: 12px 24px;
+}
