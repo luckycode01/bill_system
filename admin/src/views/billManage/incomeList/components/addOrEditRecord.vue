@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-dialog :title="addOrEditForm.id?'编辑记录':'添加记录'" :visible.sync="addOrEditDialog" width="width" :before-close="dialogBeforeClose">
-      <el-form ref="addOrEditFormRef" size="mini" :rules="addOrEditFormRules" :model="addOrEditForm" label-width="80px">
+    <el-dialog :title="addOrEditForm.id?'编辑记录':'添加记录'" :visible.sync="addOrEditDialog" width="600px" :before-close="dialogBeforeClose">
+      <el-form ref="addOrEditFormRef" size="small" :rules="addOrEditFormRules" :model="addOrEditForm" label-width="80px">
         <el-row :gutter="10">
           <el-col :span="12">
             <el-form-item label="日期" prop="dateTime">

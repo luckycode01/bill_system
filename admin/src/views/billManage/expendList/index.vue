@@ -25,7 +25,7 @@
     <el-table :data="[{}]" size="mini" show-summary :summary-method="getSummaries" style="width: 100%" border>
       <el-table-column header-align="center" align="center" prop="date" label="日期" width="100">
         <template slot-scope="{row}">
-          <el-button type="text" @click="handleToDetail(row)" style="padding:0">2022-03-12</el-button>
+          <el-button type="text" @click="handleToDetail(row)">2022-03-12</el-button>
         </template>
       </el-table-column>
       <el-table-column :prop="item.fieldName" :label="item.cateName" v-for="item in tableHeaderList" :key="item.cateId" align="center" width="width">
@@ -97,6 +97,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.expend-contend {
-}
+
 </style>
